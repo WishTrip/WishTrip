@@ -3,36 +3,12 @@ require("dotenv").config();
 const express = require("express");
 const { json } = require("body-parser");
 const cors = require("cors");
-const firebase = require("firebase");
 const {
   SESSION_SECRET,
-  PORT,
-  DATABASE_API_KEY,
-  DATABASE_AUTH_DOMAIN,
-  DATABASE_URL,
-  DATABASE_PROJECT_ID,
-  DATABASE_STORAGE_BUCKET,
-  DATABASE_SENDER_ID
+  PORT
 } = process.env;
 
-// Database Configuration
-var config = {
-  apiKey: DATABASE_API_KEY,
-  authDomain: DATABASE_AUTH_DOMAIN,
-  databaseURL: DATABASE_URL,
-  projectId: DATABASE_PROJECT_ID,
-  storageBucket: DATABASE_STORAGE_BUCKET,
-  messagingSenderId: DATABASE_SENDER_ID
-};
-firebase.initializeApp(config);
-
-const database = firebase.database();
-database
-  .ref("database")
-  .child("user")
-  .on("value", snap => {
-    console.log(snap.val());
-  });
+const dbCtrl = require(`${__dirname}/controllers/databaseController`);
 
 const session = require("express-session");
 
@@ -56,6 +32,9 @@ app.use(
     // }
   })
 );
+
+//Database Endpoints
+app.get('/api/getData', dbCtrl.getData);
 
 app.listen(port, () => {
   console.log(`Listening on port: ${port}`);
