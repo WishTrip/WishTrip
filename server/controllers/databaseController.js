@@ -27,7 +27,7 @@ const getData = (req, res) => {
     .ref("database")
     .child("user")
     .on("value", snap => {
-      console.log(snap.val());
+      res.status(200).json(snap.val());
     });
 };
 
