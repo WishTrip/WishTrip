@@ -26,23 +26,26 @@ const database = firebase.database();
 const getData = (req, res) => {
   database
     .ref("users")
-    .child("user")
-    .on("value", snap => {
+    // .child("user")
+    .once("value", snap => {
       res.status(200).json(snap.val());
     });
 };
 
-const updateUser = (req, res) => {
-  // const { username } = req.body;
+const createUser = (req, res) => {
+  const { username } = req.body;
 
-  // database
-  //   .ref("users")
-  //   .child('user')
-  //   .child("userinfo")
-  //   .set({ username });
+  database
+    .ref("users")
+    .push()
+    .set({ userinfo: { username, password: "test" } });
+
+  database.ref("users").once("value", snap => {
+    res.status(200).json(snap.val());
+  });
 };
 
 module.exports = {
   getData,
-  updateUser
+  createUser
 };

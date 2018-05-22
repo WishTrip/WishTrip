@@ -3,41 +3,54 @@ import axios from "axios";
 
 class Login extends React.Component {
   state = {
-    username: "",
+    data: [],
+    usernames: [],
     trips: [],
     userInput: ""
   };
 
   componentDidMount() {
-    axios.get("/api/getData").then(res =>
-      this.setState({
-        username: res.data.userinfo.username,
-        trips: res.data.trips
-      })
-    );
+    axios.get("/api/getData").then(res => {
+      const usernameArr = this.state.usernames;
+      for (let key in res.data) {
+        usernameArr.push(res.data[key].userinfo.username);
+      }
+      this.setState({ data: res.data });
+    });
   }
 
   handleUserInput = e => {
-    this.setState({ userInput: e.target.value })
-  }
+    this.setState({ userInput: e.target.value });
+  };
 
-  updateUser = (username) => {
-    axios.post('/api/changeDummyData', { username }).then(res => console.log(res))
-  }
+  createUser = username => {
+    axios.post("/api/changeDummyData", { username }).then(res => {
+      this.setState({ usernames: [] });
+
+      const usernameArr = this.state.usernames;
+
+      for (let key in res.data) {
+        usernameArr.push(res.data[key].userinfo.username);
+      }
+      this.setState({ data: res.data });
+    });
+  };
 
   render() {
-    const { username, trips, userInput } = this.state;
+    const { usernames, trips, userInput, data } = this.state;
+    const usernameArr = this.state.usernames;
+
+    let users = usernameArr.map((cur, ind) => <div key={ind}>{cur}</div>);
 
     return (
       <div>
         <div>
-          {username},{" "}
-          {trips.UniversalStudios && trips.UniversalStudios.Day1.destination}
-        </div>
-        <div>
           <input onChange={this.handleUserInput} />
-          <button onClick={() => this.updateUser(userInput)}>Add Username</button>
+          <button onClick={() => this.createUser(userInput)}>
+            Add Username
+          </button>
         </div>
+        {users}
       </div>
     );
   }
