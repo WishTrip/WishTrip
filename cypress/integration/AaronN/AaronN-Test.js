@@ -23,9 +23,9 @@ describe("All Content", () => {
     cy.contains("Profile").click();
     cy.url().should("include", "/profile");
   });
-  it("Clicks LandingPage Link", () => {
+  it("Clicks Home Link", () => {
     cy.visit("/");
-    cy.contains("LandingPage").click();
+    cy.contains("Home").click();
     cy.url().should("include", "/");
   });
   it("Clicks Login Link adds text to input field", () => {
@@ -33,10 +33,12 @@ describe("All Content", () => {
     cy.contains("Login").click();
     cy.url().should("include", "/login");
     cy
-      .get("input")
+      .get("[data-cypress-add-input]")
       .type(inputText)
       .should("have.value", inputText)
       .get("[data-cypress-button-add]")
-      .click();
+      .click()
+      .get("[data-cypress-add-input]")
+      .should("have.value", null);
   });
 });
