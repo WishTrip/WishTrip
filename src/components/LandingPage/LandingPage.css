@@ -1,0 +1,14 @@
+.landingpage-wrapper {
+    background-image: url('../../assets/mountains.jpeg');
+    height: 90vh;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.landingpage-container {
+    background-color: #48A3E9;
+    height: 100%;
+    opacity: .50;
+}
