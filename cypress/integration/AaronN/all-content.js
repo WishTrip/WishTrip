@@ -1,7 +1,9 @@
 describe("All Content", () => {
+  const inputText = "Cypress Testing";
   it("Does Not Do Much", () => {
     expect(true).to.equal(true);
   });
+
   it("Visits landing  page", () => {
     cy.visit("/");
     cy.contains("Login");
@@ -26,9 +28,13 @@ describe("All Content", () => {
     cy.contains("LandingPage").click();
     cy.url().should("include", "/");
   });
-  it("clicks Login Link", () => {
+  it("Clicks Login Link adds text to input field", () => {
     cy.visit("/");
     cy.contains("Login").click();
     cy.url().should("include", "/login");
+    cy
+      .get("input")
+      .type(inputText)
+      .should("have.value", inputText);
   });
 });
