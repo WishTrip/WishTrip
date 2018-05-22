@@ -104,7 +104,10 @@ class Login extends React.Component {
       <div>
         <div>
           <input onChange={this.handleUserInput} />
-          <button onClick={() => this.createUser(userInput)}>
+          <button
+            data-cypress-button-add
+            onClick={() => this.createUser(userInput)}
+          >
             Add Username
           </button>
         </div>

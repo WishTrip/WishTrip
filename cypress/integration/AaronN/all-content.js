@@ -35,6 +35,8 @@ describe("All Content", () => {
     cy
       .get("input")
       .type(inputText)
-      .should("have.value", inputText);
+      .should("have.value", inputText)
+      .get("[data-cypress-button-add]")
+      .click();
   });
 });
