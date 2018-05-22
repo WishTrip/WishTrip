@@ -1,5 +1,28 @@
 import React from "react";
 import axios from "axios";
+import * as firebase from "firebase";
+
+// FIREBASE CONFIG
+const {
+  REACT_APP_DATABASE_API_KEY,
+  REACT_APP_DATABASE_AUTH_DOMAIN,
+  REACT_APP_DATABASE_URL,
+  REACT_APP_DATABASE_PROJECT_ID,
+  REACT_APP_DATABASE_STORAGE_BUCKET,
+  REACT_APP_DATABASE_SENDER_ID
+} = process.env;
+
+var config = {
+  apiKey: REACT_APP_DATABASE_API_KEY,
+  authDomain: REACT_APP_DATABASE_AUTH_DOMAIN,
+  databaseURL: REACT_APP_DATABASE_URL,
+  projectId: REACT_APP_DATABASE_PROJECT_ID,
+  storageBucket: REACT_APP_DATABASE_STORAGE_BUCKET,
+  messagingSenderId: REACT_APP_DATABASE_SENDER_ID
+};
+firebase.initializeApp(config);
+
+const auth = firebase.auth();
 
 class Login extends React.Component {
   state = {
@@ -20,6 +43,11 @@ class Login extends React.Component {
         this.setState({ data: res.data });
       })
       .catch(err => console.log(err));
+
+    auth.signInWithEmailAndPassword("ablackshear7820@gmail.com", "steelers9");
+    auth.onAuthStateChanged(user => {
+      user ? console.log(user) : console.log('No one logged in')
+    })
   }
 
   handleUserInput = e => {
@@ -102,13 +130,13 @@ class Login extends React.Component {
 
     return (
       <div>
-        <div>
+        {/* <div>
           <input onChange={this.handleUserInput} />
           <button onClick={() => this.createUser(userInput)}>
             Add Username
           </button>
         </div>
-        {users}
+        {users} */}
       </div>
     );
   }
