@@ -14,7 +14,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 90vh;
+    width: 100vw;
+    z-index: 5;
 }
 
 .landingpage-logo-codeinput-wrapper {
@@ -27,7 +29,7 @@
 
 .landingpage-logo-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     width: 200px;
     padding: 10px;

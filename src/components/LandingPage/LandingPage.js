@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "./LandingPage.css"
 import "font-awesome/css/font-awesome.min.css";
 
+import Background from "../Background/Background";
+
 import { connect } from "react-redux"; 
 import { toggleHamburgerBtn } from "../../ducks/viewReducer";
 
@@ -26,8 +28,8 @@ class LandingPage extends Component {
     render() {
         const { codeInput } = this.state;
         return (
-            <div className="landingpage-wrapper" onClick={() => this.handleHamburgerMenu()}>
-                <div className="landingpage-container">
+            <div className="landingpage-container" onClick={() => this.handleHamburgerMenu()}>
+                <Background />
                     <div>
                         <div className="landingpage-logo-codeinput-wrapper">
                             <div className="landingpage-logo-container">
@@ -44,7 +46,6 @@ class LandingPage extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
         )
     }
 }
