@@ -3,11 +3,18 @@ require("dotenv").config();
 const express = require("express");
 const { json } = require("body-parser");
 const cors = require("cors");
-const { SESSION_SECRET, PORT } = process.env;
+const {
+  SESSION_SECRET,
+  PORT
+} = process.env;
+
+const dbCtrl = require(`${__dirname}/controllers/databaseController`);
 
 const session = require("express-session");
-// define express invoked as "app"
+
+// Define express invoked as "app"
 const app = express();
+
 // Define Port from .env
 const port = PORT || 3001;
 
@@ -25,6 +32,10 @@ app.use(
     // }
   })
 );
+
+//Database Endpoints
+app.get('/api/getData', dbCtrl.getData);
+app.post('/api/changeDummyData', dbCtrl.updateUser);
 
 app.listen(port, () => {
   console.log(`Listening on port: ${port}`);
