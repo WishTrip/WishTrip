@@ -45,7 +45,29 @@ const createUser = (req, res) => {
   });
 };
 
+const updateUsername = (req, res) => {
+  const { username, key } = req.body;
+
+  database.ref("users").update({ [`${key}/userinfo/username`]: username });
+
+  database.ref("users").once("value", snap => {
+    res.status(200).json(snap.val());
+  });
+};
+
+const deleteUser = (req, res) => {
+  const { id } = req.params;
+
+  database.ref("users").update({ [`${id}`]: null })
+
+  database.ref("users").once("value", snap => {
+    res.status(200).json(snap.val());
+  });
+}
+
 module.exports = {
   getData,
-  createUser
+  createUser,
+  updateUsername,
+  deleteUser
 };
