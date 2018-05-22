@@ -22,15 +22,27 @@ firebase.initializeApp(config);
 
 const database = firebase.database();
 
+// FUNCTIONS
 const getData = (req, res) => {
   database
-    .ref("database")
+    .ref("users")
     .child("user")
     .on("value", snap => {
       res.status(200).json(snap.val());
     });
 };
 
+const updateUser = (req, res) => {
+  // const { username } = req.body;
+
+  // database
+  //   .ref("users")
+  //   .child('user')
+  //   .child("userinfo")
+  //   .set({ username });
+};
+
 module.exports = {
-  getData
+  getData,
+  updateUser
 };
