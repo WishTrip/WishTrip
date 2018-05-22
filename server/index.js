@@ -35,6 +35,7 @@ app.use(
 
 //Database Endpoints
 app.get('/api/getData', dbCtrl.getData);
+app.post('/api/changeDummyData', dbCtrl.updateUser);
 
 app.listen(port, () => {
   console.log(`Listening on port: ${port}`);
