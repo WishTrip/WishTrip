@@ -39,7 +39,8 @@ class Login extends React.Component {
     email: "",
     password: "",
     authenticated: false, 
-    loading: true
+    loading: true,
+    user: {}
     }
   }
   // state = {
@@ -53,25 +54,43 @@ class Login extends React.Component {
   // };
 
   authWithEmailPassword(event){
+
     event.preventDefault()
     const email = this.emailInput.value
     const password = this.passwordInput.value
     
-    auth.fetchProvidersForEmail(email)
+    auth.fetchSignInMethodsForEmail(email)
     .then((providers) => {
+      console.log("hit",email)
       if(providers.length === 0) {
-        return auth.createUserWithEmailAndPassword(email,password)
-      } else if (providers.indexOf("password") === -1) {
-        this.loginForm.reset()
-       this.toaster.show({intent: Intent.WARNING, message: "Try Alternative login."})
+        console.log("hit")
+        auth.createUserWithEmailAndPassword(email,password)
+         this.setState({
+           user: auth.currentUser
+         })
+         console.log(this.state.user)
+      // } else if (providers.indexOf("password") === -1) {
+      //   this.loginForm.reset()
+      //  this.toaster.show({intent: Intent.WARNING, message: "Try Alternative login."})
       } else {
-       return auth.signInWithEmailAndPassword(email, password)
+        console.log("hit")
+        auth.signInWithEmailAndPassword(email, password)
+        this.setState({
+          user: auth.currentUser
+        })
       }
     })
-    .then((user) => {
-      if (user && user.email) {
+    .then((res) => {
+      console.log(this.state.user)
+      console.log(this.state.user["i"])
+      if (this.state.user.email) {
+        console.log("user")
         this.loginForm.reset()
         this.setState({redirect: true})
+        if(this.state.redirect) {
+          console.log("hit")
+          this.props.history.push("/home")
+        }
       }
     })
     .catch((error) => {
@@ -180,6 +199,11 @@ class Login extends React.Component {
   };
  
   render() {
+    const { usernames, trips, userInput, data } = this.state;
+    const {from} = this.props.location.state || { from: {pathname: '/home'}}
+    if (this.state.redirect === true) {
+      return <Redirect to= {from} />
+    }
     if (this.state.loading === true) {
       return (
         <div style={{ textAlign: "center", position: "absolute", top: "25%", left: "50%"}}>
@@ -188,10 +212,6 @@ class Login extends React.Component {
         </div>
       )
     }
-    if (this.state.redirect === true) {
-      return <Redirect to='/home' />
-    }
-    const { usernames, trips, userInput, data } = this.state;
 // console.log(usernames)
     let users = this.state.usernames.map((cur, ind) => (
       <div key={cur.key}>
