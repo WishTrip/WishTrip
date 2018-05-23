@@ -11,7 +11,17 @@
     
       
 }
-
+form {
+    display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: center;
+    align-content: center;
+}
+.w3-animate-input {
+    background: rgba(249, 249, 249, 0)
+}
 .profile-wrapper {
     opacity: 1.0;
     display: flex;
@@ -20,13 +30,14 @@
     justify-content: flex-start;
     align-items: center;
     align-content: flex;
+    /* color: #2A628F; */
 }
 .profile-trip-codes {
 border-radius: 8px;
 background: #2A628F;
 width: 70%;
 height: 11vh;
-font-size: 10px;
+font-size: 14px;
 display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;

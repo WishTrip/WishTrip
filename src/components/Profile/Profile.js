@@ -1,5 +1,6 @@
 import React from "react";
 import "./Profile.css"
+import 'w3-css/w3.css';
 
 
 export default function Profile() {
@@ -8,12 +9,12 @@ export default function Profile() {
         
           <div className= "profile-wrapper">
           Profile
-
-            <input placeholder="Username"  />
-            <input placeholder="First Name"  />
-            <input placeholder="Last Name"  />
-            <input placeholder="Email"  />
-
+      <form>
+            <input className="w3-input w3-animate-input" type="text" style={{width: "135px"}} placeholder="Username" />
+            <input className="w3-input w3-animate-input" type="text" style={{width: "135px"}} placeholder="First Name"  />
+            <input className="w3-input w3-animate-input" type="text" style={{width: "135px"}} placeholder="Last Name"  />
+            <input className="w3-input w3-animate-input" type="text" style={{width: "135px"}} placeholder="Email"  />
+      </form>
             <div className="profile-trip-codes">
             
             <div>   Trip Codes     </div>
@@ -27,7 +28,7 @@ export default function Profile() {
             Previous Trips
             <div className="profile-previous-trips">
             <div>Trip Name</div>
-            <div>Code</div>
+            <div>Trip duration</div>
             </div>
             
             </div>
