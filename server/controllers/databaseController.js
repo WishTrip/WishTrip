@@ -24,7 +24,6 @@ const database = firebase.database();
 const getData = (req, res) => {
   database
     .ref("users")
-    // .child("user")
     .once("value", snap => {
       res.status(200).json(snap.val());
     });

@@ -29,7 +29,9 @@ class Login extends React.Component {
     data: [],
     usernames: [],
     trips: [],
-    userInput: ""
+    userInput: "",
+    email: "",
+    password: ""
   };
 
   componentDidMount() {
@@ -44,10 +46,9 @@ class Login extends React.Component {
       })
       .catch(err => console.log(err));
 
-    auth.signInWithEmailAndPassword("ablackshear7820@gmail.com", "steelers9");
     auth.onAuthStateChanged(user => {
-      user ? console.log(user) : console.log('No one logged in')
-    })
+      user ? console.log(user) : console.log("No one logged in");
+    });
   }
 
   handleUserInput = e => {
@@ -109,6 +110,10 @@ class Login extends React.Component {
       .catch(err => console.log(err));
   };
 
+  handleUserSignUp = (input, e) => {
+    this.setState({ [input]: e.target.value });
+  };
+
   render() {
     const { usernames, trips, userInput, data } = this.state;
 
@@ -137,6 +142,31 @@ class Login extends React.Component {
           </button>
         </div>
         {users} */}
+        <form>
+          <input
+            value={this.state.email}
+            type="email"
+            placeholder="Email"
+            onChange={e => this.handleUserSignUp("email", e)}
+          />
+          <input
+            value={this.state.password}
+            type="password"
+            placeholder="Password"
+            onChange={e => this.handleUserSignUp("password", e)}
+          />
+          <button
+            onClick={() => {
+              auth.createUserWithEmailAndPassword(
+                this.state.email,
+                this.state.password
+              );
+              this.setState({ email: "", password: "" });
+            }}
+          >
+            Sign Up
+          </button>
+        </form>
       </div>
     );
   }
