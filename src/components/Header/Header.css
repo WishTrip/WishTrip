@@ -91,6 +91,7 @@
     font-size: 1.7em !important;
     transform: rotate(45deg);
     color: #fff;
+    margin-left: 6px;
 }
 
 @media (min-width: 700px) {
