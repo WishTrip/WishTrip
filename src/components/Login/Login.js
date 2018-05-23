@@ -1,12 +1,37 @@
 import React from "react";
 import axios from "axios";
+import * as firebase from "firebase";
+
+// FIREBASE CONFIG
+const {
+  REACT_APP_DATABASE_API_KEY,
+  REACT_APP_DATABASE_AUTH_DOMAIN,
+  REACT_APP_DATABASE_URL,
+  REACT_APP_DATABASE_PROJECT_ID,
+  REACT_APP_DATABASE_STORAGE_BUCKET,
+  REACT_APP_DATABASE_SENDER_ID
+} = process.env;
+
+var config = {
+  apiKey: REACT_APP_DATABASE_API_KEY,
+  authDomain: REACT_APP_DATABASE_AUTH_DOMAIN,
+  databaseURL: REACT_APP_DATABASE_URL,
+  projectId: REACT_APP_DATABASE_PROJECT_ID,
+  storageBucket: REACT_APP_DATABASE_STORAGE_BUCKET,
+  messagingSenderId: REACT_APP_DATABASE_SENDER_ID
+};
+firebase.initializeApp(config);
+
+const auth = firebase.auth();
 
 class Login extends React.Component {
   state = {
     data: [],
     usernames: [],
     trips: [],
-    userInput: ""
+    userInput: "",
+    email: "",
+    password: ""
   };
 
   componentDidMount() {
@@ -20,6 +45,10 @@ class Login extends React.Component {
         this.setState({ data: res.data });
       })
       .catch(err => console.log(err));
+
+    auth.onAuthStateChanged(user => {
+      user ? console.log(user) : console.log("No one logged in");
+    });
   }
 
   handleUserInput = e => {
@@ -81,6 +110,10 @@ class Login extends React.Component {
       .catch(err => console.log(err));
   };
 
+  handleUserSignUp = (input, e) => {
+    this.setState({ [input]: e.target.value });
+  };
+
   render() {
     const { usernames, trips, userInput, data } = this.state;
 
@@ -102,6 +135,9 @@ class Login extends React.Component {
 
     return (
       <div>
+        {/* <div>
+          <input onChange={this.handleUserInput} />
+          <button onClick={() => this.createUser(userInput)}>
         <div>
           <input data-cypress-add-input onChange={this.handleUserInput} />
           <button
@@ -111,7 +147,32 @@ class Login extends React.Component {
             Add Username
           </button>
         </div>
-        {users}
+        {users} */}
+        <form>
+          <input
+            value={this.state.email}
+            type="email"
+            placeholder="Email"
+            onChange={e => this.handleUserSignUp("email", e)}
+          />
+          <input
+            value={this.state.password}
+            type="password"
+            placeholder="Password"
+            onChange={e => this.handleUserSignUp("password", e)}
+          />
+          <button
+            onClick={() => {
+              auth.createUserWithEmailAndPassword(
+                this.state.email,
+                this.state.password
+              );
+              this.setState({ email: "", password: "" });
+            }}
+          >
+            Sign Up
+          </button>
+        </form>
       </div>
     );
   }
