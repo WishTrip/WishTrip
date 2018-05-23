@@ -26,23 +26,48 @@ const database = firebase.database();
 const getData = (req, res) => {
   database
     .ref("users")
-    .child("user")
-    .on("value", snap => {
+    // .child("user")
+    .once("value", snap => {
       res.status(200).json(snap.val());
     });
 };
 
-const updateUser = (req, res) => {
-  // const { username } = req.body;
+const createUser = (req, res) => {
+  const { username } = req.body;
 
-  // database
-  //   .ref("users")
-  //   .child('user')
-  //   .child("userinfo")
-  //   .set({ username });
+  database
+    .ref("users")
+    .push()
+    .set({ userinfo: { username, password: "test" } });
+
+  database.ref("users").once("value", snap => {
+    res.status(200).json(snap.val());
+  });
 };
+
+const updateUsername = (req, res) => {
+  const { username, key } = req.body;
+
+  database.ref("users").update({ [`${key}/userinfo/username`]: username });
+
+  database.ref("users").once("value", snap => {
+    res.status(200).json(snap.val());
+  });
+};
+
+const deleteUser = (req, res) => {
+  const { id } = req.params;
+
+  database.ref("users").update({ [`${id}`]: null })
+
+  database.ref("users").once("value", snap => {
+    res.status(200).json(snap.val());
+  });
+}
 
 module.exports = {
   getData,
-  updateUser
+  createUser,
+  updateUsername,
+  deleteUser
 };
