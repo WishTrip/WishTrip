@@ -47,7 +47,7 @@ class Login extends React.Component {
       .catch(err => console.log(err));
 
     auth.onAuthStateChanged(user => {
-      user ? console.log(user) : console.log("No one logged in");
+      user ? console.log(user.uid) : console.log("No one logged in");
     });
   }
 
@@ -163,13 +163,22 @@ class Login extends React.Component {
           />
           <button
             onClick={() => {
-              auth.createUserWithEmailAndPassword(
+              auth.signInWithEmailAndPassword(
                 this.state.email,
                 this.state.password
               );
               this.setState({ email: "", password: "" });
             }}
           >
+          {/* <button
+            onClick={() => {
+              auth.createUserWithEmailAndPassword(
+                this.state.email,
+                this.state.password
+              );
+              this.setState({ email: "", password: "" });
+            }}
+          > */}
             Sign Up
           </button>
         </form>
