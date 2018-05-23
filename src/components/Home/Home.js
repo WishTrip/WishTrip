@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Home.css";
 import Background from "../Background/Background";
 
-import { connect } from "react-redux"; 
+import { connect } from "react-redux";
 import { toggleHamburgerBtn } from "../../ducks/viewReducer";
 
 class Home extends Component {
@@ -15,12 +15,13 @@ class Home extends Component {
     }
 
     render() {
-    return (
-        <div onClick={() => this.handleHamburgerMenu()}>
-            <Background />
-            <p>Home</p>
-        </div>
-    )}
+        return (
+            <div onClick={() => this.handleHamburgerMenu()}>
+                <Background />
+                <p>Home</p>
+            </div>
+        )
+    }
 }
 
 const mapStateToProps = state => ({
