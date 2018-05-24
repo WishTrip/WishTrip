@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Home.css";
 import Background from "../Background/Background";
-
 import { connect } from "react-redux";
 import { toggleHamburgerBtn } from "../../ducks/viewReducer";
 import TimeInput from 'material-ui-time-picker'
@@ -25,9 +24,9 @@ class Home extends Component {
 
     handleHamburgerMenu = () => {
         if (!this.props.burgerFlag) {
-            this.props.toggleHamburgerBtn()
+            this.props.toggleHamburgerBtn();
         }
-    }
+    };
 
     handleInput(key, val) {
         if (key === "budgetInput") {
@@ -79,6 +78,6 @@ class Home extends Component {
 
 const mapStateToProps = state => ({
     ...state.viewReducer
-})
+});
 
 export default connect(mapStateToProps, { toggleHamburgerBtn })(Home);
