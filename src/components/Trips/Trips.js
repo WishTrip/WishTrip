@@ -21,7 +21,7 @@ export default function Trips() {
 
              <div className="trip-name-top">Trip Name</div>
              <div className="trip-name-duration">
-             <div className="trip-name">Trip Name</div>
+             <div className="trip-destination">Trip destination</div>
              <div className="trip-duration">Trip duration</div>
              </div>
              <div className="trip-straight-lines"></div>
@@ -37,7 +37,7 @@ export default function Trips() {
 
 
 
-
+ 
 
              </div>
              <div className="trips-view-delete">
