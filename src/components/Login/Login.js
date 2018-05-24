@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
 import * as firebase from "firebase";
-import {Redirect} from 'react-router-dom';
-import {Toaster, Intent, Spinner} from '@blueprintjs/core'
-  
+import { Redirect } from "react-router-dom";
+import { Toaster, Intent, Spinner } from "@blueprintjs/core";
+
 // FIREBASE CONFIG
 const {
   REACT_APP_DATABASE_API_KEY,
@@ -13,7 +13,7 @@ const {
   REACT_APP_DATABASE_STORAGE_BUCKET,
   REACT_APP_DATABASE_SENDER_ID
 } = process.env;
-   
+
 var config = {
   apiKey: REACT_APP_DATABASE_API_KEY,
   authDomain: REACT_APP_DATABASE_AUTH_DOMAIN,
@@ -28,20 +28,20 @@ const auth = firebase.auth();
 
 class Login extends React.Component {
   constructor(props) {
-    super(props)
-    this.authWithEmailPassword = this.authWithEmailPassword.bind(this)
+    super(props);
+    this.authWithEmailPassword = this.authWithEmailPassword.bind(this);
     this.state = {
       redirect: false,
       data: [],
-    usernames: [],
-    trips: [],
-    userInput: "",
-    email: "",
-    password: "",
-    authenticated: false, 
-    loading: true,
-    user: {}
-    }
+      usernames: [],
+      trips: [],
+      userInput: "",
+      email: "",
+      password: "",
+      authenticated: false,
+      loading: true,
+      user: {}
+    };
   }
   // state = {
   //   data: [],
@@ -53,51 +53,56 @@ class Login extends React.Component {
   //   authenticated: false
   // };
 
-  authWithEmailPassword(event){
+  authWithEmailPassword(event) {
+    event.preventDefault();
+    const email = this.emailInput.value;
+    const password = this.passwordInput.value;
 
-    event.preventDefault()
-    const email = this.emailInput.value
-    const password = this.passwordInput.value
-    
-    auth.fetchSignInMethodsForEmail(email)
-    .then((providers) => {
-      console.log("hit",email)
-      if(providers.length === 0) {
-        console.log("hit")
-        auth.createUserWithEmailAndPassword(email,password)
-         this.setState({
-           user: auth.currentUser
-         })
-         console.log(this.state.user)
-      // } else if (providers.indexOf("password") === -1) {
-      //   this.loginForm.reset()
-      //  this.toaster.show({intent: Intent.WARNING, message: "Try Alternative login."})
-      } else {
-        console.log("hit")
-        auth.signInWithEmailAndPassword(email, password)
+    // auth
+    //   .fetchSignInMethodsForEmail(email)
+    //   .then(providers => {
+    //     console.log("hit", email);
+    //     if (providers.length === 0) {
+    //       console.log("hit");
+          // auth.createUserWithEmailAndPassword(email, password)
+          // console.log(this.state.user);
+          // } else if (providers.indexOf("password") === -1) {
+          //   this.loginForm.reset()
+          //  this.toaster.show({intent: Intent.WARNING, message: "Try Alternative login."})
+      //   } else {
+      //     console.log("hit");
+      //     auth.signInWithEmailAndPassword(email, password);
+      //     this.setState({
+      //       user: auth.currentUser
+      //     });
+      //   }
+      // })
+      auth.createUserWithEmailAndPassword(email, password)
+      .then(res => {
         this.setState({
           user: auth.currentUser
         })
-      }
-    })
-    .then((res) => {
-      console.log(this.state.user)
-      console.log(this.state.user["i"])
-      if (this.state.user.email) {
-        console.log("user")
-        this.loginForm.reset()
-        this.setState({redirect: true})
-        if(this.state.redirect) {
-          console.log("hit")
-          this.props.history.push("/home")
+        this.props.history.push("/home");
+        // if (this.state.user) {
+        //   this.loginForm.reset();
+        //   this.setState({ redirect: true });
+        //   if (this.state.redirect) {
+        //     console.log("hit");
+        //     this.props.history.push("/home");
+        //   }
+        // }
+      })
+      .catch(err => {
+        console.log(err.code)
+        if(err.code = "auth/email-already-in-use"){
+          auth.signInWithEmailAndPassword(email, password)
+          this.props.history.push("/home");
         }
-      }
-    })
-    .catch((error) => {
-      this.toaster.show({intent: Intent.DANGER, message: error.message })
-    })
-
-
+        else console.log(err.code)
+      })
+      // .catch(error => {
+      //   this.toaster.show({ intent: Intent.DANGER, message: error.message });
+      // });
 
     // console.log("authed with email")
     // console.table([{
@@ -106,19 +111,19 @@ class Login extends React.Component {
     // }])
   }
   componentDidMount() {
-    this.removeAuthListener = auth.onAuthStateChanged((user) => {
+    this.removeAuthListener = auth.onAuthStateChanged(user => {
       if (user) {
         this.setState({
           authenticated: true,
           loading: false
-        })
+        });
       } else {
         this.setState({
           authenticated: false,
           loading: false
-        })
+        });
       }
-    })
+    });
     axios
       .get("/api/getData")
       .then(res => {
@@ -129,9 +134,9 @@ class Login extends React.Component {
         this.setState({ data: res.data });
       })
       .catch(err => console.log(err));
-
+// auth.signOut();
     auth.onAuthStateChanged(user => {
-      user ? console.log(user) : console.log("No one logged in");
+      user ? console.log(user.uid) : console.log("No one logged in");
     });
   }
 
@@ -197,22 +202,31 @@ class Login extends React.Component {
   handleUserSignUp = (input, e) => {
     this.setState({ [input]: e.target.value });
   };
- 
+
   render() {
     const { usernames, trips, userInput, data } = this.state;
-    const {from} = this.props.location.state || { from: {pathname: '/home'}}
+    const { from } = this.props.location.state || {
+      from: { pathname: "/home" }
+    };
     if (this.state.redirect === true) {
-      return <Redirect to= {from} />
+      return <Redirect to={from} />;
     }
     if (this.state.loading === true) {
       return (
-        <div style={{ textAlign: "center", position: "absolute", top: "25%", left: "50%"}}>
-        <h3> Loading</h3>
-        <Spinner/>
+        <div
+          style={{
+            textAlign: "center",
+            position: "absolute",
+            top: "25%",
+            left: "50%"
+          }}
+        >
+          <h3> Loading</h3>
+          <Spinner />
         </div>
-      )
+      );
     }
-// console.log(usernames)
+    // console.log(usernames)
     let users = this.state.usernames.map((cur, ind) => (
       <div key={cur.key}>
         {cur.username}
@@ -259,42 +273,83 @@ class Login extends React.Component {
           />
           <button
             onClick={() => {
-              auth.createUserWithEmailAndPassword(
+              auth.signInWithEmailAndPassword(
                 this.state.email,
                 this.state.password
               );
               this.setState({ email: "", password: "" });
             }}
           >
+            {/* <button
+            onClick={() => {
+              auth.createUserWithEmailAndPassword(
+                this.state.email,
+                this.state.password
+              );
+              this.setState({ email: "", password: "" });
+            }}
+          > */}
             Sign Up
           </button>
         </form>
 
-{/* Test login/signup */}
-<div>
-  <Toaster ref={(element) => {this.toaster = element}} />
-                <form onSubmit={(event) => {this.authWithEmailPassword(event)}} ref={
-                  (form) => { this.loginForm = form }}>
-        <div style={{marginBottom: "10px"}} className="pt-callout pt-icon-info-sign">
-                  <h5>Note</h5>
-                  If you don't have an account already, this form will create your account.
-                  </div>
-                  <label className="pt-label">
-                  Email
-                  <input style={{width: "100%"}} className="pt-input" name= "email" type="email"
-                  ref = {(input) =>  {this.emailInput = input}} placeholder="Email"></input>
-                  </label>
-                  <label className="pt-label">
-                  Password
-                  <input style={{width: "100%"}} className="pt-input" name= "password" type="password"
-                  ref = {(input) =>  {this.passwordInput = input}} placeholder="password"></input>
-                  </label>
-                  <input style={{width: "100%"}} type="submit" className="pt-button-intent-primary" 
-                  value= "log In"></input>
-                  </form>
-                  </div>
-
-
+        {/* Test login/signup */}
+        <div>
+          <Toaster
+            ref={element => {
+              this.toaster = element;
+            }}
+          />
+          <form
+            onSubmit={event => {
+              this.authWithEmailPassword(event);
+            }}
+            ref={form => {
+              this.loginForm = form;
+            }}
+          >
+            <div
+              style={{ marginBottom: "10px" }}
+              className="pt-callout pt-icon-info-sign"
+            >
+              <h5>Note</h5>
+              If you don't have an account already, this form will create your
+              account.
+            </div>
+            <label className="pt-label">
+              Email
+              <input
+                style={{ width: "100%" }}
+                className="pt-input"
+                name="email"
+                type="email"
+                ref={input => {
+                  this.emailInput = input;
+                }}
+                placeholder="Email"
+              />
+            </label>
+            <label className="pt-label">
+              Password
+              <input
+                style={{ width: "100%" }}
+                className="pt-input"
+                name="password"
+                type="password"
+                ref={input => {
+                  this.passwordInput = input;
+                }}
+                placeholder="password"
+              />
+            </label>
+            <input
+              style={{ width: "100%" }}
+              type="submit"
+              className="pt-button-intent-primary"
+              value="log In"
+            />
+          </form>
+        </div>
       </div>
     );
   }
