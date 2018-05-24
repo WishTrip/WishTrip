@@ -20,51 +20,89 @@ firebase.initializeApp(config);
 
 const database = firebase.database();
 
-// FUNCTIONS
-const getData = (req, res) => {
-  database
-    .ref("users")
-    .once("value", snap => {
-      res.status(200).json(snap.val());
-    });
-};
-
 const createUser = (req, res) => {
-  const { username } = req.body;
+  const { username, email, firstName, lastName } = req.body;
 
   database
     .ref("users")
     .push()
-    .set({ userinfo: { username, password: "test" } });
+    .set({ userinfo: { username, email, firstName, lastName } });
 
   database.ref("users").once("value", snap => {
     res.status(200).json(snap.val());
+
+    // let values = Object.values(snap.val());
+    // let userinfo = values.map(cur => cur.userinfo);
   });
 };
 
-const updateUsername = (req, res) => {
-  const { username, key } = req.body;
 
-  database.ref("users").update({ [`${key}/userinfo/username`]: username });
 
-  database.ref("users").once("value", snap => {
-    res.status(200).json(snap.val());
-  });
-};
 
-const deleteUser = (req, res) => {
-  const { id } = req.params;
 
-  database.ref("users").update({ [`${id}`]: null })
 
-  database.ref("users").once("value", snap => {
-    res.status(200).json(snap.val());
-  });
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = {
-  getData,
-  createUser,
-  updateUsername,
-  deleteUser
+  createUser
 };
+
+// FUNCTIONS
+// const getData = (req, res) => {
+//   database
+//     .ref("users")
+//     .once("value", snap => {
+//       res.status(200).json(snap.val());
+//     });
+// };
+
+// const createUser = (req, res) => {
+//   const { username } = req.body;
+
+//   database
+//     .ref("users")
+//     .push()
+//     .set({ userinfo: { username, password: "test" } });
+
+//   database.ref("users").once("value", snap => {
+//     res.status(200).json(snap.val());
+//   });
+// };
+
+// const updateUsername = (req, res) => {
+//   const { username, key } = req.body;
+
+//   database.ref("users").update({ [`${key}/userinfo/username`]: username });
+
+//   database.ref("users").once("value", snap => {
+//     res.status(200).json(snap.val());
+//   });
+// };
+
+// const deleteUser = (req, res) => {
+//   const { id } = req.params;
+
+//   database.ref("users").update({ [`${id}`]: null })
+
+//   database.ref("users").once("value", snap => {
+//     res.status(200).json(snap.val());
+//   });
+// }
+
+// module.exports = {
+//   getData,
+//   createUser,
+//   updateUsername,
+//   deleteUser
+// };

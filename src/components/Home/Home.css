@@ -1,0 +1,110 @@
+.home-wrapper {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.home-inputs {
+    background: transparent;
+    border: none;
+    color: #fff;
+    width: 100%;
+}
+
+.home-container-wrapper {
+    background: #073675;
+    height: 60%;
+    width: 80%;
+    max-width: 600px;
+    max-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 30px 0;
+    border-radius: 8px;
+}
+
+.home-inputs-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    width: 100%;
+}
+
+.home-name-input {
+    position: absolute;
+    top: 10px;
+    text-align: center;
+}
+
+.home-day-text, .home-container-wrapper  {
+    position: relative;
+    bottom: 100px;
+}
+
+.home-day-text, .home-day-time  {
+    color: #fff;
+}
+
+.home-destination-input, .home-budget-input {
+    border-bottom: 1px solid rgb(255,255,255,0.5);
+}
+
+.home-notes-input {
+    height: 35%;
+    border: 1px solid rgb(255,255,255,0.5);
+    border-radius: 5px;
+    position: relative;
+    top: 20px;
+    padding: 10px;
+    resize: none;
+}
+
+.home-time-agenda-container {
+    height: 33.33%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.home-save-agenda-btn {
+    background: transparent;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+}
+
+@media (max-width: 700px) {
+    .home-day-time {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+    .home-save-agenda-btn {
+        width: 125px;
+        padding: 5px;
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 700px) {
+    .home-container-wrapper {
+        padding: 50px 50px 0;
+    }
+    .home-save-agenda-btn {
+        width: 150px;
+        padding: 10px;
+        font-size: 18px;  
+    }
+}
