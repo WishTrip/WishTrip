@@ -16,7 +16,8 @@ class Home extends Component {
             destinationInput: "",
             budgetInput: 0,
             notesInput: "",
-            agenda: []
+            trip: [],
+            nextStepsFlag: false
         }
         this.handleInput = this.handleInput.bind(this)
     }
@@ -37,22 +38,25 @@ class Home extends Component {
         this.setState({ [key]: val });
     }
 
-    createAgenda(name, destination, budget, notes, time) {
-        let newArr = this.state.agenda.slice();
-        newArr.push({ name, destination, budget, notes, time })
+    createTrip(name, destination, budget, notes, time) {
+        let newArr = this.state.trip.slice();
+        let numOfDays = 0
+        newArr[numOfDays] ? (newArr[numOfDays].push({ name, destination, budget, notes, time })) :
+            (newArr.push([{ name, destination, budget, notes, time }]))
         this.setState({
-            agenda: newArr,
+            trip: newArr,
             time: new Date(),
             tripNameInput: "",
             destinationInput: "",
             budgetInput: 0,
-            notesInput: ""
+            notesInput: "",
+            nextStepsFlag: true
         })
     }
 
     render() {
-        const { day, time, tripNameInput, destinationInput, budgetInput, notesInput } = this.state;
-        console.log(this.state.agenda)
+        const { day, time, tripNameInput, destinationInput, budgetInput, notesInput, nextStepsFlag } = this.state;
+        console.log(this.state)
         return (
             <div className="home-wrapper" onClick={() => this.handleHamburgerMenu()}>
                 <Background />
@@ -66,11 +70,20 @@ class Home extends Component {
                             <textarea className="home-notes-input  home-inputs" type="text" placeholder="import notes, blah, blah, blah.." value={notesInput} onChange={e => this.handleInput('notesInput', e.target.value)} />
                             <div className="home-time-agenda-container">
                                 <TimeInput className="home-clock" mode='12h' okLabel="submit" value={time} onChange={e => this.handleInput('time', e)} />
-                                <button className="home-save-agenda-btn" onClick={() => this.createAgenda(tripNameInput, destinationInput, budgetInput, notesInput, time)}>Save Agenda</button>
+                                <button className="home-save-agenda-btn" onClick={() => this.createTrip(tripNameInput, destinationInput, budgetInput, notesInput, time)}>Save Agenda</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                {nextStepsFlag ? (
+                    <div>
+                        <button>Add New Agenda</button>
+                        <div>
+                            <button>Complete Trip</button>
+                            <button>Add New Day</button>
+                        </div>
+                    </div>
+                ) : null}
             </div>
         )
     }
