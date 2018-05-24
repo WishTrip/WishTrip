@@ -1,303 +1,148 @@
 import React from "react";
 import axios from "axios";
-import * as firebase from "firebase";
-import {Redirect} from 'react-router-dom';
-import {Toaster, Intent, Spinner} from '@blueprintjs/core'
-  
-// FIREBASE CONFIG
-const {
-  REACT_APP_DATABASE_API_KEY,
-  REACT_APP_DATABASE_AUTH_DOMAIN,
-  REACT_APP_DATABASE_URL,
-  REACT_APP_DATABASE_PROJECT_ID,
-  REACT_APP_DATABASE_STORAGE_BUCKET,
-  REACT_APP_DATABASE_SENDER_ID
-} = process.env;
-   
-var config = {
-  apiKey: REACT_APP_DATABASE_API_KEY,
-  authDomain: REACT_APP_DATABASE_AUTH_DOMAIN,
-  databaseURL: REACT_APP_DATABASE_URL,
-  projectId: REACT_APP_DATABASE_PROJECT_ID,
-  storageBucket: REACT_APP_DATABASE_STORAGE_BUCKET,
-  messagingSenderId: REACT_APP_DATABASE_SENDER_ID
-};
-firebase.initializeApp(config);
-
-const auth = firebase.auth();
+import { auth } from "../../firebase";
 
 class Login extends React.Component {
   constructor(props) {
-    super(props)
-    this.authWithEmailPassword = this.authWithEmailPassword.bind(this)
+    super(props);
     this.state = {
-      redirect: false,
-      data: [],
-    usernames: [],
-    trips: [],
-    userInput: "",
-    email: "",
-    password: "",
-    authenticated: false, 
-    loading: true,
-    user: {}
-    }
+      user: {}
+    };
   }
-  // state = {
-  //   data: [],
-  //   usernames: [],
-  //   trips: [],
-  //   userInput: "",
-  //   email: "",
-  //   password: "",
-  //   authenticated: false
-  // };
-
-  authWithEmailPassword(event){
-
-    event.preventDefault()
-    const email = this.emailInput.value
-    const password = this.passwordInput.value
-    
-    auth.fetchSignInMethodsForEmail(email)
-    .then((providers) => {
-      console.log("hit",email)
-      if(providers.length === 0) {
-        console.log("hit")
-        auth.createUserWithEmailAndPassword(email,password)
-         this.setState({
-           user: auth.currentUser
-         })
-         console.log(this.state.user)
-      // } else if (providers.indexOf("password") === -1) {
-      //   this.loginForm.reset()
-      //  this.toaster.show({intent: Intent.WARNING, message: "Try Alternative login."})
-      } else {
-        console.log("hit")
-        auth.signInWithEmailAndPassword(email, password)
-        this.setState({
-          user: auth.currentUser
-        })
-      }
-    })
-    .then((res) => {
-      console.log(this.state.user)
-      console.log(this.state.user["i"])
-      if (this.state.user.email) {
-        console.log("user")
-        this.loginForm.reset()
-        this.setState({redirect: true})
-        if(this.state.redirect) {
-          console.log("hit")
-          this.props.history.push("/home")
+  //Firebase Authentication Login
+  authWithEmailPassword(event) {
+    event.preventDefault();
+    const email = this.emailInput.value;
+    const password = this.passwordInput.value;
+    //Email In-Use Check
+    auth
+      .fetchSignInMethodsForEmail(email)
+      .then(providers => {
+        if (providers.length >= 1) {
+          //Sign in with Existing Email & Password
+          auth
+            .signInWithEmailAndPassword(email, password)
+            .then(response => {
+              auth.onAuthStateChanged(user => {
+                user
+                  ? [
+                      this.setState({ redirect: true, user: user }),
+                      console.log(
+                        "Registered User: ",
+                        user.email,
+                        user.uid,
+                        this.state.redirect
+                      ),
+                      (window.location = "/#/home")
+                    ]
+                  : console.log("No one logged in");
+              });
+            })
+            .catch(error => {
+              // Handle Errors here.
+              var errorCode = error.code;
+              console.log(error.Message);
+            });
         }
-      }
-    })
-    .catch((error) => {
-      this.toaster.show({intent: Intent.DANGER, message: error.message })
-    })
+        //Create New User
+        else {
+          console.log("Create User");
+          auth
+            .createUserWithEmailAndPassword(email, password)
 
-
-
-    // console.log("authed with email")
-    // console.table([{
-    //   email: this.emailInput.value,
-    //   password: this.passwordInput.value
-    // }])
-  }
-  componentDidMount() {
-    this.removeAuthListener = auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({
-          authenticated: true,
-          loading: false
-        })
-      } else {
-        this.setState({
-          authenticated: false,
-          loading: false
-        })
-      }
-    })
-    axios
-      .get("/api/getData")
-      .then(res => {
-        const usernameArr = this.state.usernames;
-        for (let key in res.data) {
-          usernameArr.push({ key, username: res.data[key].userinfo.username });
+            .then(response => {
+              auth.onAuthStateChanged(user => {
+                user
+                  ? [
+                      this.setState({ redirect: true, user: user }),
+                      console.log(
+                        "New User: ",
+                        user.email,
+                        user.uid,
+                        this.state.redirect
+                      ),
+                      (window.location = "/#/home")
+                    ]
+                  : console.log("No one logged in");
+              });
+            })
+            .then(response2 => {
+              //Send user info to database
+              const currentUser = auth.currentUser;
+              const useremail = auth.currentUser.email;
+              const userID = auth.currentUser.uid;
+              console.log(currentUser);
+              axios.post("/api/userData", { useremail, userID });
+            });
         }
-        this.setState({ data: res.data });
       })
-      .catch(err => console.log(err));
-
-    auth.onAuthStateChanged(user => {
-      user ? console.log(user) : console.log("No one logged in");
-    });
+      .then(response => {
+        console.log(auth.currentUser);
+        if (auth.currentUser) {
+          this.loginForm.reset();
+        }
+      })
+      .then(res => {
+        if (this.state.redirect === true) {
+          this.props.history.push("/home");
+        }
+      })
+      .catch(error => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        console.log(error.message);
+      });
   }
 
-  handleUserInput = e => {
-    this.setState({ userInput: e.target.value });
-  };
-
-  handelUsernameEdit = e => {
-    this.setState({ userInput: e.target.value });
-  };
-
-  handleUpdateUsername = (username, key) => {
-    axios
-      .put("/api/updateUsername", { username, key })
-      .then(res => {
-        this.setState({ usernames: [] });
-
-        const usernameArr = this.state.usernames.slice();
-
-        for (let key in res.data) {
-          usernameArr.push({ key, username: res.data[key].userinfo.username });
-        }
-
-        this.setState({ data: res.data, usernames: usernameArr });
-      })
-      .catch(err => console.log(err));
-  };
-
-  createUser = username => {
-    axios
-      .post("/api/changeDummyData", { username })
-      .then(res => {
-        this.setState({ usernames: [] });
-
-        const usernameArr = this.state.usernames.slice();
-
-        for (let key in res.data) {
-          usernameArr.push({ key, username: res.data[key].userinfo.username });
-        }
-
-        this.setState({ data: res.data, usernames: usernameArr });
-      })
-      .catch(err => console.log(err));
-  };
-
-  deleteUser = key => {
-    axios
-      .delete(`/api/deleteUser/${key}`)
-      .then(res => {
-        this.setState({ usernames: [] });
-
-        const usernameArr = this.state.usernames.slice();
-
-        for (let key in res.data) {
-          usernameArr.push({ key, username: res.data[key].userinfo.username });
-        }
-
-        this.setState({ data: res.data, usernames: usernameArr });
-      })
-      .catch(err => console.log(err));
-  };
-
-  handleUserSignUp = (input, e) => {
-    this.setState({ [input]: e.target.value });
-  };
- 
   render() {
-    const { usernames, trips, userInput, data } = this.state;
-    const {from} = this.props.location.state || { from: {pathname: '/home'}}
-    if (this.state.redirect === true) {
-      return <Redirect to= {from} />
-    }
-    if (this.state.loading === true) {
-      return (
-        <div style={{ textAlign: "center", position: "absolute", top: "25%", left: "50%"}}>
-        <h3> Loading</h3>
-        <Spinner/>
-        </div>
-      )
-    }
-// console.log(usernames)
-    let users = this.state.usernames.map((cur, ind) => (
-      <div key={cur.key}>
-        {cur.username}
-        <input onChange={this.handelUsernameEdit} />
-        <button
-          onClick={() => {
-            this.handleUpdateUsername(userInput, cur.key);
-            this.setState({ userInput: "" });
-          }}
-        >
-          Edit
-        </button>
-        <button onClick={() => this.deleteUser(cur.key)}>Delete</button>
-      </div>
-    ));
-
     return (
       <div>
-        {/* <div>
-          <input onChange={this.handleUserInput} />
-          <button onClick={() => this.createUser(userInput)}>
-        <div>
-          <input data-cypress-add-input onChange={this.handleUserInput} />
-          <button
-            data-cypress-button-add
-            onClick={() => this.createUser(userInput)}
-          >
-            Add Username
-          </button>
-        </div>
-        {users} */}
-        <form>
-          <input
-            value={this.state.email}
-            type="email"
-            placeholder="Email"
-            onChange={e => this.handleUserSignUp("email", e)}
-          />
-          <input
-            value={this.state.password}
-            type="password"
-            placeholder="Password"
-            onChange={e => this.handleUserSignUp("password", e)}
-          />
-          <button
-            onClick={() => {
-              auth.createUserWithEmailAndPassword(
-                this.state.email,
-                this.state.password
-              );
-              this.setState({ email: "", password: "" });
-            }}
-          >
-            Sign Up
-          </button>
+        <form
+          onSubmit={event => {
+            this.authWithEmailPassword(event);
+          }}
+          ref={form => {
+            this.loginForm = form;
+          }}
+        >
+          <div className="">
+            <h5>Note</h5>
+            If you don't have an account already, this form will create your
+            account.
+          </div>
+          <label className="">
+            Email
+            <input
+              className=""
+              name="email"
+              type="email"
+              ref={input => {
+                this.emailInput = input;
+              }}
+              placeholder="Email"
+              onChange={e => this.setState({ email: e.target.value })}
+            />
+          </label>
+          <label className="">
+            Password
+            <input
+              className=""
+              name="password"
+              type="password"
+              ref={input => {
+                this.passwordInput = input;
+              }}
+              placeholder="password"
+              onChange={e => this.setState({ password: e.target.value })}
+            />
+          </label>
+          <input type="submit" className="" value="log In" />
         </form>
-
-{/* Test login/signup */}
-<div>
-  <Toaster ref={(element) => {this.toaster = element}} />
-                <form onSubmit={(event) => {this.authWithEmailPassword(event)}} ref={
-                  (form) => { this.loginForm = form }}>
-        <div style={{marginBottom: "10px"}} className="pt-callout pt-icon-info-sign">
-                  <h5>Note</h5>
-                  If you don't have an account already, this form will create your account.
-                  </div>
-                  <label className="pt-label">
-                  Email
-                  <input style={{width: "100%"}} className="pt-input" name= "email" type="email"
-                  ref = {(input) =>  {this.emailInput = input}} placeholder="Email"></input>
-                  </label>
-                  <label className="pt-label">
-                  Password
-                  <input style={{width: "100%"}} className="pt-input" name= "password" type="password"
-                  ref = {(input) =>  {this.passwordInput = input}} placeholder="password"></input>
-                  </label>
-                  <input style={{width: "100%"}} type="submit" className="pt-button-intent-primary" 
-                  value= "log In"></input>
-                  </form>
-                  </div>
-
-
+        {/* TEMPORARY LOGOUT BUTTON */}
+        <button onClick={() => auth.signOut()}>logout</button>
+        {/* TEMPORARY LOGOUT BUTTON */}
       </div>
     );
   }
 }
-
 export default Login;
