@@ -1,0 +1,100 @@
+.trip-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-size: cover;
+    height: 90vh;
+    
+    /* background: blue; */
+}
+.trip-main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50%;
+    min-width: 300px;
+    height: 60%;
+    background-color: #2A628F;
+    margin-top: 10px;
+    color: white;
+    position: relative;
+    border-radius: 8px;
+}
+.trip-main-inner-container {
+    position: relative;
+    height: 95%;
+    width: 80%;
+    margin: 3%;
+    /* background-color: violet */
+}
+
+
+.trip-straight-lines {
+    background-color: rgba(161, 203, 250, 0.768);
+    height: 1px;
+    width: 80%;
+    margin-bottom: 2%;;
+}
+
+.trip-name-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 2%;
+    font-size: 15px
+}
+
+.trip-edit-button {
+    position: absolute;
+    top: 3%;
+    right: 3%;
+}
+.trip-name{
+    margin-bottom: .5%;
+}
+.trip-duration {
+    margin-bottom: 2%; 
+    font-size: 10px;    
+}
+.trip-budget {
+    margin-bottom: 2%;
+}
+
+.trip-desciption {
+    margin-bottom: 2%;
+}
+
+.trip-time {
+    margin-bottom: 2%;
+    
+}
+
+.trip-code {
+    margin-bottom: 2%;
+}
+
+.trips-view-delete {
+    margin-top: 10px;
+  background-color: rgb(42, 98, 143);
+  height: 10%;
+  width: 40%;
+  min-width: 260px;  
+  border-radius: 8px;
+  display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+    align-content: stretch;
+    color: white;
+}
+
+.trip-up-line {
+ background-color: rgba(161, 203, 250, 0.768);
+height: 80%;
+width: 1px;
+
+}
