@@ -64,7 +64,7 @@ class Login extends React.Component {
     //     console.log("hit", email);
     //     if (providers.length === 0) {
     //       console.log("hit");
-          auth.createUserWithEmailAndPassword(email, password)
+          // auth.createUserWithEmailAndPassword(email, password)
           // console.log(this.state.user);
           // } else if (providers.indexOf("password") === -1) {
           //   this.loginForm.reset()
@@ -77,21 +77,20 @@ class Login extends React.Component {
       //     });
       //   }
       // })
+      auth.createUserWithEmailAndPassword(email, password)
       .then(res => {
         this.setState({
           user: auth.currentUser
         })
-        // console.log(this.state.user);
-        // console.log(this.state.user["i"]);
-        if (this.state.user) {
-          // console.log("user");
-          this.loginForm.reset();
-          this.setState({ redirect: true });
-          if (this.state.redirect) {
-            console.log("hit");
-            this.props.history.push("/home");
-          }
-        }
+        this.props.history.push("/home");
+        // if (this.state.user) {
+        //   this.loginForm.reset();
+        //   this.setState({ redirect: true });
+        //   if (this.state.redirect) {
+        //     console.log("hit");
+        //     this.props.history.push("/home");
+        //   }
+        // }
       })
       .catch(err => {
         console.log(err.code)
@@ -99,6 +98,7 @@ class Login extends React.Component {
           auth.signInWithEmailAndPassword(email, password)
           this.props.history.push("/home");
         }
+        else console.log(err.code)
       })
       // .catch(error => {
       //   this.toaster.show({ intent: Intent.DANGER, message: error.message });

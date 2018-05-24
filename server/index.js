@@ -34,10 +34,13 @@ app.use(
 );
 
 //Database Endpoints
-app.get('/api/getData', dbCtrl.getData);
-app.post('/api/changeDummyData', dbCtrl.createUser);
-app.put('/api/updateUsername', dbCtrl.updateUsername);
-app.delete("/api/deleteUser/:id", dbCtrl.deleteUser);
+// app.get('/api/getData', dbCtrl.getData);
+// app.post('/api/changeDummyData', dbCtrl.createUser);
+// app.put('/api/updateUsername', dbCtrl.updateUsername);
+// app.delete("/api/deleteUser/:id", dbCtrl.deleteUser);
+
+//Real Database Endpoints
+app.post('/api/createUser', dbCtrl.createUser);
 
 app.listen(port, () => {
   console.log(`Listening on port: ${port}`);
