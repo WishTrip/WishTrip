@@ -36,12 +36,12 @@
 }
 
 .topBun {
-  transform: translate(0, 245%) rotate(-40deg);
+  transform: translate(0, 250%) rotate(-45deg);
   width: 25px;
 }
 
 .bottomBun {
-  transform: translate(0, -245%) rotate(40deg);
+  transform: translate(0, -250%) rotate(45deg);
   width: 25px;
 }
 

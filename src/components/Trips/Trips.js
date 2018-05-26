@@ -1,6 +1,5 @@
 import React from "react";
-import "../../assets/fontawesome-all.css"
-// import "font-awesome/css/font-awesome.min.css";
+import "font-awesome/css/font-awesome.min.css";
 import Background from "../Background/Background.js";
 import "./Trips.css"
 export default function Trips() {
@@ -14,7 +13,7 @@ export default function Trips() {
 
              <div className="trip-main-container">
              <div className="trip-edit-button">
-             <i className="far fa-edit"></i>
+             <i className="fa fa-edit"></i>
              </div>
 
              <div className="trip-main-inner-container">
