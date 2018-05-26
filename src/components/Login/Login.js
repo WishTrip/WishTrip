@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
+import Background from "../Background/Background";
 import { auth } from "../../firebase";
+import "./Login.css";
 
 class Login extends React.Component {
   constructor(props) {
@@ -27,12 +29,12 @@ class Login extends React.Component {
                 user
                   ? [
                       this.setState({ redirect: true, user: user }),
-                      console.log(
-                        "Registered User: ",
-                        user.email,
-                        user.uid,
-                        this.state.redirect
-                      ),
+                      // console.log(
+                      //   "Registered User: ",
+                      //   user.email,
+                      //   user.uid,
+                      //   this.state.redirect
+                      // ),
                       (window.location = "/#/home")
                     ]
                   : console.log("No one logged in");
@@ -41,10 +43,10 @@ class Login extends React.Component {
             .catch(error => {
               // Handle Errors here.
               var errorCode = error.code;
-              console.log(error.Message);
+              console.log(errorCode);
             });
         }
-        //Create New User
+        //Create New User sign in
         else {
           console.log("Create User");
           auth
@@ -55,12 +57,12 @@ class Login extends React.Component {
                 user
                   ? [
                       this.setState({ redirect: true, user: user }),
-                      console.log(
-                        "New User: ",
-                        user.email,
-                        user.uid,
-                        this.state.redirect
-                      ),
+                      // console.log(
+                      //   "New User: ",
+                      //   user.email,
+                      //   user.uid,
+                      //   this.state.redirect
+                      // ),
                       (window.location = "/#/home")
                     ]
                   : console.log("No one logged in");
@@ -90,13 +92,14 @@ class Login extends React.Component {
       .catch(error => {
         // Handle Errors here.
         var errorCode = error.code;
-        console.log(error.message);
+        console.log(errorCode);
       });
   }
 
   render() {
     return (
       <div>
+        <Background />
         <form
           onSubmit={event => {
             this.authWithEmailPassword(event);
@@ -113,6 +116,7 @@ class Login extends React.Component {
           <label className="">
             Email
             <input
+              data-cypress-email-input
               className=""
               name="email"
               type="email"
@@ -126,6 +130,7 @@ class Login extends React.Component {
           <label className="">
             Password
             <input
+              data-cypress-password-input
               className=""
               name="password"
               type="password"
@@ -136,10 +141,17 @@ class Login extends React.Component {
               onChange={e => this.setState({ password: e.target.value })}
             />
           </label>
-          <input type="submit" className="" value="log In" />
+          <input
+            data-cypress-submit-login
+            type="submit"
+            className=""
+            value="log In"
+          />
         </form>
         {/* TEMPORARY LOGOUT BUTTON */}
-        <button onClick={() => auth.signOut()}>logout</button>
+        <button data-cypress-button-logout onClick={() => auth.signOut()}>
+          logout
+        </button>
         {/* TEMPORARY LOGOUT BUTTON */}
       </div>
     );

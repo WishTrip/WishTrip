@@ -22,6 +22,7 @@ class Home extends Component {
             notesInput: "",
             nextStepsFlag: false
         }
+        this.handleInput = this.handleInput.bind(this);
     }
 
 
@@ -99,7 +100,8 @@ class Home extends Component {
                 </div>
                 {currentAgendas}
             </div>
-        )
+
+        );
     }
 }
 

@@ -1,6 +1,5 @@
 //IMPORT PACKAGES
-import React from "react";
-import axios from "axios";
+
 import * as firebase from "firebase";
 
 // FIREBASE CONFIG
