@@ -48,9 +48,20 @@
     text-align: center;
 }
 
-.home-day-text, .home-container-wrapper  {
+.home-day-text, .home-container-wrapper, .budget-container  {
     position: relative;
-    bottom: 50px;
+}
+
+.home-dollar-sign {
+    color: #fff;
+    position: absolute;
+    border-bottom: 1px solid rgb(255,255,255,0.5);
+}
+
+.home-budget-input-position {
+    position: absolute;
+    top: 0;
+    left: 10px;
 }
 
 .home-day-text, .home-day-time  {
@@ -115,8 +126,8 @@
         padding: 10px;
         font-size: 18px;  
     }
-    .home-day-text, .home-container-wrapper  {
+    /* .home-day-text, .home-container-wrapper  {
         position: relative;
         bottom: 100px;
-    }
+    } */
 }
