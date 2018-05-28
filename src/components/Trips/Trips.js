@@ -1,168 +1,76 @@
 import React, { Component } from "react";
-import "font-awesome/css/font-awesome.min.css";
-import Background from "../Background/Background.js";
 import "./Trips.css";
+import Background from "../Background/Background";
+import Plan from "../Plan/Plan";
 
-const dummyData = [
-  [
-    {
-      tripName: "Joes 6 fig Mentor Celebration",
-      destination: "Orlando",
-      start: new Date(),
-      end: new Date(),
-      budget: "$12,000",
-      notes: "this trip is finna be lit",
-      tripCode: "1n1kh2p"
-    },
-    [{ name: "hotel name" }, { name: "hotel2 name" }, { name: "hotel3 name" }],
-    [
-      { takeoff: "1pm", arrival: "10pm", layover: "2h" },
-      { takeoff: "3pm", arrival: "7pm", layover: "0h" },
-      { takeoff: "12:30pm", arrival: "5pm", layover: ".5h" }
-    ],
-    [
-      [
-        "jump rope",
-        "4pm",
-        "$440",
-        "this is a gymnastic activity fun for our family"
-      ],
-      [
-        "jump rope",
-        "2pm",
-        "$440",
-        "this is a gymnastic activity fun for our family"
-      ],
-      [
-        "jump rope",
-        "8am",
-        "$440",
-        "this is a gymnastic activity fun for our family"
-      ]
-    ]
-  ]
-];
+import { connect } from "react-redux";
+import { addInitialTripValues } from "../../ducks/userReducer";
 
 class Trips extends Component {
-  state = {
-    editToggle: false,
-    viewTripToggle: false
-  };
+  constructor() {
+    super();
+    this.state = {
+      tripName: "",
+      tripStartingLocation: "",
+      tripStartDate: "",
+      tripEndDate: "",
+      tripTotalBudget: 0,
+      tripNotes: "",
+      showPlan: false
+    }
+  }
+
+
+  handleInput(key, val) {
+    if (key === 'tripTotalBudget') {
+      return this.setState({
+        [key]: parseInt(val, 10)
+      })
+    }
+    this.setState({
+      [key]: val
+    })
+  }
+
+  startTrip() {
+    let { tripName, tripStartingLocation, tripTotalBudget, tripNotes } = this.state;
+    this.handleInput('showPlan', true);
+    this.props.addInitialTripValues(tripName, tripStartingLocation, tripTotalBudget, tripNotes);
+  }
+
   render() {
-    let mappedTrips = dummyData.map((e, i) => {
-      return (
-        <div key={i} className="trip-container">
-          <div className="trip-main-container">
-            <div className="trip-edit-button">
-              {this.state.editToggle ? (
-                <i
-                  className="fa fa-check-square"
-                  onClick={() => this.setState({ editToggle: false })}
-                />
-              ) : (
-                <i
-                  className="fa fa-edit"
-                  onClick={() => this.setState({ editToggle: true })}
-                />
-              )}
-            </div>
-            {this.state.editToggle ? (
-              <div>
-                <div className="trip-main-inner-container">
-                  <h6>Trip Name</h6>
-                  <input placeholder={e[0].tripName} />
-                  <div className="trip-name-duration">
-                    <h6>Destination</h6>
-                    <input placeholder={e[0].destination} />
-                    <h6>Start Day</h6>
-                    <input
-                      placeholder={
-                        e[0].start.getMonth() +
-                        " " +
-                        e[0].start.getDay() +
-                        ", " +
-                        e[0].start.getFullYear()
-                      }
-                    />
-                    <h6>End Day</h6>
-                    <input
-                      placeholder={
-                        e[0].end.getMonth() +
-                        " " +
-                        e[0].end.getDay() +
-                        ", " +
-                        e[0].end.getFullYear()
-                      }
-                    />
-                  </div>
-                  <div className="trip-straight-lines" />
-                  <h6>Budget</h6>
-                  <input placeholder={e[0].budget} />
-                  <div className="trip-description-time-code" />
-                  <div className="trip-straight-lines" />
-                  <h6>Description</h6>
-                  <input placeholder={e[0].notes} />
-                  <h6 className="trip-code">Code: {e[0].tripCode}</h6>
-                </div>
-              </div>
-            ) : (
-              <div className="trip-main-inner-container">
-                <div className="trip-name-top">{e[0].tripName}</div>
-                <div className="trip-name-duration">
-                  <div className="trip-destination">{e[0].destination}</div>
-                  <div className="trip-duration">
-                    {e[0].start.getMonth() +
-                      " " +
-                      e[0].start.getDay() +
-                      ", " +
-                      e[0].start.getFullYear()}
-                  </div>
-                  <div className="trip-duration">
-                    {e[0].end.getMonth() +
-                      " " +
-                      e[0].end.getDay() +
-                      ", " +
-                      e[0].end.getFullYear()}
-                  </div>
-                </div>
-                <div className="trip-straight-lines" />
-                <div className="trip-budget">{e[0].budget}</div>
-                <div className="trip-description-time-code" />
-                <div className="trip-straight-lines" />
-                <div className="trip-desciption">{e[0].notes}</div>
-                <div className="trip-code">{e[0].tripCode}</div>
-                {this.state.viewTripToggle && (
-                  <i className="fa fa-arrow-right" />
-                )}
-              </div>
-            )}
-          </div>
-          <div className="trips-view-delete">
-            <div
-              className="trips-view"
-              onClick={() =>
-                this.setState({ viewTripToggle: !this.state.viewTripToggle })
-              }
-            >
-              {this.state.viewTripToggle && !this.state.editToggle ? (
-                <h6>Minimize Trip</h6>
-              ) : (
-                <h6>View Trip</h6>
-              )}
-            </div>
-            <div className="trip-up-line" />
-            <div className="trip-delete">Delete Trip</div>
-          </div>
-        </div>
-      );
-    });
+    const { tripName, tripStartingLocation, tripStartDate, tripEndDate, tripTotalBudget, tripNotes, showPlan } = this.state;
+
+    console.log(this.state)
+    console.log(this.props)
     return (
-      <div>
+      <div className="trips-wrapper">
         <Background />
-        <h4>My Trips</h4>
-        {mappedTrips}
+        {!showPlan ? (
+          <div className="trips-input-container" >
+            <input className="trips-inputs trips-name-input" type="text" placeholder="Trip Name" value={tripName} onChange={(e) => this.handleInput("tripName", e.target.value)} />
+            <input className="trips-inputs" type="text" placeholder="Trip Starting Location" value={tripStartingLocation} onChange={(e) => this.handleInput("tripStartingLocation", e.target.value)} />
+            <div className="trips-date-inputs-container">
+              <p className="trips-inputs">STARTING DATE</p>
+              <p className="trips-inputs">LEAVING DATE</p>
+            </div>
+            <input className="trips-inputs" type="number" placeholder="Trip Budget" value={tripTotalBudget} onChange={(e) => this.handleInput("tripTotalBudget", e.target.value)} />
+            <textarea className="trips-inputs trips-notes-input" type="text" placeholder="import notes, blah, blah, blah.." value={tripNotes} onChange={(e) => this.handleInput("tripNotes", e.target.value)} />
+            <div className="trips-btn-position-container">
+              <button className="trips-plan-trip-btn" onClick={() => this.startTrip()}>Plan Trip</button>
+            </div>
+          </div>
+        ) : (
+          <Plan />
+        )}
       </div>
-    );
+    )
   }
 }
-export default Trips;
+
+const mapStateToProps = state => ({
+  ...state.viewReducer,
+  ...state.userReducer
+});
+
+export default connect(mapStateToProps, {addInitialTripValues})(Trips);
