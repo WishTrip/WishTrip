@@ -35,6 +35,18 @@ const loginUser = (req, res) => {
 
 const sendUserInfo = (req, res) => {
   const { user } = req.body;
+  console.log(req.body.user.trips)
+
+  database
+    .ref(`users/${user.userinfo.uid}`)
+    .child('userinfo')
+    .set({ email: user.userinfo.email })
+
+  database
+    .ref(`users/${user.userinfo.uid}`)
+    .child('trips')
+    .push()
+    .set({ tripBudget: user.trips[0].tripBudget, tripLocation: user.trips[0].tripLocation, days: user.trips[0].days })
 }
 
 module.exports = {
