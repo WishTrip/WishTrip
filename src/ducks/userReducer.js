@@ -23,7 +23,6 @@ export default function userReducer(state = initialState, action) {
             let currentAgenda = action.payload.currentAgenda - 1;
 
             if (newDay) {
-                console.log("day 1")
                 days.push([])
             }
 
@@ -47,9 +46,9 @@ export function createUser(username, email, firstName, lastName, userID) {
 }
 
 
-export function saveAgenda(newDay, currentDay, currentAgenda, name, destination, budget, notes, time) {
+export function saveAgenda(newDay, currentDay, currentAgenda, name, destination, activity, budget, notes, time) {
     return {
         type: SAVE_AGENDA,
-        payload: { newDay, currentDay, currentAgenda, name, destination, budget, notes, time }
+        payload: { newDay, currentDay, currentAgenda, name, destination, activity, budget, notes, time }
     }
 }
