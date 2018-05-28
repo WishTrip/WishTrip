@@ -2,7 +2,15 @@ import axios from 'axios';
 
 //INTITIAL STATE
 const initialState = {
-    users: [],
+    // user: {
+    //     userinfo: {firstname, lastname, email}, 
+    //     trips: [0: {tripName, tripStarting, tripEnd, tripTotal, days: [days]},
+    //             ] ...
+    //     }
+    user: {
+        userinfo: {},
+        trips: []
+    },
     trip: [],
     days: [[]]
 }
@@ -10,6 +18,8 @@ const initialState = {
 //ACTION TYPES
 const CREATE_USER = "CREATE_USER";
 const SAVE_AGENDA = "SAVE_AGENDA";
+const ADD_INITIAL_TRIP_VALUES = "ADD_INITIAL_TRIP_VALUES";
+const  COMPLETE_TRIP = " COMPLETE_TRIP";
 
 //REDUCERS
 export default function userReducer(state = initialState, action) {
@@ -32,6 +42,22 @@ export default function userReducer(state = initialState, action) {
                 ...state,
                 days: days
             }
+        case `${ADD_INITIAL_TRIP_VALUES}`:
+            return { 
+                ...state,
+                 user: {...state.user.userinfo, trips: [action.payload]}
+            }
+        case `${ COMPLETE_TRIP}`:
+            return {
+                ...state,
+                user: {
+                    // ...state.user.userinfo,
+                    trips: [{
+                        ...state.user.trips[0],
+                        days: action.payload
+                    }]
+                }
+            }
         default: return state;
     }
 }
@@ -50,5 +76,19 @@ export function saveAgenda(newDay, currentDay, currentAgenda, name, destination,
     return {
         type: SAVE_AGENDA,
         payload: { newDay, currentDay, currentAgenda, name, destination, activity, budget, notes, time }
+    }
+}
+
+export function addInitialTripValues(tripName, tripLocation, tripBudget, tripNotes) {
+    return {
+        type: ADD_INITIAL_TRIP_VALUES,
+        payload: { tripName, tripLocation, tripBudget, tripNotes }
+    }
+}
+
+export function completeTrip(days) {
+    return {
+        type: COMPLETE_TRIP,
+        payload: days
     }
 }
