@@ -2,20 +2,20 @@ import axios from 'axios';
 
 //INTITIAL STATE
 const initialState = {
-    users: [],
+    user: [],
     trip: [],
     days: [[]]
 }
 
 //ACTION TYPES
-const CREATE_USER = "CREATE_USER";
+const USER_LOGIN = "USER_LOGIN";
 const SAVE_AGENDA = "SAVE_AGENDA";
 
 //REDUCERS
 export default function userReducer(state = initialState, action) {
     switch (action.type) {
-        case `${CREATE_USER}_FULFILLED`:
-            return { ...state, users: action.payload.data }
+        case `${USER_LOGIN}`:
+            return { ...state, user: { email: action.payload.email, uid: action.payload.uid }}
         case `${SAVE_AGENDA}`:
             let { days } = state;
             let { newDay } = action.payload;
@@ -37,11 +37,10 @@ export default function userReducer(state = initialState, action) {
 }
 
 //ACTION CREATORS
-export function createUser(username, email, firstName, lastName, userID) {
-    console.log(username, email, firstName, lastName, userID)
+export function userLogin(email, uid) {
     return {
-        type: CREATE_USER,
-        payload: axios.post('/api/createUser', { username, email, firstName, lastName, userID })
+        type: USER_LOGIN,
+        payload: { email, uid }
     }
 }
 
