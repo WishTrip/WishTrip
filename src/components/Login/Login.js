@@ -4,6 +4,9 @@ import Background from "../Background/Background";
 import { auth } from "../../firebase";
 import "./Login.css";
 
+import { connect } from 'react-redux';
+import userReducer, { userLogin } from '../../ducks/userReducer';
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -26,17 +29,12 @@ class Login extends React.Component {
             .signInWithEmailAndPassword(email, password)
             .then(response => {
               auth.onAuthStateChanged(user => {
+                this.props.userLogin(user.email, user.uid);
                 user
-                  ? [
+                  ? (
                       this.setState({ redirect: true, user: user }),
-                      // console.log(
-                      //   "Registered User: ",
-                      //   user.email,
-                      //   user.uid,
-                      //   this.state.redirect
-                      // ),
                       (window.location = "/#/home")
-                    ]
+                  )
                   : console.log("No one logged in");
               });
             })
@@ -52,15 +50,10 @@ class Login extends React.Component {
             .createUserWithEmailAndPassword(email, password)
             .then(response => {
               auth.onAuthStateChanged(user => {
+                this.props.userLogin(user.email, user.uid);
                 user
                   ? [
                       this.setState({ redirect: true, user: user }),
-                      // console.log(
-                      //   "New User: ",
-                      //   user.email,
-                      //   user.uid,
-                      //   this.state.redirect
-                      // ),
                       (window.location = "/#/home")
                     ]
                   : console.log("No one logged in");
@@ -93,6 +86,7 @@ class Login extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <Background />
@@ -153,4 +147,7 @@ class Login extends React.Component {
     );
   }
 }
-export default Login;
+
+const mapStateToProps = state => { return {...state.userReducer} };
+
+export default connect( mapStateToProps, { userLogin } )(Login);
