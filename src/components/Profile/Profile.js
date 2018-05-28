@@ -12,7 +12,7 @@ class Profile extends Component {
     email: "",
     firstName: "",
     lastName: "",
-    userID: (auth.currentUser ? auth.currentUser.uid : "")
+    userID: auth.currentUser ? auth.currentUser.uid : ""
   };
 
   handleUserInput = (state, e) => {
@@ -28,6 +28,7 @@ class Profile extends Component {
           Profile
           <form>
             <input
+              data-cypress-input-username
               value={this.state.username}
               className="w3-input w3-animate-input"
               type="text"
@@ -36,6 +37,7 @@ class Profile extends Component {
               onChange={e => this.handleUserInput("username", e)}
             />
             <input
+              data-cypress-input-email
               value={this.state.email}
               className="w3-input w3-animate-input"
               type="text"
@@ -44,6 +46,7 @@ class Profile extends Component {
               onChange={e => this.handleUserInput("email", e)}
             />
             <input
+              data-cypress-input-firstname
               value={this.state.firstName}
               className="w3-input w3-animate-input"
               type="text"
@@ -52,6 +55,7 @@ class Profile extends Component {
               onChange={e => this.handleUserInput("firstName", e)}
             />
             <input
+              data-cypress-input-lastname
               value={this.state.lastName}
               className="w3-input w3-animate-input"
               type="text"
@@ -60,8 +64,15 @@ class Profile extends Component {
               onChange={e => this.handleUserInput("lastName", e)}
             />
             <button
+              data-cypress-profile-submit
               onClick={() => {
-                this.props.createUser(username, email, firstName, lastName, userID);
+                this.props.createUser(
+                  username,
+                  email,
+                  firstName,
+                  lastName,
+                  userID
+                );
                 this.setState({
                   username: "",
                   email: "",
