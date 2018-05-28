@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Profile.css";
 import "w3-css/w3.css";
-
+import {auth} from '../../firebase';
 import { connect } from "react-redux";
 import { createUser } from "../../ducks/userReducer";
 
@@ -17,36 +17,43 @@ class Profile extends Component {
     this.setState({ [state]: e.target.value });
   };
 
+
   render() {
+      const user = auth.currentUser;
+      console.log(user)
+    
     const { username, email, firstName, lastName } = this.state;
+
     console.log(this.props.users);
     return (
       <div className="profile-container">
         <div className="profile-wrapper">
           Profile
+          
           <form>
             <input
               value={this.state.username}
               className="w3-input w3-animate-input"
               type="text"
               style={{ width: "135px" }}
-              placeholder="Username"
+            //   placeholder={(user)?user.username:"username"}
+            placeholder={user?user.email:"username"}
               onChange={e => this.handleUserInput("username", e)}
             />
-            <input
+            {/* <input
               value={this.state.email}
               className="w3-input w3-animate-input"
               type="text"
               style={{ width: "135px" }}
               placeholder="Email"
-              onChange={e => this.handleUserInput("email", e)}
-            />
+              onChange={e => this.handleUserInput("email", e)}button
+            /> */}
             <input
               value={this.state.firstName}
               className="w3-input w3-animate-input"
               type="text"
               style={{ width: "135px" }}
-              placeholder="First Name"
+              placeholder={(firstName)?user.lastName:"First Name"}
               onChange={e => this.handleUserInput("firstName", e)}
             />
             <input
@@ -54,7 +61,7 @@ class Profile extends Component {
               className="w3-input w3-animate-input"
               type="text"
               style={{ width: "135px" }}
-              placeholder="Last Name"
+              placeholder={(lastName)?user.firstName:"Last Name"}
               onChange={e => this.handleUserInput("lastName", e)}
             />
             <button
