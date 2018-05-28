@@ -20,33 +20,49 @@ firebase.initializeApp(config);
 
 const database = firebase.database();
 
-// const loginUser = (req, res) => {
-  // database
-  //   .ref(`users/${userID}`)
-  //   .child("userinfo")
-  //   .set({ username, email, firstName, lastName });
-
-  // database.ref("users").once("value", snap => {
-  //   res.status(200).json(snap.val());
-  // });
-// };
-
-const userData = (req, res) => {
-  const { useremail, userID } = req.body;
+const loginUser = (req, res) => {
+  const {} = req.body
 
   database
-    .ref("users")
-    .push()
-    .set({ userinfo: { email: useremail, uid: userID } });
+    .ref(`users/${userID}`)
+    .child("userinfo")
+    .set({ username, email, firstName, lastName });
 
-  database.ref("users").on("child_added", snap => {
-    console.log(snap.val());
+  database.ref("users").once("value", snap => {
+    res.status(200).json(snap.val());
   });
 };
 
+// const userData = (req, res) => {
+//   const { useremail, userID } = req.body;
+
+//   database
+//     .ref("users")
+//     .push()
+//     .set({ userinfo: { email: 'ablackshear7820@gmail.com'}, trips: {tripOne: 'trip'} });
+//     // .set({ userinfo: { email: useremail }, trips: {tripOne: 'trip'} });
+
+//   database.ref("users").on("child_added", snap => {
+//     console.log(snap.val());
+//   });
+// };
+
+const testEnd = (req, res) => {
+  let test = database
+    .ref(`users/y8lah1k7SPZaRo8vXwRrCN6AFlf1`)
+    // .on('value', snap => {
+    //   console.log(snap.val())
+    // })
+    .orderByChild()
+    .equalTo('y8lah1k7SPZaRo8vXwRrCN6AFlf1');
+
+    console.log()
+}
+
 module.exports = {
-  // loginUser,
-  userData
+  loginUser,
+  testEnd
+  // userData
 };
 
 // FUNCTIONS
