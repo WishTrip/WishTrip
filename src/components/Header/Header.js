@@ -28,7 +28,6 @@ class Header extends Component {
                         <div className="links-container">
                             <Link to="/home" className="header-links">Home</Link>
                             <Link to="/login" className="header-links">Login</Link>
-                            <Link to="/plan" className="header-links">Plan</Link>
                             <Link to="/profile" className="header-links">Profile</Link>
                             <Link to="/trips" className="header-links">Trips</Link>
                         </div>
@@ -38,14 +37,12 @@ class Header extends Component {
                     <div style={{display: "none"}} className="hamburger-links-container" >
                         <Link to="/home" className="hamburger-links">Home</Link>
                         <Link to="/login" className="hamburger-links">Login</Link>
-                        <Link to="/plan" className="hamburger-links">Plan</Link>
                         <Link to="/profile" className="hamburger-links">Profile</Link>
                         <Link to="/trips" className="hamburger-links">Trips</Link>
                     </div>
                 ) : <div  className="hamburger-links-container">
                 <Link to="/home" className="hamburger-links">Home</Link>
                 <Link to="/login" className="hamburger-links">Login</Link>
-                <Link to="/plan" className="hamburger-links">Plan</Link>
                 <Link to="/profile" className="hamburger-links">Profile</Link>
                 <Link to="/trips" className="hamburger-links">Trips</Link>
             </div>}
