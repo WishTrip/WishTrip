@@ -5,10 +5,10 @@ import { saveAgenda } from "../../ducks/userReducer";
 import TimeInput from 'material-ui-time-picker'
 
 export default function Agenda(props) {
-    const { index, day, time, tripNameInput, destinationInput, budgetInput, notesInput } = props;
+    const { index, agenda, time, tripNameInput, destinationInput, budgetInput, notesInput } = props;
     return (
         <div className="agenda-wrapper">
-            <h2 className="home-day-text">Day {day}</h2>
+            <h2 className="home-agenda-text">Agenda {agenda}</h2>
             <div className="home-container-wrapper agenda-container-wrapper">
                 <div className="home-container">
                     <p className="home-name-input home-inputs">{props.saved.name}</p>
