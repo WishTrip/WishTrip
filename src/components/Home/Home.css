@@ -49,10 +49,23 @@
     width: 100%;
 }
 
+.home-destination-activity-container {
+    display: flex;
+}
+
 .home-name-input {
     position: absolute;
     top: 10px;
     text-align: center;
+}
+
+.home-destination-input {
+    width: 45%;
+    margin-right: 10%;
+}
+
+.home-activity-input {
+    width: 45%;
 }
 
 .home-day-text, .home-container-wrapper, .budget-container  {
@@ -85,7 +98,7 @@
     width: 200px;
 }
 
-.home-destination-input, .home-budget-input {
+.home-destination-input, .home-budget-input, .home-activity-input {
     border-bottom: 1px solid rgb(255,255,255,0.5);
 }
 
