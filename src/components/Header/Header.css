@@ -22,27 +22,27 @@
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
-    height: 30px;
+    height: 25px;
 }
 
 .top,
 .middle,
 .bottom {
   border-radius: 10px;
-  width: 30px;
+  width: 25px;
   background: #fff;
   height: 13%;
   transition: 0.2s;
 }
 
 .topBun {
-  transform: translate(0, 245%) rotate(-40deg);
-  width: 30px;
+  transform: translate(0, 250%) rotate(-45deg);
+  width: 25px;
 }
 
 .bottomBun {
-  transform: translate(0, -245%) rotate(40deg);
-  width: 30px;
+  transform: translate(0, -250%) rotate(45deg);
+  width: 25px;
 }
 
 .hamburger-links-container {

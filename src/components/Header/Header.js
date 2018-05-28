@@ -15,9 +15,9 @@ class Header extends Component {
                 <div className="header-wrapper">
                     <div className="header-container">
                         <div className="burger" onClick={() => this.props.toggleHamburgerBtn()}>
-                            <div className={burgerFlag ? "top" : "top topBun"} />
-                            <div className={burgerFlag ? "middle" : null} />
-                            <div className={burgerFlag ? "bottom" : "bottom bottomBun"} />
+                            <div className={burgerFlag ? "top topBun" : "top"} />
+                            <div className={burgerFlag ? null : "middle"} />
+                            <div className={burgerFlag ? "bottom bottomBun" : "bottom"} />
                         </div>
                         <div className="logo-wrapper">
                             <Link to="/" className="header-links logo-container">
@@ -35,14 +35,20 @@ class Header extends Component {
                     </div>
                 </div>
                 {!burgerFlag ? (
-                    <div className="hamburger-links-container">
+                    <div style={{display: "none"}} className="hamburger-links-container" >
                         <Link to="/home" className="hamburger-links">Home</Link>
                         <Link to="/login" className="hamburger-links">Login</Link>
                         <Link to="/plan" className="hamburger-links">Plan</Link>
                         <Link to="/profile" className="hamburger-links">Profile</Link>
                         <Link to="/trips" className="hamburger-links">Trips</Link>
                     </div>
-                ) : null}
+                ) : <div  className="hamburger-links-container">
+                <Link to="/home" className="hamburger-links">Home</Link>
+                <Link to="/login" className="hamburger-links">Login</Link>
+                <Link to="/plan" className="hamburger-links">Plan</Link>
+                <Link to="/profile" className="hamburger-links">Profile</Link>
+                <Link to="/trips" className="hamburger-links">Trips</Link>
+            </div>}
             </div>
         )
     }
