@@ -4,13 +4,15 @@ import "w3-css/w3.css";
 
 import { connect } from "react-redux";
 import { createUser } from "../../ducks/userReducer";
+import { auth } from "../../firebase";
 
 class Profile extends Component {
   state = {
     username: "",
     email: "",
     firstName: "",
-    lastName: ""
+    lastName: "",
+    userID: (auth.currentUser ? auth.currentUser.uid : "")
   };
 
   handleUserInput = (state, e) => {
@@ -18,8 +20,8 @@ class Profile extends Component {
   };
 
   render() {
-    const { username, email, firstName, lastName } = this.state;
-    console.log(this.props.users);
+    const { username, email, firstName, lastName, userID } = this.state;
+
     return (
       <div className="profile-container">
         <div className="profile-wrapper">
@@ -59,12 +61,13 @@ class Profile extends Component {
             />
             <button
               onClick={() => {
-                this.props.createUser(username, email, firstName, lastName);
+                this.props.createUser(username, email, firstName, lastName, userID);
                 this.setState({
                   username: "",
                   email: "",
                   firstName: "",
-                  lastName: ""
+                  lastName: "",
+                  userID: auth.currentUser.uid || ""
                 });
               }}
             >

@@ -48,10 +48,8 @@ class Login extends React.Component {
         }
         //Create New User sign in
         else {
-          console.log("Create User");
           auth
             .createUserWithEmailAndPassword(email, password)
-
             .then(response => {
               auth.onAuthStateChanged(user => {
                 user
@@ -73,13 +71,11 @@ class Login extends React.Component {
               const currentUser = auth.currentUser;
               const useremail = auth.currentUser.email;
               const userID = auth.currentUser.uid;
-              console.log(currentUser);
               axios.post("/api/userData", { useremail, userID });
             });
         }
       })
       .then(response => {
-        console.log(auth.currentUser);
         if (auth.currentUser) {
           this.loginForm.reset();
         }

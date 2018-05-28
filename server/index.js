@@ -38,6 +38,8 @@ app.use(
 // app.delete("/api/deleteUser/:id", dbCtrl.deleteUser);
 
 //Real Database Endpoints
+// app.post('/api/createUser', dbCtrl.createUser);
+app.post("/api/userData", dbCtrl.userData);
 app.post("/api/createUser", dbCtrl.createUser);
 
 //*****************WEB SCRAPER END POINT*****************//
