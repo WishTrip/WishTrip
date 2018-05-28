@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import "font-awesome/css/font-awesome.min.css";
+import "font-awesome/css/font-awesome.min.css";
 import "./Home.css";
 import Background from "../Background/Background";
 import { connect } from "react-redux";
@@ -15,6 +15,9 @@ class Home extends Component {
         this.state = {
             day: 1,
             currentDay: 1,
+            newDay: true,
+            agenda: 1,
+            currentAgenda: 1,
             time: new Date(),
             tripNameInput: "",
             destinationInput: "",
@@ -23,9 +26,11 @@ class Home extends Component {
             nextStepsFlag: false
         }
         this.handleInput = this.handleInput.bind(this);
+        this.handleDay = this.handleDay.bind(this);
+        this.handleAgenda = this.handleAgenda.bind(this);
+        this.decrementDay = this.decrementDay.bind(this);
+        this.incrementDay = this.incrementDay.bind(this);
     }
-
-
 
     handleHamburgerMenu = () => {
         if (!this.props.burgerFlag) {
@@ -44,13 +49,46 @@ class Home extends Component {
         })
     }
 
+    handleDay() {
+        let { day, currentDay } = this.state;
+        this.setState({
+            day: day + 1,
+            currentDay: currentDay + 1,
+            currentAgenda: 1,
+            newDay: true
+        })
+    }
+
+    decrementDay() {
+        let { day, currentDay } = this.state;
+        this.setState({
+            day: day - 1,
+            currentDay: currentDay - 1
+        })
+    }
+
+    incrementDay() {
+        let { day, currentDay } = this.state;
+        this.setState({
+            day: day + 1,
+            currentDay: currentDay + 1
+        })
+    }
+
     handleAgenda(tripNameInput, destinationInput, budgetInput, notesInput, time) {
-        this.props.saveAgenda(tripNameInput, destinationInput, budgetInput, notesInput, time);
-        let { currentDay } = this.state;
+        let { currentAgenda, newDay, currentDay } = this.state;
+        if (newDay) {
+            this.props.saveAgenda(newDay, currentDay, currentAgenda, tripNameInput, destinationInput, budgetInput, notesInput, time);
+            this.setState({
+                newDay: false
+            })
+        } else {
+            this.props.saveAgenda(newDay, currentDay, currentAgenda, tripNameInput, destinationInput, budgetInput, notesInput, time);
+        }
 
         this.setState({
             nextStepsFlag: true,
-            currentDay: currentDay + 1,
+            currentAgenda: currentAgenda + 1,
             tripNameInput: "",
             destinationInput: "",
             budgetInput: 0,
@@ -59,11 +97,16 @@ class Home extends Component {
     }
 
     render() {
-        const { day, currentDay, time, tripNameInput, destinationInput, budgetInput, notesInput, nextStepsFlag } = this.state;
-        const { trip } = this.props;
-        let currentAgendas = trip.map((e, i) => {
+        const { day, agenda, currentDay, currentAgenda, time, tripNameInput, destinationInput, budgetInput, notesInput, nextStepsFlag } = this.state;
+        const { days } = this.props;
+        let amountOfDays = days.length
+        console.log(days)
+        console.log(amountOfDays - 1)
+        console.log(days[currentDay - 1])
+
+        let currentAgendas = days[currentDay - 1].map((e, i) => {
             return (
-                <Agenda key={i} index={i} saved={e} day={day + i} time={time} />
+                <Agenda key={i} index={i} saved={e} agenda={agenda + i} time={time} />
             )
         })
 
@@ -72,7 +115,12 @@ class Home extends Component {
                 <div>
                     <div className="home-wrapper" onClick={() => this.handleHamburgerMenu()} >
                         <Background />
-                        <h2 className="home-day-text">Day {currentDay}</h2>
+                        <div className="home-day-container home-chevron">
+                            <i onClick={() => this.decrementDay()} className={day === 1 ? null : "fa fa-chevron-left"}></i>
+                            <h1 className="home-day-text">Day {day}</h1>
+                            <i onClick={() => this.incrementDay()} className={days[currentDay - 1] ? "fa fa-chevron-right" : null}></i>
+                        </div>
+                        <h2 className="home-agenda-text">New Agenda</h2>
                         <div className="home-container-wrapper">
                             <div className="home-container">
                                 <input className="home-name-input home-inputs" type="text" placeholder="Trip Name" value={tripNameInput} onChange={e => this.handleInput('tripNameInput', e.target.value)} />
@@ -93,7 +141,7 @@ class Home extends Component {
                         {nextStepsFlag ? (
                             <div>
                                 <button>Complete Trip</button>
-                                <button>Add New Day</button>
+                                <button onClick={() => this.handleDay()} >Add New Day</button>
                             </div>
                         ) : null}
                     </div>
