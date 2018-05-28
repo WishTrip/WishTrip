@@ -3,7 +3,7 @@ import "./Profile.css";
 import "w3-css/w3.css";
 
 import { connect } from "react-redux";
-import { createUser } from "../../ducks/userReducer";
+import { userLogin } from "../../ducks/userReducer";
 import { auth } from "../../firebase";
 
 class Profile extends Component {
@@ -61,7 +61,7 @@ class Profile extends Component {
             />
             <button
               onClick={() => {
-                this.props.createUser(username, email, firstName, lastName, userID);
+                this.props.userLogin(username, email, firstName, lastName, userID);
                 this.setState({
                   username: "",
                   email: "",
@@ -96,4 +96,4 @@ const mapStateToProps = state => {
   return { ...state.userReducer };
 };
 
-export default connect(mapStateToProps, { createUser })(Profile);
+export default connect(mapStateToProps, { userLogin })(Profile);
