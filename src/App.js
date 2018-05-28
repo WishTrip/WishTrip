@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
 import Header from "./components/Header/Header";
 
-import routes from "./routes"
+import routes from "./routes";
+
+import Test from "./components/Test";
 
 class App extends Component {
   render() {
@@ -17,4 +19,3 @@ class App extends Component {
 }
 
 export default App;
-

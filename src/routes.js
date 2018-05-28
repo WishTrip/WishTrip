@@ -7,7 +7,6 @@ import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import Profile from "./components/Profile/Profile";
 import Trips from "./components/Trips/Trips";
-import Dummy from "./components/dummycomponent/Dummy";
 
 export default (
   <Switch>
