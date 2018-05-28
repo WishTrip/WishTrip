@@ -31,7 +31,8 @@
 .home-container-wrapper {
     background: #073675;
     height: 60%;
-    width: 80%;
+    /* width: 80%; */
+    width: 100%;
     max-width: 600px;
     max-height: 500px;
     display: flex;

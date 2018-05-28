@@ -20,42 +20,33 @@ firebase.initializeApp(config);
 
 const database = firebase.database();
 
-const createUser = (req, res) => {
-  const { username, email, firstName, lastName } = req.body;
+// const loginUser = (req, res) => {
+  // database
+  //   .ref(`users/${userID}`)
+  //   .child("userinfo")
+  //   .set({ username, email, firstName, lastName });
+
+  // database.ref("users").once("value", snap => {
+  //   res.status(200).json(snap.val());
+  // });
+// };
+
+const userData = (req, res) => {
+  const { useremail, userID } = req.body;
 
   database
     .ref("users")
     .push()
-    .set({ userinfo: { username, email, firstName, lastName } });
+    .set({ userinfo: { email: useremail, uid: userID } });
 
-  database.ref("users").once("value", snap => {
-    res.status(200).json(snap.val());
-
-    // let values = Object.values(snap.val());
-    // let userinfo = values.map(cur => cur.userinfo);
+  database.ref("users").on("child_added", snap => {
+    console.log(snap.val());
   });
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = {
-  createUser
+  // loginUser,
+  userData
 };
 
 // FUNCTIONS

@@ -3,14 +3,16 @@ import "./Profile.css";
 import "w3-css/w3.css";
 
 import { connect } from "react-redux";
-import { createUser } from "../../ducks/userReducer";
+import { userLogin } from "../../ducks/userReducer";
+import { auth } from "../../firebase";
 
 class Profile extends Component {
   state = {
     username: "",
     email: "",
     firstName: "",
-    lastName: ""
+    lastName: "",
+    userID: auth.currentUser ? auth.currentUser.uid : ""
   };
 
   handleUserInput = (state, e) => {
@@ -18,14 +20,15 @@ class Profile extends Component {
   };
 
   render() {
-    const { username, email, firstName, lastName } = this.state;
-    console.log(this.props.users);
+    const { username, email, firstName, lastName, userID } = this.state;
+
     return (
       <div className="profile-container">
         <div className="profile-wrapper">
           Profile
           <form>
             <input
+              data-cypress-input-username
               value={this.state.username}
               className="w3-input w3-animate-input"
               type="text"
@@ -34,6 +37,7 @@ class Profile extends Component {
               onChange={e => this.handleUserInput("username", e)}
             />
             <input
+              data-cypress-input-email
               value={this.state.email}
               className="w3-input w3-animate-input"
               type="text"
@@ -42,6 +46,7 @@ class Profile extends Component {
               onChange={e => this.handleUserInput("email", e)}
             />
             <input
+              data-cypress-input-firstname
               value={this.state.firstName}
               className="w3-input w3-animate-input"
               type="text"
@@ -50,6 +55,7 @@ class Profile extends Component {
               onChange={e => this.handleUserInput("firstName", e)}
             />
             <input
+              data-cypress-input-lastname
               value={this.state.lastName}
               className="w3-input w3-animate-input"
               type="text"
@@ -58,13 +64,22 @@ class Profile extends Component {
               onChange={e => this.handleUserInput("lastName", e)}
             />
             <button
+              data-cypress-profile-submit
               onClick={() => {
-                this.props.createUser(username, email, firstName, lastName);
+                this.props.createUser(
+                  username,
+                  email,
+                  firstName,
+                  lastName,
+                  userID
+                );
+
                 this.setState({
                   username: "",
                   email: "",
                   firstName: "",
-                  lastName: ""
+                  lastName: "",
+                  userID: auth.currentUser.uid || ""
                 });
               }}
             >
@@ -93,4 +108,4 @@ const mapStateToProps = state => {
   return { ...state.userReducer };
 };
 
-export default connect(mapStateToProps, { createUser })(Profile);
+export default connect(mapStateToProps, { userLogin })(Profile);

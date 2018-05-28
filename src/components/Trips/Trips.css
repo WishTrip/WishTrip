@@ -1,100 +1,61 @@
-.trip-container {
+.trips-wrapper {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    background-size: cover;
     height: 90vh;
-    
-    /* background: blue; */
+    width: 100%; 
 }
-.trip-main-container {
+
+.trips-input-container {
+    background: #073675;
+    height: 65%;
+    width: 80%;
+    max-width: 600px;
+    max-height: 500px;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    width: 50%;
-    min-width: 300px;
-    height: 60%;
-    background-color: #2A628F;
-    margin-top: 10px;
-    color: white;
-    position: relative;
+    padding: 30px 30px 0;
     border-radius: 8px;
-}
-.trip-main-inner-container {
-    position: relative;
-    height: 95%;
-    width: 80%;
-    margin: 3%;
-    /* background-color: violet */
-}
-
-
-.trip-straight-lines {
-    background-color: rgba(161, 203, 250, 0.768);
-    height: 1px;
-    width: 80%;
-    margin-bottom: 2%;;
-}
-
-.trip-name-top {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-around;
+}
+
+.trips-btn-position-container {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 2%;
-    font-size: 15px
 }
 
-.trip-edit-button {
-    position: absolute;
-    top: 3%;
-    right: 3%;
-}
-.trip-destination{
-    margin-bottom: .5%;
-}
-.trip-duration {
-    margin-bottom: 2%; 
-    font-size: 10px;    
-}
-.trip-budget {
-    margin-bottom: 2%;
+.trips-date-inputs-container {
+    width: 100%;
+    display: flex;
 }
 
-.trip-desciption {
-    margin-bottom: 2%;
+.trips-name-input {
+    text-align: center;
 }
 
-.trip-time {
-    margin-bottom: 2%;
-    
+.trips-notes-input {
+    resize: none;
 }
 
-.trip-code {
-    margin-bottom: 2%;
+.trips-inputs {
+    background: transparent;
+    border: none;
+    color: #fff;
+    width: 100%;
 }
 
-.trips-view-delete {
-    margin-top: 10px;
-  background-color: rgb(42, 98, 143);
-  height: 10%;
-  width: 40%;
-  min-width: 260px;  
-  border-radius: 8px;
-  display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: space-around;
-	align-items: center;
-    align-content: stretch;
-    color: white;
-}
-
-.trip-up-line {
- background-color: rgba(161, 203, 250, 0.768);
-height: 80%;
-width: 1px;
-
+.trips-plan-trip-btn {
+    background: transparent;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    height: 40px;
+    width: 100px;
 }
