@@ -58,15 +58,15 @@ class Profile extends Component {
               onChange={e => this.handleUserInput("lastName", e)}
             />
             <button
-              onClick={() => {
-                this.props.createUser(username, email, firstName, lastName);
-                this.setState({
-                  username: "",
-                  email: "",
-                  firstName: "",
-                  lastName: ""
-                });
-              }}
+              // onClick={() => {
+              //   this.props.createUser(username, email, firstName, lastName);
+              //   this.setState({
+              //     username: "",
+              //     email: "",
+              //     firstName: "",
+              //     lastName: ""
+              //   });
+              // }}
             >
               Submit Profile
             </button>

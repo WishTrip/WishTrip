@@ -30,32 +30,25 @@ const createUser = (req, res) => {
 
   database.ref("users").once("value", snap => {
     res.status(200).json(snap.val());
-
-    // let values = Object.values(snap.val());
-    // let userinfo = values.map(cur => cur.userinfo);
   });
 };
 
+const userData = (req, res) => {
+  const { useremail, userID } = req.body;
 
+  database
+    .ref("users")
+    .push()
+    .set({ userinfo: { email: useremail, uid: userID } });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  database.ref("users").on("child_added", snap => {
+    console.log(snap.val());
+  });
+};
 
 module.exports = {
-  createUser
+  createUser,
+  userData
 };
 
 // FUNCTIONS

@@ -3,10 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const { json } = require("body-parser");
 const cors = require("cors");
-const {
-  SESSION_SECRET,
-  PORT
-} = process.env;
+const { SESSION_SECRET, PORT } = process.env;
 
 const dbCtrl = require(`${__dirname}/controllers/databaseController`);
 
@@ -40,7 +37,8 @@ app.use(
 // app.delete("/api/deleteUser/:id", dbCtrl.deleteUser);
 
 //Real Database Endpoints
-app.post('/api/createUser', dbCtrl.createUser);
+// app.post('/api/createUser', dbCtrl.createUser);
+app.post("/api/userData", dbCtrl.userData);
 
 app.listen(port, () => {
   console.log(`Listening on port: ${port}`);

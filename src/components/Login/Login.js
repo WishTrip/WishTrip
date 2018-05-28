@@ -27,12 +27,6 @@ class Login extends React.Component {
                 user
                   ? [
                       this.setState({ redirect: true, user: user }),
-                      console.log(
-                        "Registered User: ",
-                        user.email,
-                        user.uid,
-                        this.state.redirect
-                      ),
                       (window.location = "/#/home")
                     ]
                   : console.log("No one logged in");
@@ -46,21 +40,13 @@ class Login extends React.Component {
         }
         //Create New User
         else {
-          console.log("Create User");
           auth
             .createUserWithEmailAndPassword(email, password)
-
             .then(response => {
               auth.onAuthStateChanged(user => {
                 user
                   ? [
                       this.setState({ redirect: true, user: user }),
-                      console.log(
-                        "New User: ",
-                        user.email,
-                        user.uid,
-                        this.state.redirect
-                      ),
                       (window.location = "/#/home")
                     ]
                   : console.log("No one logged in");
@@ -71,13 +57,11 @@ class Login extends React.Component {
               const currentUser = auth.currentUser;
               const useremail = auth.currentUser.email;
               const userID = auth.currentUser.uid;
-              console.log(currentUser);
               axios.post("/api/userData", { useremail, userID });
             });
         }
       })
       .then(response => {
-        console.log(auth.currentUser);
         if (auth.currentUser) {
           this.loginForm.reset();
         }
