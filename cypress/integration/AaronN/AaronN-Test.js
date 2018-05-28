@@ -1,5 +1,7 @@
-describe("All Content", () => {
+describe("AaronN Tests", () => {
   const inputText = "Cypress Testing";
+  const fakeEmail = "aaronn@cypress.com";
+  const fakePassword = "testing";
   it("Does Not Do Much", () => {
     expect(true).to.equal(true);
   });
@@ -28,17 +30,18 @@ describe("All Content", () => {
     cy.contains("Home").click();
     cy.url().should("include", "/");
   });
-  it("Clicks Login Link adds text to input field", () => {
+  it("Clicks Login Link , logs in to redirect", () => {
     cy.visit("/");
     cy.contains("Login").click();
     cy.url().should("include", "/login");
     cy
-      .get("[data-cypress-add-input]")
-      .type(inputText)
-      .should("have.value", inputText)
-      .get("[data-cypress-button-add]")
-      .click()
-      .get("[data-cypress-add-input]")
-      .should("have.value", null);
+      .get("[data-cypress-email-input]")
+      .type(fakeEmail)
+      .should("have.value", fakeEmail)
+      .get("[data-cypress-password-input]")
+      .type(fakePassword)
+      .should("have.value", fakePassword)
+      .get("[data-cypress-submit-login]")
+      .click();
   });
 });
