@@ -17,13 +17,14 @@ export default function userReducer(state = initialState, action) {
         case `${CREATE_USER}_FULFILLED`:
             return { ...state, users: action.payload.data }
         case `${SAVE_AGENDA}`:
+
+            console.log(action.payload)
             let { days } = state;
             let { newDay } = action.payload;
             let currentDay = action.payload.currentDay - 1;
             let currentAgenda = action.payload.currentAgenda - 1;
 
             if (newDay) {
-                console.log("day 1")
                 days.push([])
             }
 
@@ -46,9 +47,9 @@ export function createUser(username, email, firstName, lastName) {
 }
 
 
-export function saveAgenda(newDay, currentDay, currentAgenda, name, destination, budget, notes, time) {
+export function saveAgenda(newDay, currentDay, currentAgenda, name, destination, activity, budget, notes, time) {
     return {
         type: SAVE_AGENDA,
-        payload: { newDay, currentDay, currentAgenda, name, destination, budget, notes, time }
+        payload: { newDay, currentDay, currentAgenda, name, destination, activity, budget, notes, time }
     }
 }
