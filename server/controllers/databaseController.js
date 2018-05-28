@@ -21,12 +21,12 @@ firebase.initializeApp(config);
 const database = firebase.database();
 
 const createUser = (req, res) => {
-  const { username, email, firstName, lastName } = req.body;
+  const { username, email, firstName, lastName, userID } = req.body;
 
   database
-    .ref("users")
-    .push()
-    .set({ userinfo: { username, email, firstName, lastName } });
+    .ref(`users/${userID}`)
+    .child('userinfo')
+    .set( { username, email, firstName, lastName } );
 
   database.ref("users").once("value", snap => {
     res.status(200).json(snap.val());

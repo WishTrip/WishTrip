@@ -38,10 +38,11 @@ export default function userReducer(state = initialState, action) {
 }
 
 //ACTION CREATORS
-export function createUser(username, email, firstName, lastName) {
+export function createUser(username, email, firstName, lastName, userID) {
+    console.log(username, email, firstName, lastName, userID)
     return {
         type: CREATE_USER,
-        payload: axios.post('/api/createUser', { username, email, firstName, lastName })
+        payload: axios.post('/api/createUser', { username, email, firstName, lastName, userID })
     }
 }
 
