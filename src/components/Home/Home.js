@@ -92,6 +92,7 @@ class Home extends Component {
             currentAgenda: currentAgenda + 1,
             tripNameInput: "",
             destinationInput: "",
+            activityInput: "",
             budgetInput: 0,
             notesInput: ""
         })
@@ -101,10 +102,6 @@ class Home extends Component {
         const { day, agenda, currentDay, currentAgenda, time, tripNameInput, destinationInput, activityInput, budgetInput, notesInput, nextStepsFlag } = this.state;
         const { days } = this.props;
         let amountOfDays = days.length
-        // console.log(days)
-        // console.log(amountOfDays - 1)
-        console.log(days[currentDay - 1])
-        console.log(days[currentDay - 1].newDay)
 
         let currentAgendas = days[currentDay - 1].map((e, i) => {
             return (
