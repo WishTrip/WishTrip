@@ -40,7 +40,7 @@ app.use(
 //Real Database Endpoints
 // app.post("/api/userData", dbCtrl.userData);
 app.post("/api/loginUser", dbCtrl.loginUser);
-app.post("/api/testEnd", dbCtrl.testEnd);
+app.post("/api/sendUserInfo", dbCtrl.sendUserInfo);
 
 //*****************WEB SCRAPER END POINT*****************//
 app.get("/api/gettravelinfo", scrape);

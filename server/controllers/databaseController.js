@@ -21,7 +21,7 @@ firebase.initializeApp(config);
 const database = firebase.database();
 
 const loginUser = (req, res) => {
-  const {} = req.body
+  const {} = req.body;
 
   database
     .ref(`users/${userID}`)
@@ -32,6 +32,40 @@ const loginUser = (req, res) => {
     res.status(200).json(snap.val());
   });
 };
+
+const sendUserInfo = (req, res) => {
+  const { user } = req.body;
+}
+
+module.exports = {
+  loginUser,
+  sendUserInfo
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // const userData = (req, res) => {
 //   const { useremail, userID } = req.body;
@@ -46,24 +80,6 @@ const loginUser = (req, res) => {
 //     console.log(snap.val());
 //   });
 // };
-
-const testEnd = (req, res) => {
-  let test = database
-    .ref(`users/y8lah1k7SPZaRo8vXwRrCN6AFlf1`)
-    // .on('value', snap => {
-    //   console.log(snap.val())
-    // })
-    .orderByChild()
-    .equalTo('y8lah1k7SPZaRo8vXwRrCN6AFlf1');
-
-    console.log()
-}
-
-module.exports = {
-  loginUser,
-  testEnd
-  // userData
-};
 
 // FUNCTIONS
 // const getData = (req, res) => {
