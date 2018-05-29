@@ -5,7 +5,11 @@ import { auth } from "../../firebase";
 import "./Login.css";
 
 import { connect } from "react-redux";
-import userReducer, { userLogin, sendUserInfo } from "../../ducks/userReducer";
+import userReducer, {
+  userLogin,
+  sendUserInfo,
+  getUserTrips
+} from "../../ducks/userReducer";
 
 class Login extends React.Component {
   constructor(props) {
@@ -14,62 +18,117 @@ class Login extends React.Component {
       user: {}
     };
   }
+
   //Firebase Authentication Login
-  authWithEmailPassword(event) {
+
+  handleUserLogin = event => {
     event.preventDefault();
+
     const email = this.emailInput.value;
     const password = this.passwordInput.value;
-    //Email In-Use Check
-    auth
-      .fetchSignInMethodsForEmail(email)
-      .then(providers => {
-        if (providers.length >= 1) {
-          //Sign in with Existing Email & Password
-          auth
-            .signInWithEmailAndPassword(email, password)
-            .then(response => {
-              console.log('signed in:', response)
-              auth.onAuthStateChanged(user => {
-                console.log(user)
-                this.props.userLogin(user.email, user.uid);
-                user
-                  ? (this.setState({ redirect: true, user: user }),
-                    (window.location = "/#/home"))
-                  : console.log("No one logged in");
-              });
-            })
-            .then(() => (this.props.user && (this.props.user.trips.length && this.props.user.userinfo)) && this.props.sendUserInfo(this.props.user))
-            .catch(error => console.log(error));
-        }
-        //Create New User sign in
-        else {
-          auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(response => {
-              auth.onAuthStateChanged(user => {         
-                this.props.userLogin(user.email, user.uid);
-                user
-                  ? [
-                      this.props.user.trips[0] &&
-                        this.props.sendUserInfo(this.props.user),
-                      this.setState({ redirect: true, user: user }),
-                      (window.location = "/#/trips")
-                    ]
-                  : console.log("No one logged in");
-              });
-            });
-        }
-      })
-      .then(response => {
-        if (auth.currentUser) {
-          this.loginForm.reset();
-        }
-      })
-      .catch(error => {
-        var errorCode = error.code;
-        console.log(errorCode);
-      });
-  }
+
+    auth.fetchProvidersForEmail(email).then(providers => {
+      if (providers.length) {
+        auth
+          .signInWithEmailAndPassword(email, password)
+          .then(response => {
+            this.props.userLogin(response.user.email, response.user.uid);
+            this.props.getUserTrips(response.user.uid);
+          })
+          .then(() => (window.location = "/#/trips"))
+          .then(
+            () =>
+              this.props.user.userinfo &&
+              this.props.sendUserInfo(this.props.user)
+          );
+      } else {
+        auth
+          .createUserWithEmailAndPassword(email, password)
+          .then(response => {
+            this.props.userLogin(response.user.email, response.user.uid);
+            this.props.getUserTrips(response.user.uid);
+          })
+          .then(() => (window.location = "/#/trips"))
+          .then(
+            () =>
+              this.props.user.userinfo &&
+              this.props.sendUserInfo(this.props.user)
+          );
+      }
+    });
+
+    auth.onAuthStateChanged(user => {
+      // user && (window.location = "/#/trips");
+    });
+  };
+
+  // authWithEmailPassword(event) {
+  //   event.preventDefault();
+  //   const email = this.emailInput.value;
+  //   const password = this.passwordInput.value;
+  //   //Email In-Use Check
+  //   auth
+  //     .fetchSignInMethodsForEmail(email)
+  //     .then(providers => {
+  //       if (providers.length >= 1) {
+  //         //Sign in with Existing Email & Password
+  //         auth
+  //           .signInWithEmailAndPassword(email, password)
+  //           .then(response => {
+  //             console.log("signed in:", response);
+  //             auth.onAuthStateChanged(user => {
+  //               console.log(user);
+  //               this.props.userLogin(user.email, user.uid);
+  //               user
+  //                 ? (this.setState({ redirect: true, user: user }),
+  //                   (window.location = "/#/home"))
+  //                 : console.log("No one logged in");
+  //             });
+  //           })
+  //           .then(
+  //             () =>
+  //               this.props.user &&
+  //               (this.props.user.trips.length && this.props.user.userinfo) &&
+  //               this.props.sendUserInfo(this.props.user)
+  //           )
+  //           .catch(error => console.log(error));
+  //       }
+  //       //Create New User sign in
+  //       else {
+  //         auth
+  //           .createUserWithEmailAndPassword(email, password)
+  //           .then(response => {
+  //             auth.onAuthStateChanged(user => {
+  //               this.props.userLogin(user.email, user.uid);
+  //               user
+  //                 ? [
+  //                     this.props.user.trips[0] &&
+  //                       this.props.sendUserInfo(this.props.user),
+  //                     this.setState({ redirect: true, user: user }),
+  //                     (window.location = "/#/trips")
+  //                   ]
+  //                 : console.log("No one logged in");
+  //             });
+  //           })
+  //           .then(
+  //             () =>
+  //               this.props.user &&
+  //               (this.props.user.trips.length && this.props.user.userinfo) &&
+  //               // this.props.sendUserInfo(this.props.user)
+  //               console.log(this.props.user)
+  //           );
+  //       }
+  //     })
+  //     .then(response => {
+  //       if (auth.currentUser) {
+  //         this.loginForm.reset();
+  //       }
+  //     })
+  //     .catch(error => {
+  //       var errorCode = error.code;
+  //       console.log(errorCode);
+  //     });
+  // }
 
   render() {
     console.log(this.props);
@@ -78,7 +137,9 @@ class Login extends React.Component {
         <Background />
         <form
           onSubmit={event => {
-            this.authWithEmailPassword(event);
+            // this.authWithEmailPassword(event);
+            this.handleUserLogin(event);
+            // console.log('test')
           }}
           ref={form => {
             this.loginForm = form;
@@ -122,11 +183,15 @@ class Login extends React.Component {
             type="submit"
             className=""
             value="log In"
-            // onClick={() => this.props.user.trips[0] && this.props.sendUserInfo()}
           />
         </form>
         {/* TEMPORARY LOGOUT BUTTON */}
-        <button data-cypress-button-logout onClick={() => auth.signOut()}>
+        <button
+          data-cypress-button-logout
+          onClick={() =>
+            auth.signOut().then(() => (window.location = "/#/home"))
+          }
+        >
           logout
         </button>
         {/* TEMPORARY LOGOUT BUTTON */}
@@ -139,4 +204,8 @@ const mapStateToProps = state => {
   return { ...state.userReducer };
 };
 
-export default connect(mapStateToProps, { userLogin, sendUserInfo })(Login);
+export default connect(mapStateToProps, {
+  userLogin,
+  sendUserInfo,
+  getUserTrips
+})(Login);
