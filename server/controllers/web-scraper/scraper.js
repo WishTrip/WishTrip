@@ -14,7 +14,7 @@ let scraper = async (
   startingDayOfWeek,
   endingDayOfWeek
 ) => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto("https://www.travelocity.com");
   //   await page.waitFor(500);
@@ -85,6 +85,7 @@ let scraper = async (
   for (let i = 0; i < 6; i++) {
     setUp.push({ hotel: hotels[i], price: prices[i], image: pictures[i] });
   }
+  setUp.unshift(url)
   return { setUp };
 };
 

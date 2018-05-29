@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import "./Agenda.css"
+import "./DummyAgenda.css"
 import TimeInput from 'material-ui-time-picker'
 
-export default function Agenda(props) {
+export default function DummyAgenda(props) {
     const { index, agenda, time, saved } = props;
     return (
         <div className="agenda-wrapper">
