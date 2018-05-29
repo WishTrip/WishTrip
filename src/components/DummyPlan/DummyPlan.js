@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "font-awesome/css/font-awesome.min.css";
-import "./Plan.css";
+import "./DummyPlan.css";
 import Background from "../Background/Background";
 import { connect } from "react-redux";
 import { toggleHamburgerBtn } from "../../ducks/viewReducer";
@@ -10,11 +10,11 @@ import {
   sendUserInfo
 } from "../../ducks/userReducer";
 import TimeInput from "material-ui-time-picker";
-import Agenda from "../Agenda/Agenda";
+import DummyAgenda from "../DummyAgenda/DummyAgenda";
 
 import { auth } from "../../firebase";
 
-class Plan extends Component {
+class DummyPlan extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -161,7 +161,7 @@ class Plan extends Component {
 
     let currentAgendas = days[currentDay - 1].map((e, i) => {
       return (
-        <Agenda key={i} index={i} saved={e} agenda={agenda + i} time={time} />
+        <DummyAgenda key={i} index={i} saved={e} agenda={agenda + i} time={time} />
       );
     });
 
@@ -295,4 +295,4 @@ export default connect(mapStateToProps, {
   saveAgenda,
   completeTrip,
   sendUserInfo
-})(Plan);
+})(DummyPlan);

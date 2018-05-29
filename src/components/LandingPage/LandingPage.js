@@ -33,8 +33,10 @@ class LandingPage extends Component {
                 <div className="landingpage-box">
                     <div className="landingpage-logo-codeinput-wrapper">
                         <div className="landingpage-logo-container">
-                            <h2 className="landingpage-brand-text">WishTrip</h2>
-                            <i className="fa fa-plane plane-icon"></i>
+                            <Link to="/trips" className="landingpage-link">
+                                <h2 className="landingpage-brand-text">WishTrip</h2>
+                                <i className="fa fa-plane plane-icon"></i>
+                            </Link>
                         </div>
                         <div className="landingpage-codeinput-container">
                             <input className="landingpage-codeinput" type="text" value={codeInput} placeholder="Enter Code Here" onChange={e => this.handleCodeInput(e.target.value)} />
