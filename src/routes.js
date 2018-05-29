@@ -9,11 +9,11 @@ import Profile from "./components/Profile/Profile";
 import Trips from "./components/Trips/Trips";
 
 export default (
-    <Switch>
-        <Route exact path="/" component={LandingPage} />
-        <Route path="/home" component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/trips" component={Trips} />
-    </Switch>
+  <Switch>
+    <Route exact path="/" component={LandingPage} />
+    <Route path="/home" component={Home} />
+    <Route path="/login" component={Login} />
+    <Route path="/profile" component={Profile} />
+    <Route path="/trips" component={Trips} />
+  </Switch>
 );

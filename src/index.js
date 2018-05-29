@@ -9,16 +9,19 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import MuiThemeProvider2 from "material-ui/styles/MuiThemeProvider";
 
 const theme = createMuiTheme();
 
 ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
-    <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
-    </Provider>
-  </MuiThemeProvider>,
+  <MuiThemeProvider2>
+    <MuiThemeProvider theme={theme}>
+      <Provider store={store}>
+        <Router>
+          <App />
+        </Router>
+      </Provider>
+    </MuiThemeProvider>
+  </MuiThemeProvider2>,
   document.getElementById("root")
 );

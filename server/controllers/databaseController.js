@@ -20,34 +20,66 @@ firebase.initializeApp(config);
 
 const database = firebase.database();
 
-// const loginUser = (req, res) => {
-  // database
-  //   .ref(`users/${userID}`)
-  //   .child("userinfo")
-  //   .set({ username, email, firstName, lastName });
-
-  // database.ref("users").once("value", snap => {
-  //   res.status(200).json(snap.val());
-  // });
-// };
-
-const userData = (req, res) => {
-  const { useremail, userID } = req.body;
+const loginUser = (req, res) => {
+  const {} = req.body;
 
   database
-    .ref("users")
-    .push()
-    .set({ userinfo: { email: useremail, uid: userID } });
+    .ref(`users/${userID}`)
+    .child("userinfo")
+    .set({ username, email, firstName, lastName });
 
-  database.ref("users").on("child_added", snap => {
-    console.log(snap.val());
+  database.ref("users").once("value", snap => {
+    res.status(200).json(snap.val());
   });
 };
 
+const sendUserInfo = (req, res) => {
+  const { user } = req.body;
+}
+
 module.exports = {
-  // loginUser,
-  userData
+  loginUser,
+  sendUserInfo
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const userData = (req, res) => {
+//   const { useremail, userID } = req.body;
+
+//   database
+//     .ref("users")
+//     .push()
+//     .set({ userinfo: { email: 'ablackshear7820@gmail.com'}, trips: {tripOne: 'trip'} });
+//     // .set({ userinfo: { email: useremail }, trips: {tripOne: 'trip'} });
+
+//   database.ref("users").on("child_added", snap => {
+//     console.log(snap.val());
+//   });
+// };
 
 // FUNCTIONS
 // const getData = (req, res) => {
