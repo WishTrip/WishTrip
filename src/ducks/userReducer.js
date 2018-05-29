@@ -98,6 +98,7 @@ export function completeTrip(days) {
 }
 
 export function sendUserInfo(user) {
+    console.log("USER: ", user)
     return {
         type: SEND_USER_INFO,
         payload: axios.post('/api/sendUserInfo', { user })

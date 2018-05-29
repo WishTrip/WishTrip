@@ -28,7 +28,9 @@ class Login extends React.Component {
           auth
             .signInWithEmailAndPassword(email, password)
             .then(response => {
+              console.log('signed in:', response)
               auth.onAuthStateChanged(user => {
+                console.log(user)
                 this.props.userLogin(user.email, user.uid);
                 user
                   ? (this.setState({ redirect: true, user: user }),
@@ -36,41 +38,26 @@ class Login extends React.Component {
                   : console.log("No one logged in");
               });
             })
-            .catch(error => {
-              // Handle Errors here.
-              var errorCode = error.code;
-              console.log(errorCode);
-            });
+            .then(() => (this.props.user && (this.props.user.trips.length && this.props.user.userinfo)) && this.props.sendUserInfo(this.props.user))
+            .catch(error => console.log(error));
         }
         //Create New User sign in
         else {
           auth
             .createUserWithEmailAndPassword(email, password)
             .then(response => {
-              auth.onAuthStateChanged(user => {
+              auth.onAuthStateChanged(user => {         
                 this.props.userLogin(user.email, user.uid);
                 user
                   ? [
-                      // this.props.user.trips[0] &&
-                      //   this.props.sendUserInfo(this.props.user),
+                      this.props.user.trips[0] &&
+                        this.props.sendUserInfo(this.props.user),
                       this.setState({ redirect: true, user: user }),
                       (window.location = "/#/trips")
                     ]
                   : console.log("No one logged in");
               });
-            })
-            .then(
-              () =>
-                this.props.user.trips[0] &&
-                this.props.sendUserInfo(this.props.user)
-            );
-          // .then(response2 => {
-          //   //Send user info to database
-          //   const currentUser = auth.currentUser;
-          //   const useremail = auth.currentUser.email;
-          //   const userID = auth.currentUser.uid;
-          //   // axios.post("/api/userData", { useremail, userID });
-          // });
+            });
         }
       })
       .then(response => {
@@ -78,13 +65,7 @@ class Login extends React.Component {
           this.loginForm.reset();
         }
       })
-      // .then(res => {
-      //   if (this.state.redirect === true) {
-      //     this.props.history.push("/trips");
-      //   }
-      // })
       .catch(error => {
-        // Handle Errors here.
         var errorCode = error.code;
         console.log(errorCode);
       });
