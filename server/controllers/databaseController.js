@@ -57,7 +57,7 @@ console.log(req.body)
 };
 
 const userLocation = (req, res) => {
-  const { lat, long, attraction } = req.body;
+  const { lat, long, attraction } = req.query;
 
   axios
     .get(
@@ -65,7 +65,7 @@ const userLocation = (req, res) => {
         process.env.REACT_APP_PLACES_KEY
       }`
     )
-    .then(response => res.status(200).json(response))
+    .then(response => res.status(200).json(response.data))
     .catch(err => res.status(500).json(err));
 };
 
