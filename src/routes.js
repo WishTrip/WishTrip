@@ -7,6 +7,7 @@ import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import Profile from "./components/Profile/Profile";
 import Trips from "./components/Trips/Trips";
+import DummyPlan from "./components/DummyPlan/DummyPlan";
 
 export default (
   <Switch>
@@ -15,5 +16,6 @@ export default (
     <Route path="/login" component={Login} />
     <Route path="/profile" component={Profile} />
     <Route path="/trips" component={Trips} />
+    <Route path="/DummyPlan" component={DummyPlan} />
   </Switch>
 );
