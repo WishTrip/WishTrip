@@ -42,6 +42,9 @@ app.use(
 app.post("/api/loginUser", dbCtrl.loginUser);
 app.post("/api/sendUserInfo", dbCtrl.sendUserInfo);
 
+//Google Maps Endpoint
+app.get("/api/userLocation", dbCtrl.userLocation);
+
 //*****************WEB SCRAPER END POINT*****************//
 app.get("/api/gettravelinfo", scrape);
 
