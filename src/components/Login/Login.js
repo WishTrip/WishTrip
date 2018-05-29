@@ -4,8 +4,8 @@ import Background from "../Background/Background";
 import { auth } from "../../firebase";
 import "./Login.css";
 
-import { connect } from 'react-redux';
-import userReducer, { userLogin } from '../../ducks/userReducer';
+import { connect } from "react-redux";
+import userReducer, { userLogin, sendUserInfo } from "../../ducks/userReducer";
 
 class Login extends React.Component {
   constructor(props) {
@@ -31,10 +31,8 @@ class Login extends React.Component {
               auth.onAuthStateChanged(user => {
                 this.props.userLogin(user.email, user.uid);
                 user
-                  ? (
-                      this.setState({ redirect: true, user: user }),
-                      (window.location = "/#/home")
-                  )
+                  ? (this.setState({ redirect: true, user: user }),
+                    (window.location = "/#/home"))
                   : console.log("No one logged in");
               });
             })
@@ -53,19 +51,26 @@ class Login extends React.Component {
                 this.props.userLogin(user.email, user.uid);
                 user
                   ? [
+                      // this.props.user.trips[0] &&
+                      //   this.props.sendUserInfo(this.props.user),
                       this.setState({ redirect: true, user: user }),
-                      (window.location = "/#/home")
+                      (window.location = "/#/trips")
                     ]
                   : console.log("No one logged in");
               });
             })
-            .then(response2 => {
-              //Send user info to database
-              const currentUser = auth.currentUser;
-              const useremail = auth.currentUser.email;
-              const userID = auth.currentUser.uid;
-              axios.post("/api/userData", { useremail, userID });
-            });
+            .then(
+              () =>
+                this.props.user.trips[0] &&
+                this.props.sendUserInfo(this.props.user)
+            );
+          // .then(response2 => {
+          //   //Send user info to database
+          //   const currentUser = auth.currentUser;
+          //   const useremail = auth.currentUser.email;
+          //   const userID = auth.currentUser.uid;
+          //   // axios.post("/api/userData", { useremail, userID });
+          // });
         }
       })
       .then(response => {
@@ -73,11 +78,11 @@ class Login extends React.Component {
           this.loginForm.reset();
         }
       })
-      .then(res => {
-        if (this.state.redirect === true) {
-          this.props.history.push("/home");
-        }
-      })
+      // .then(res => {
+      //   if (this.state.redirect === true) {
+      //     this.props.history.push("/trips");
+      //   }
+      // })
       .catch(error => {
         // Handle Errors here.
         var errorCode = error.code;
@@ -86,7 +91,7 @@ class Login extends React.Component {
   }
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div>
         <Background />
@@ -136,6 +141,7 @@ class Login extends React.Component {
             type="submit"
             className=""
             value="log In"
+            // onClick={() => this.props.user.trips[0] && this.props.sendUserInfo()}
           />
         </form>
         {/* TEMPORARY LOGOUT BUTTON */}
@@ -148,6 +154,8 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = state => { return {...state.userReducer} };
+const mapStateToProps = state => {
+  return { ...state.userReducer };
+};
 
-export default connect( mapStateToProps, { userLogin } )(Login);
+export default connect(mapStateToProps, { userLogin, sendUserInfo })(Login);

@@ -1,4 +1,6 @@
 const firebase = require("firebase");
+const axios = require("axios");
+
 const {
   REACT_APP_DATABASE_API_KEY,
   REACT_APP_DATABASE_AUTH_DOMAIN,
@@ -35,37 +37,43 @@ const loginUser = (req, res) => {
 
 const sendUserInfo = (req, res) => {
   const { user } = req.body;
-}
+console.log(req.body)
+  database
+    .ref(`users/${user.userinfo.uid}`)
+    .child("userinfo")
+    .set({ email: user.userinfo.email });
+
+  database
+    .ref(`users/${user.userinfo.uid}`)
+    .child("trips")
+    .push()
+    .set({
+      tripBudget: user.trips[0].tripBudget,
+      tripLocation: user.trips[0].tripLocation,
+      tripName: user.trips[0].tripName,
+      tripNotes: user.trips[0].tripNotes,
+      days: user.trips[0].days
+    });
+};
+
+const userLocation = (req, res) => {
+  const { lat, long, attraction } = req.body;
+
+  axios
+    .get(
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&radius=5000&keyword=${attraction}&key=${
+        process.env.REACT_APP_PLACES_KEY
+      }`
+    )
+    .then(response => res.status(200).json(response))
+    .catch(err => res.status(500).json(err));
+};
 
 module.exports = {
   loginUser,
-  sendUserInfo
+  sendUserInfo,
+  userLocation
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // const userData = (req, res) => {
 //   const { useremail, userID } = req.body;
