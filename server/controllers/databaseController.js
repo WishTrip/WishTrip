@@ -37,7 +37,7 @@ const loginUser = (req, res) => {
 
 const sendUserInfo = (req, res) => {
   const { user } = req.body;
-
+console.log(req.body)
   database
     .ref(`users/${user.userinfo.uid}`)
     .child("userinfo")
