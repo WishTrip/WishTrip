@@ -13,6 +13,101 @@ import TimeInput from "material-ui-time-picker";
 import DummyAgenda from "../DummyAgenda/DummyAgenda";
 
 import { auth } from "../../firebase";
+// user.trips[0].days[0]
+
+const user = {
+  trips: [
+    [
+      {
+        name: "Orlando Family Trip",
+        startDate: new Date(),
+        endDate: new Date(),
+        startLocation: "Dallas, TX",
+        endLocation: "Nashville, TN",
+        cost: "$10,000",
+        days: [
+          [
+            {
+              name: "jarids birthday",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            },
+            {
+              name: "jarids birthday",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            },
+            {
+              name: "jarids birthday",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            }
+          ],
+          [
+            {
+              name: "joes birthday",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            },
+            {
+              name: "joes birthday",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            },
+            {
+              name: "joes birthday",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            }
+          ],
+          [
+            {
+              name: "jacobs birthday",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            },
+            {
+              name: "jacobs birthday",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            },
+            {
+              name: "jacobs birthday",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            }
+          ],
+          [
+            {
+              name: "joes move in day",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            },
+            {
+              name: "joes move in day",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            },
+            {
+              name: "joes move in day",
+              budget: "$200",
+              notes: "ice cream, lots of ice cream"
+            }
+          ]
+        ],
+        hotels: [
+          "placeholderURL.com",
+          { name: "hotel1", price: "$2,500", image: "image" },
+          { name: "hotel2", price: "$2,500", image: "image" },
+          { name: "hotel3", price: "$2,500", image: "image" },
+          { name: "hotel4", price: "$2,500", image: "image" },
+          { name: "hotel5", price: "$2,500", image: "image" },
+          { name: "hotel6", price: "$2,500", image: "image" }
+        ]
+      }
+    ]
+  ]
+};
 
 class DummyPlan extends Component {
   constructor(props) {
@@ -29,7 +124,8 @@ class DummyPlan extends Component {
       activityInput: "",
       budgetInput: 0,
       notesInput: "",
-      nextStepsFlag: false
+      nextStepsFlag: false,
+      dotHandler: 0
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleDay = this.handleDay.bind(this);
@@ -38,7 +134,10 @@ class DummyPlan extends Component {
     this.incrementDay = this.incrementDay.bind(this);
     this.handleCompleteDay = this.handleCompleteDay.bind(this);
   }
-
+  toggleDot = val => {
+    console.log(val);
+    this.setState({ dotHandler: val });
+  };
   handleHamburgerMenu = () => {
     if (!this.props.burgerFlag) {
       this.props.toggleHamburgerBtn();
@@ -158,13 +257,11 @@ class DummyPlan extends Component {
     } = this.state;
     const { days } = this.props;
     let amountOfDays = days.length;
-
-    let currentAgendas = days[currentDay - 1].map((e, i) => {
-      return (
-        <DummyAgenda key={i} index={i} saved={e} agenda={agenda + i} time={time} />
-      );
-    });
-
+    // [0].days[0]
+    // let currentAgendas = user.trips.map((e, i) => {
+    //   return <DummyAgenda key={i} length={3} />;
+    // });
+    console.log(this.props);
     return (
       <div>
         <div>
@@ -173,6 +270,7 @@ class DummyPlan extends Component {
             onClick={() => this.handleHamburgerMenu()}
           >
             <Background />
+            <h2 className="home-agenda-text">Trip Name</h2>
             <div className="home-day-container home-chevron">
               <i
                 onClick={() => this.decrementDay()}
@@ -184,86 +282,94 @@ class DummyPlan extends Component {
                 className={days[currentDay - 1] ? "fa fa-chevron-right" : null}
               />
             </div>
-            <h2 className="home-agenda-text">New Agenda</h2>
+
             <div className="home-container-wrapper">
-              <div className="home-container">
-                <input
-                  className="home-name-input home-inputs"
-                  type="text"
-                  placeholder="Agenda Name"
-                  value={agendaNameInput}
-                  onChange={e =>
-                    this.handleInput("agendaNameInput", e.target.value)
-                  }
+              {!this.props.user.trips.length ? (
+                <DummyAgenda
+                  length={6}
+                  toggleDot={this.toggleDot}
+                  dot={this.state.dotHandler}
                 />
-                <div className="home-inputs-container">
-                  <div className="home-destination-activity-container">
-                    <input
-                      className="home-destination-input home-inputs"
-                      type="text"
-                      placeholder="Agenda Destination"
-                      value={destinationInput}
-                      onChange={e =>
-                        this.handleInput("destinationInput", e.target.value)
-                      }
-                    />
-                    <input
-                      className="home-activity-input home-inputs"
-                      type="text"
-                      placeholder="Agenda Activity"
-                      value={activityInput}
-                      onChange={e =>
-                        this.handleInput("activityInput", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div className="budget-container">
-                    <i className="home-dollar-sign">$</i>
-                    <input
-                      className="home-budget-input-position  home-budget-input home-inputs"
-                      type="number"
-                      placeholder="Budget for Day"
-                      value={budgetInput}
-                      onChange={e =>
-                        this.handleInput("budgetInput", e.target.value)
-                      }
-                    />
-                  </div>
-                  <textarea
-                    className="home-notes-input  home-inputs"
+              ) : (
+                <div className="home-container">
+                  <input
+                    className="home-name-input home-inputs"
                     type="text"
-                    placeholder="import notes, blah, blah, blah.."
-                    value={notesInput}
+                    placeholder="Agenda Name"
+                    value={agendaNameInput}
                     onChange={e =>
-                      this.handleInput("notesInput", e.target.value)
+                      this.handleInput("agendaNameInput", e.target.value)
                     }
                   />
-                  <div className="home-time-agenda-container">
-                    <TimeInput
-                      className="home-clock"
-                      mode="12h"
-                      okLabel="submit"
-                      value={time}
-                      onChange={e => this.handleInput("time", e)}
-                    />
-                    <button
-                      className="home-save-agenda-btn"
-                      onClick={() =>
-                        this.handleAgenda(
-                          agendaNameInput,
-                          destinationInput,
-                          activityInput,
-                          budgetInput,
-                          notesInput,
-                          time
-                        )
+                  <div className="home-inputs-container">
+                    <div className="home-destination-activity-container">
+                      <input
+                        className="home-destination-input home-inputs"
+                        type="text"
+                        placeholder="Agenda Destination"
+                        value={destinationInput}
+                        onChange={e =>
+                          this.handleInput("destinationInput", e.target.value)
+                        }
+                      />
+                      <input
+                        className="home-activity-input home-inputs"
+                        type="text"
+                        placeholder="Agenda Activity"
+                        value={activityInput}
+                        onChange={e =>
+                          this.handleInput("activityInput", e.target.value)
+                        }
+                      />
+                    </div>
+                    <div className="budget-container">
+                      <i className="home-dollar-sign">$</i>
+                      <input
+                        className="home-budget-input-position  home-budget-input home-inputs"
+                        type="number"
+                        placeholder="Budget for Day"
+                        value={budgetInput}
+                        onChange={e =>
+                          this.handleInput("budgetInput", e.target.value)
+                        }
+                      />
+                    </div>
+                    <textarea
+                      className="home-notes-input  home-inputs"
+                      type="text"
+                      placeholder="import notes, blah, blah, blah.."
+                      value={notesInput}
+                      onChange={e =>
+                        this.handleInput("notesInput", e.target.value)
                       }
-                    >
-                      Add Agenda
-                    </button>
+                    />
+                    <div className="home-time-agenda-container">
+                      <TimeInput
+                        className="home-clock"
+                        mode="12h"
+                        okLabel="submit"
+                        value={time}
+                        onChange={e => this.handleInput("time", e)}
+                      />
+                      <button
+                        className="home-save-agenda-btn"
+                        onClick={() =>
+                          this.handleAgenda(
+                            agendaNameInput,
+                            destinationInput,
+                            activityInput,
+                            budgetInput,
+                            notesInput,
+                            time
+                          )
+                        }
+                      >
+                        Add Agenda
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
             {nextStepsFlag ? (
               <div>
@@ -279,7 +385,6 @@ class DummyPlan extends Component {
             ) : null}
           </div>
         </div>
-        {currentAgendas}
       </div>
     );
   }
