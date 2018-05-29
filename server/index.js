@@ -5,6 +5,7 @@ const { json } = require("body-parser");
 const cors = require("cors");
 const { scrape } = require("./controllers/web-scraper/scraper");
 const { SESSION_SECRET, PORT } = process.env;
+const axios = require("axios");
 
 const dbCtrl = require(`${__dirname}/controllers/databaseController`);
 
@@ -42,8 +43,20 @@ app.use(
 app.post("/api/loginUser", dbCtrl.loginUser);
 app.post("/api/sendUserInfo", dbCtrl.sendUserInfo);
 
+//Google Maps Endpoint
+app.get("/api/userLocation", dbCtrl.userLocation);
+
 //*****************WEB SCRAPER END POINT*****************//
 app.get("/api/gettravelinfo", scrape);
+
+app.get("/api/test", (req, res) => {
+  axios
+    .get(
+      "https://maps.googleapis.com/maps/api/js?key=AIzaSyBpckueoZxbh2f1mLzs_Uk5BzxM2cITWv4&libraries=places"
+    )
+    .then(response => res.json(response.data))
+    .catch(console.log);
+});
 
 app.listen(port, () => {
   console.log(`Magic happens on port ${port}`);
