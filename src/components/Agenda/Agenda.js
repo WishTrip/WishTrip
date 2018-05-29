@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import "./Agenda.css"
-import { connect } from "react-redux";
-import { saveAgenda } from "../../ducks/userReducer";
 import TimeInput from 'material-ui-time-picker'
 
 export default function Agenda(props) {

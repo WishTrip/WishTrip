@@ -11,7 +11,6 @@ const initialState = {
         userinfo: {},
         trips: []
     },
-    trip: [],
     days: [[]]
 }
 

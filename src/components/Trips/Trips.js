@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Trips.css";
 import Background from "../Background/Background";
 import Plan from "../Plan/Plan";
+import Trip from "../Trip/Trip";
 
 import { connect } from "react-redux";
 import { addInitialTripValues } from "../../ducks/userReducer";
@@ -40,6 +41,13 @@ class Trips extends Component {
 
   render() {
     const { tripName, tripStartingLocation, tripStartDate, tripEndDate, tripTotalBudget, tripNotes, showPlan } = this.state;
+    const { user } = this.props;
+
+        let currentAgendas = user.trips.map((e, i) => {
+            return (
+                <Trip key={i} index={i} saved={e} name={e.tripName} location={e.tripLocation} budget={e.tripBudget} notes={e.tripNotes} />
+            )
+        })
 
     console.log(this.state)
     console.log(this.props)
