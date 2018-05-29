@@ -16,6 +16,6 @@ export default (
     <Route path="/login" component={Login} />
     <Route path="/profile" component={Profile} />
     <Route path="/trips" component={Trips} />
-    <Route path="/DummyPlan" component={DummyPlan} />
+    <Route path="/dummyplan" component={DummyPlan} />
   </Switch>
 );
