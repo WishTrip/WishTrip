@@ -37,7 +37,7 @@ class Home extends Component {
   }
 
   handleHamburgerMenu = () => {
-    if (!this.props.burgerFlag) {
+    if (this.props.burgerFlag) {
       this.props.toggleHamburgerBtn();
     }
   };
@@ -175,11 +175,10 @@ class Home extends Component {
     });
 
     return (
-      <div>
+      <div onClick={() => this.handleHamburgerMenu()}>
         <div>
           <div
             className="home-wrapper"
-            onClick={() => this.handleHamburgerMenu()}
           >
             <Background />
             <div className="home-day-container home-chevron">
