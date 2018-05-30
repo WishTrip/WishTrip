@@ -23,8 +23,6 @@ firebase.initializeApp(config);
 const database = firebase.database();
 
 const loginUser = (req, res) => {
-  const {} = req.body;
-
   database
     .ref(`users/${userID}`)
     .child("userinfo")
@@ -37,16 +35,16 @@ const loginUser = (req, res) => {
 
 const sendUserInfo = (req, res) => {
   const { user } = req.body;
-console.log(req.body)
+  // console.log(user);
+
   database
     .ref(`users/${user.userinfo.uid}`)
     .child("userinfo")
     .set({ email: user.userinfo.email });
-
   database
-    .ref(`users/${user.userinfo.uid}`)
-    .child("trips")
-    .push()
+    .ref(`users/${user.userinfo.uid}/trips`)
+    .child(`${user.trips[0].tripName}`)
+    // .push()
     .set({
       tripBudget: user.trips[0].tripBudget,
       tripLocation: user.trips[0].tripLocation,
@@ -57,7 +55,7 @@ console.log(req.body)
 };
 
 const userLocation = (req, res) => {
-  const { lat, long, attraction } = req.body;
+  const { lat, long, attraction } = req.query;
 
   axios
     .get(
@@ -65,14 +63,24 @@ const userLocation = (req, res) => {
         process.env.REACT_APP_PLACES_KEY
       }`
     )
-    .then(response => res.status(200).json(response))
+    .then(response => res.status(200).json(response.data))
     .catch(err => res.status(500).json(err));
+};
+
+const getUserTrips = (req, res) => {
+  //  const
+
+  database.ref("users").once("value", snap => {
+    let obj = snap.val();
+    res.status(200).json(obj[req.params.id]);
+  });
 };
 
 module.exports = {
   loginUser,
   sendUserInfo,
-  userLocation
+  userLocation,
+  getUserTrips
 };
 
 // const userData = (req, res) => {

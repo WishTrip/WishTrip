@@ -40,6 +40,7 @@ app.use(
 
 //Real Database Endpoints
 // app.post("/api/userData", dbCtrl.userData);
+app.get("/api/getUserTrips/:id", dbCtrl.getUserTrips);
 app.post("/api/loginUser", dbCtrl.loginUser);
 app.post("/api/sendUserInfo", dbCtrl.sendUserInfo);
 
