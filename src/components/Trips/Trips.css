@@ -48,13 +48,18 @@
     height: 200px;
     width: 200px;
     position: fixed;
-    z-index: 5;
 }
+
 
 .trips-date-inputs-container {
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+.datepicker-size div {
+    width: 200px !important;
+    cursor: pointer !important;
 }
 
 .trips-name-input {
@@ -70,6 +75,7 @@
     border: none;
     color: #fff;
     width: 100%;
+    cursor: pointer;
 }
 
 .trips-plan-trip-btn {
