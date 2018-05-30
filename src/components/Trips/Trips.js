@@ -21,13 +21,15 @@ class Trips extends Component {
       tripStartingLocation: "",
       tripStartDate: "",
       tripEndDate: "",
-      tripTotalBudget: 0,
+      tripTotalBudget: "",
       tripNotes: "",
       showPlan: false,
       origin: "",
       destination: "",
       starting: "",
-      ending: ""
+      ending: "",
+      focus1: false,
+      focus2: false
     }
   }
 
@@ -44,24 +46,26 @@ class Trips extends Component {
   }
 
   handleHamburgerMenu = () => {
-    if (!this.props.burgerFlag) {
+    if (this.props.burgerFlag) {
       this.props.toggleHamburgerBtn();
     }
   };
 
-  startTrip() {
+  startTrip = () => {
     let { tripName, tripStartingLocation, tripTotalBudget, tripNotes } = this.state;
+    console.log(tripName, tripStartingLocation, tripTotalBudget, tripNotes)
     this.getTripInfo();
     this.handleInput('showPlan', true);
     this.props.addInitialTripValues(tripName, tripStartingLocation, tripTotalBudget, tripNotes);
   }
 
-  handleChange = (key, val) => {
-    this.setState({ [key]: val });
+  handleChange = (key, val, prop) => {
+    this.setState({ [key]: val, [prop]: true });
   };
-  handleSelect = (key, address) => {
+
+  handleSelect = (key, address, prop) => {
     geocodeByAddress(address).then(results =>
-      this.setState({ [key]: results[0].formatted_address })
+      this.setState({ [key]: results[0].formatted_address, [prop]: false })
     );
   };
 
@@ -74,6 +78,9 @@ class Trips extends Component {
       )
       .then(res => console.log(res));
   };
+
+
+
 
   render() {
     const { tripName, tripStartingLocation, tripStartDate, tripEndDate, tripTotalBudget, tripNotes, showPlan } = this.state;
@@ -90,85 +97,94 @@ class Trips extends Component {
       <div className="trips-wrapper" onClick={() => this.handleHamburgerMenu()}>
         <Background />
         {!showPlan ? (
-          <div className="trips-input-container" >
-            <input className="trips-inputs trips-name-input" type="text" placeholder="Trip Name" value={tripName} onChange={(e) => this.handleInput("tripName", e.target.value)} />
-            <PlacesAutocomplete
-          value={this.state.origin}
-          onChange={e => this.handleChange("origin", e)}
-          onSelect={e => this.handleSelect("origin", e)}
-        >
-          {({ getInputProps, suggestions, getSuggestionItemProps }) => (
-            <div>
-              <input
-                {...getInputProps({
-                  placeholder: "Search Places ...",
-                  className: "location-search-input"
-                })}
-              />
-              <div className="autocomplete-dropdown-container">
-                {suggestions.map(suggestion => {
-                  const className = suggestion.active
-                    ? "suggestion-item--active"
-                    : "suggestion-item";
-                  // inline style for demonstration purpose
-                  const style = suggestion.active
-                    ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                    : { backgroundColor: "#ffffff", cursor: "pointer" };
-                  return (
-                    <div
-                      {...getSuggestionItemProps(suggestion, {
-                        className,
-                        style
-                      })}
-                    >
-                      <span>{suggestion.description}</span>
-                    </div>
-                  );
-                })}
+          <form className="trips-input-container" onSubmit={this.startTrip} >
+            <input required className="trips-inputs trips-name-input" type="text" placeholder="Trip Name" value={tripName} onChange={(e) => this.handleInput("tripName", e.target.value)} />
+            <div className="trips-autocomplete-container">
+              <PlacesAutocomplete
+                value={this.state.origin}
+                onChange={e => this.handleChange("origin", e, "focus1")}
+                onSelect={e => this.handleSelect("origin", e, "focus1")}
+                >
+                {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+                  <div>
+                  <input
+                  
+                  {...getInputProps({
+                    required: true,
+                    placeholder: "Departure Location",
+                    className: "location-search-input"
+                  })}
+                />
+                <div style={{zIndex: (this.state.focus1 ? 5 : 0), height: (this.state.focus1 ? '200px' : 0), width: (this.state.focus1 ? '200px' : 0)}} className="autocomplete-dropdown-container">
+                  {suggestions.map(suggestion => {
+                    const className = suggestion.active
+                      ? "suggestion-item--active"
+                      : "suggestion-item";
+                    // inline style for demonstration purpose
+                    const style = suggestion.active
+                      ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                      : { backgroundColor: "#ffffff", cursor: "pointer" };
+                    return (
+                      <div
+                        {...getSuggestionItemProps(suggestion, {
+                          className,
+                          style
+                        })}
+                      >
+                        <span>{suggestion.description}</span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          )}
-        </PlacesAutocomplete>
-        <PlacesAutocomplete
-          value={this.state.destination}
-          onChange={e => this.handleChange("destination", e)}
-          onSelect={e => this.handleSelect("destination", e)}
-        >
-          {({ getInputProps, suggestions, getSuggestionItemProps }) => (
-            <div>
-              <input
-                {...getInputProps({
-                  placeholder: "Search Places ...",
-                  className: "location-search-input"
-                })}
-              />
-              <div className="autocomplete-dropdown-container">
-                {suggestions.map(suggestion => {
-                  const className = suggestion.active
-                    ? "suggestion-item--active"
-                    : "suggestion-item";
-                  // inline style for demonstration purpose
-                  const style = suggestion.active
-                    ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                    : { backgroundColor: "#ffffff", cursor: "pointer" };
-                  return (
-                    <div
-                      {...getSuggestionItemProps(suggestion, {
-                        className,
-                        style
-                      })}
-                    >
-                      <span>{suggestion.description}</span>
-                    </div>
-                  );
-                })}
+            )}
+          </PlacesAutocomplete>
+          <PlacesAutocomplete
+            value={this.state.destination}
+            onChange={e => this.handleChange("destination", e, "focus2")}
+            onSelect={e => this.handleSelect("destination", e, "focus2")}
+          >
+            {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+              <div>
+                <input
+                  {...getInputProps({
+                    required: true,
+                    placeholder: "Starting Location",
+                    className: "location-search-input"
+                  })}
+                />
+                <div style={{zIndex: (this.state.focus2 ? 5 : 0), height: (this.state.focus2 ? '200px' : 0), width: (this.state.focus2 ? '200px' : 0)}} className="autocomplete-dropdown-container">
+                  {suggestions.map(suggestion => {
+                    const className = suggestion.active
+                      ? "suggestion-item--active"
+                      : "suggestion-item";
+                    // inline style for demonstration purpose
+                    const style = suggestion.active
+                      ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                      : { backgroundColor: "#ffffff", cursor: "pointer" };
+                    return (
+                      <div
+                        {...getSuggestionItemProps(suggestion, {
+                          className,
+                          style
+                        })}
+                      >
+                        <span>{suggestion.description}</span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
+            )}
+              </PlacesAutocomplete>
             </div>
-          )}
-        </PlacesAutocomplete>
             <div className="trips-date-inputs-container">
             <DatePicker
-            dialogContainerStyle={{background: "#fff", color: "white"}}
+            required={true}
+            placeholder="Start Date"
+            className="datepicker-size"
+            style={{width: "45%"}}            
+            // dialogContainerStyle={{backgroundColor: "#fff", color: "white"}}
             // underlineStyle={{ borderBottom: "white" }}
             onChange={(none, date) => {
               let month;
@@ -219,6 +235,10 @@ class Trips extends Component {
             autoOk={true}
           />
           <DatePicker
+          required={true}
+          placeholder="End Date"
+          className="datepicker-size"
+          style={{width: "45%"}}    
             onChange={(none, date) => {
               let month;
               switch (new Date(date).getMonth()) {
@@ -268,12 +288,12 @@ class Trips extends Component {
             autoOk={true}
           />
             </div>
-            <input className="trips-inputs" type="number" placeholder="Trip Budget" value={tripTotalBudget} onChange={(e) => this.handleInput("tripTotalBudget", e.target.value)} />
+            <input required className="trips-inputs" type="number" placeholder="Trip Budget" value={tripTotalBudget} onChange={(e) => this.handleInput("tripTotalBudget", e.target.value)} />
             <textarea className="trips-inputs trips-notes-input" type="text" placeholder="import notes, blah, blah, blah.." value={tripNotes} onChange={(e) => this.handleInput("tripNotes", e.target.value)} />
             <div className="trips-btn-position-container">
-              <button className="trips-plan-trip-btn" onClick={() => this.startTrip()}>Plan Trip</button>
+              <input type="submit" value="Plan Trip" className="trips-plan-trip-btn" />
             </div>
-          </div>
+          </form>
         ) : (
           <Plan />
         )}
