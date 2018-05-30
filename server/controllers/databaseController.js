@@ -35,12 +35,12 @@ const loginUser = (req, res) => {
 
 const sendUserInfo = (req, res) => {
   const { user } = req.body;
-  // console.log(user);
 
   database
     .ref(`users/${user.userinfo.uid}`)
     .child("userinfo")
     .set({ email: user.userinfo.email });
+
   database
     .ref(`users/${user.userinfo.uid}/trips`)
     .child(`${user.trips[0].tripName}`)
@@ -52,6 +52,33 @@ const sendUserInfo = (req, res) => {
       tripNotes: user.trips[0].tripNotes,
       days: user.trips[0].days
     });
+
+  //----------- TRIP NAME EXISTS LOGIC -------------//
+  // database.ref(`users/${user.userinfo.uid}/trips`).once("value", snap => {
+  //   snap.val()[user.trips[0].tripName]
+  //     ? database
+  //         .ref(`users/${user.userinfo.uid}/trips`)
+  //         .child(`${user.trips[0].tripName}`)
+  //         // .push()
+  //         .set({
+  //           tripBudget: user.trips[0].tripBudget,
+  //           tripLocation: user.trips[0].tripLocation,
+  //           tripName: user.trips[0].tripName,
+  //           tripNotes: user.trips[0].tripNotes,
+  //           days: user.trips[0].days
+  //         })
+  //     : database
+  //         .ref(`users/${user.userinfo.uid}/trips`)
+  //         .child(`${user.trips[0].tripName}`)
+  //         // .push()
+  //         .set({
+  //           tripBudget: user.trips[0].tripBudget,
+  //           tripLocation: user.trips[0].tripLocation,
+  //           tripName: user.trips[0].tripName,
+  //           tripNotes: user.trips[0].tripNotes,
+  //           days: user.trips[0].days
+  //         });
+  // });
 };
 
 const userLocation = (req, res) => {
@@ -68,11 +95,9 @@ const userLocation = (req, res) => {
 };
 
 const getUserTrips = (req, res) => {
-  //  const
-
   database.ref("users").once("value", snap => {
     let obj = snap.val();
-    res.status(200).json(obj[req.params.id]);
+    res.status(200).json({ userinfo: obj[req.params.id], uid: req.params.id });
   });
 };
 
@@ -82,66 +107,3 @@ module.exports = {
   userLocation,
   getUserTrips
 };
-
-// const userData = (req, res) => {
-//   const { useremail, userID } = req.body;
-
-//   database
-//     .ref("users")
-//     .push()
-//     .set({ userinfo: { email: 'ablackshear7820@gmail.com'}, trips: {tripOne: 'trip'} });
-//     // .set({ userinfo: { email: useremail }, trips: {tripOne: 'trip'} });
-
-//   database.ref("users").on("child_added", snap => {
-//     console.log(snap.val());
-//   });
-// };
-
-// FUNCTIONS
-// const getData = (req, res) => {
-//   database
-//     .ref("users")
-//     .once("value", snap => {
-//       res.status(200).json(snap.val());
-//     });
-// };
-
-// const createUser = (req, res) => {
-//   const { username } = req.body;
-
-//   database
-//     .ref("users")
-//     .push()
-//     .set({ userinfo: { username, password: "test" } });
-
-//   database.ref("users").once("value", snap => {
-//     res.status(200).json(snap.val());
-//   });
-// };
-
-// const updateUsername = (req, res) => {
-//   const { username, key } = req.body;
-
-//   database.ref("users").update({ [`${key}/userinfo/username`]: username });
-
-//   database.ref("users").once("value", snap => {
-//     res.status(200).json(snap.val());
-//   });
-// };
-
-// const deleteUser = (req, res) => {
-//   const { id } = req.params;
-
-//   database.ref("users").update({ [`${id}`]: null })
-
-//   database.ref("users").once("value", snap => {
-//     res.status(200).json(snap.val());
-//   });
-// }
-
-// module.exports = {
-//   getData,
-//   createUser,
-//   updateUsername,
-//   deleteUser
-// };
