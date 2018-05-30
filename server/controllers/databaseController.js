@@ -53,6 +53,19 @@ const sendUserInfo = (req, res) => {
       days: user.trips[0].days
     });
 
+  //----------- CHECK TRIP CODE -------------//
+  // database.ref("users").once("value", snap => {
+  //   var tripsArr = [];
+  //   snap.forEach(childSnap => {
+  //     tripsArr.push(childSnap.val().trips);
+  //   });
+  //   tripsArr.map(cur => {
+  //     cur["My Trip"] &&
+  //       cur["My Trip"]["tripBudget"] == 1231 &&
+  //       console.log(cur["My Trip"]);
+  //   });
+  // });
+
   //----------- TRIP NAME EXISTS LOGIC -------------//
   // database.ref(`users/${user.userinfo.uid}/trips`).once("value", snap => {
   //   snap.val()[user.trips[0].tripName]
