@@ -30,9 +30,31 @@
     align-items: center;
 }
 
+.trips-autocomplete-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.location-search-input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.autocomplete-dropdown-container {
+    height: 200px;
+    width: 200px;
+    position: fixed;
+    z-index: 5;
+}
+
 .trips-date-inputs-container {
     width: 100%;
     display: flex;
+    justify-content: space-between;
 }
 
 .trips-name-input {

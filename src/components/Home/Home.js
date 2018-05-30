@@ -33,7 +33,7 @@ class Home extends Component {
   }
 
   handleHamburgerMenu = () => {
-    if (!this.props.burgerFlag) {
+    if (this.props.burgerFlag) {
       this.props.toggleHamburgerBtn();
     }
   };
