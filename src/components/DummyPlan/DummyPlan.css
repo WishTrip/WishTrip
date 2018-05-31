@@ -3,10 +3,15 @@
   flex-direction: row;
 }
 .currentTrip {
-  width: 100vw;
+  left: 0;
 }
 .notCurrentTrip {
+  left: 100vw;
+}
+.notCurrentTrip,
+.currentTrip {
   width: 100vw;
+  position: absolute;
 }
 .home-wrapper {
   height: 90vh;
