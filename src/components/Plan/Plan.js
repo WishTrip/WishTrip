@@ -134,7 +134,6 @@ class Plan extends Component {
   handleCompleteDay() {
     // if (auth.currentUser) {
     if (this.props.user.userinfo.uid) {
-      console.log(this.props.userinfo);
       this.props.completeTrip(this.props.days);
       this.props.sendUserInfo(this.props.user);
     } else {
@@ -144,9 +143,6 @@ class Plan extends Component {
   }
 
   render() {
-    // console.log(this.state.currentDay - 1)
-    // console.log(this.props.days)
-    // console.log(this.props.days[this.state.currentDay - 1].length)
 
     const {
       day,
@@ -186,7 +182,11 @@ class Plan extends Component {
               <h1 className="home-day-text">Day {day}</h1>
               <i
                 onClick={() => this.incrementDay()}
-                className={this.props.days.length === this.state.day ? null : "fa fa-chevron-right"}
+                className={
+                  this.props.days.length === this.state.day
+                    ? null
+                    : "fa fa-chevron-right"
+                }
               />
             </div>
             <h2 className="home-agenda-text">New Agenda</h2>
@@ -279,10 +279,11 @@ class Plan extends Component {
                 >
                   Complete Trip
                 </button>
-                {console.log(this.props.days.length)}
-                {console.log(this.state.day)}
-                {this.props.days.length - 1 !== this.state.day ? null : <button onClick={this.handleDay}>New Day</button>}
-
+                {/* {console.log(this.props.days.length)}
+                {console.log(this.state.day)} */}
+                {this.props.days.length - 1 !== this.state.day ? null : (
+                  <button onClick={this.handleDay}>New Day</button>
+                )}
               </div>
             ) : null}
           </div>
