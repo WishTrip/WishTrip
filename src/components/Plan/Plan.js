@@ -143,6 +143,14 @@ class Plan extends Component {
   }
 
   render() {
+    // console.log(this.props.days.length)
+    console.log(this.state.currentDay - 1)
+    console.log(this.props.days)
+    // {(this.props.days.length > 1 && (this.props.days.length === this.state.day)) ? null : <button onClick={this.handleDay}>New Day</button> }
+    console.log(this.props.days[this.state.currentDay - 1].length)
+    // console.log(this.state.currentDay)
+    // console.log(this.state.currentAgenda)
+
     const {
       day,
       agenda,
@@ -166,7 +174,7 @@ class Plan extends Component {
     });
 
     return (
-      <div>
+      <div className="plan-wrapper">
         <div>
           <div
             className="home-wrapper"
@@ -181,7 +189,7 @@ class Plan extends Component {
               <h1 className="home-day-text">Day {day}</h1>
               <i
                 onClick={() => this.incrementDay()}
-                className={days[currentDay - 1] ? "fa fa-chevron-right" : null}
+                className={this.props.days.length === this.state.day ? null : "fa fa-chevron-right"}
               />
             </div>
             <h2 className="home-agenda-text">New Agenda</h2>
@@ -274,22 +282,26 @@ class Plan extends Component {
                 >
                   Complete Trip
                 </button>
-                <button onClick={() => this.handleDay()}>Add New Day</button>
+                {console.log(this.props.days.length)}
+                {console.log(this.state.day)}
+                {this.props.days.length - 1 !== this.state.day ? null : <button onClick={this.handleDay}>New Day</button> }
+                
+                </div>
+              ) : null}
               </div>
-            ) : null}
-          </div>
-        </div>
-        {currentAgendas}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => ({
-  ...state.viewReducer,
-  ...state.userReducer
-});
-
+              </div>
+              {currentAgendas}
+              </div>
+            );
+          }
+        }
+        
+        const mapStateToProps = state => ({
+          ...state.viewReducer,
+          ...state.userReducer
+        });
+        // {(this.props.days.length > 1 && (this.props.days.length === this.state.day)) ? null : <button onClick={this.handleDay}>New Day</button> }
+        // {(this.props.days[this.state.currentDay - 1].length === 0 || this.props.days.length - 1 < this.props.days[currentDay - 1]) ? null : <button onClick={() => this.handleDay()}>Add New Day</button>}
 export default connect(mapStateToProps, {
   toggleHamburgerBtn,
   saveAgenda,
