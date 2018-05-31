@@ -93,7 +93,7 @@ class Trips extends Component {
     return (
       <div className="trips-wrapper" onClick={() => this.handleHamburgerMenu()}>
         <Background />
-        {showPlan ? (
+        {!showPlan ? (
           <form className="trips-input-container" onSubmit={this.startTrip} >
             <input required className="trips-inputs trips-name-input" type="text" placeholder="Trip Name" value={tripName} onChange={(e) => this.handleInput("tripName", e.target.value)} />
             <div className="trips-autocomplete-container">

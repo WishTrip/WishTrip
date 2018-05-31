@@ -169,7 +169,6 @@ class Plan extends Component {
   handleCompleteDay() {
     // if (auth.currentUser) {
     if (this.props.user.userinfo.uid) {
-      console.log(this.props.userinfo);
       this.props.completeTrip(this.props.days);
       this.props.sendUserInfo(this.props.user);
     } else {
@@ -179,12 +178,6 @@ class Plan extends Component {
   }
 
   render() {
-
-    console.log(this.state.dots)
-
-
-    // console.log(this.props.days[this.state.currentDay - 1].length, this.state.currentDot)
-    // console.log(this.props.days[this.state.currentDay - 1].length === this.state.currentDot)
 
     const {
       day,
