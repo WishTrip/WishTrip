@@ -43,13 +43,16 @@ console.log(user)
 
   database
     .ref(`users/${user.userinfo.uid}/trips`)
-    .child(`${user.trips[0].tripName}`)
+    .child(`${user.trips[0].name}`)
     // .push()
     .set({
-      tripBudget: user.trips[0].tripBudget,
-      tripLocation: user.trips[0].tripLocation,
-      tripName: user.trips[0].tripName,
-      tripNotes: user.trips[0].tripNotes,
+      name: user.trips[0].name,
+      origin: user.trips[0].origin,
+      destination: user.trips[0].destination,
+      starting: user.trips[0].starting,
+      ending: user.trips[0].ending,
+      budget: user.trips[0].budget,
+      notes: user.trips[0].notes,
       days: user.trips[0].days
     });
 
