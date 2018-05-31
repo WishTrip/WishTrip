@@ -27,7 +27,7 @@ class Plan extends Component {
       agendaNameInput: "",
       destinationInput: "",
       activityInput: "",
-      budgetInput: 0,
+      budgetInput: undefined,
       notesInput: "",
       nextStepsFlag: false
     };
@@ -143,7 +143,6 @@ class Plan extends Component {
   }
 
   render() {
-
     const {
       day,
       agenda,
@@ -193,6 +192,7 @@ class Plan extends Component {
             <div className="home-container-wrapper">
               <div className="home-container">
                 <input
+                  data-cypress-agendaname
                   className="home-name-input home-inputs"
                   type="text"
                   placeholder="Agenda Name"
@@ -204,6 +204,7 @@ class Plan extends Component {
                 <div className="home-inputs-container">
                   <div className="home-destination-activity-container">
                     <input
+                      data-cypress-agendadestination
                       className="home-destination-input home-inputs"
                       type="text"
                       placeholder="Agenda Destination"
@@ -213,6 +214,7 @@ class Plan extends Component {
                       }
                     />
                     <input
+                      data-cypress-agendaactivity
                       className="home-activity-input home-inputs"
                       type="text"
                       placeholder="Agenda Activity"
@@ -225,6 +227,7 @@ class Plan extends Component {
                   <div className="budget-container">
                     <i className="home-dollar-sign">$</i>
                     <input
+                      data-cypress-agendabudget
                       className="home-budget-input-position  home-budget-input home-inputs"
                       type="number"
                       placeholder="Budget for Day"
@@ -235,6 +238,7 @@ class Plan extends Component {
                     />
                   </div>
                   <textarea
+                    data-cypress-agendanotes
                     className="home-notes-input  home-inputs"
                     type="text"
                     placeholder="import notes, blah, blah, blah.."
@@ -245,6 +249,7 @@ class Plan extends Component {
                   />
                   <div className="home-time-agenda-container">
                     <TimeInput
+                      data-cypress-timeinput
                       className="home-clock"
                       mode="12h"
                       okLabel="submit"
@@ -252,6 +257,7 @@ class Plan extends Component {
                       onChange={e => this.handleInput("time", e)}
                     />
                     <button
+                      data-cypress-addagenda
                       className="home-save-agenda-btn"
                       onClick={() =>
                         this.handleAgenda(

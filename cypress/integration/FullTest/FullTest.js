@@ -5,8 +5,13 @@ describe("Full end to end testing", () => {
   const tripName = "All Out Cypress Testing";
   const departureLocation = "500 S Ervay St, Dallas Texas";
   const startingLocation = "500 S Ervay St, Dallas Texas";
-  const budget = 1800;
+  const budget = "1800";
+  const budget2 = "2200";
   const tripNotes = "13 week bootcamp!, DevMountain RULES!";
+  const agendaName1 = "Cypress MeetUp";
+  const agendaDestination = "DevMountain Lounge";
+  const agendaActivity = "Final Presentation";
+  const agendaNotes = "Time to roll out the red carpet ";
   it("Goes to site", () => {
     cy.visit("/");
     cy.wait(600);
@@ -101,31 +106,144 @@ describe("Full end to end testing", () => {
       .type(tripName)
       .should("have.value", tripName);
   });
-  //   it("inputs Destination", () => {
-  //     cy
-  //       .get("[data-cypress-departure-location]")
-  //       .type(departureLocation)
-  //       .should("have.value", departureLocation);
-  //   });
-  //   it("inputs Destination", () => {
-  //     cy
-  //       .get("[data-cypress-starting-location]")
-  //       .type(startingLocation)
-  //       .should("have.value", startingLocation);
-  //   });
-  //   it("inputs budget", () => {
-  //     cy
-  //       .get("[data-cypress-budget]")
-  //       .type(budget)
-  //       .should("have.value", budget);
-  //   });
-  //   it("inputs trip notes", () => {
-  //     cy
-  //       .get("[data-cypress-agenda-notes]")
-  //       .type(tripNotes)
-  //       .should("have.value", tripNotes);
-  //   });
-  //   it("clicks save", () => {
-  //     cy.get("[data-cypress-agenda-submit]").click();
-  //   });
+  it("inputs departure location", () => {
+    cy
+      .get("[data-cypress-departure-location]")
+      .type(departureLocation)
+      .should("have.value", departureLocation)
+      .wait(200)
+      .type("{enter}", { force: true });
+    cy.wait(900);
+  });
+  it("inputs starting location", () => {
+    cy
+      .get("[data-cypress-starting-location]")
+      .type(startingLocation)
+      .should("have.value", startingLocation)
+      .wait(200)
+      .type("{enter}", { force: true });
+  });
+  it("picks start date", () => {
+    cy
+      .get("[data-cypress-startdate]")
+      .wait(500)
+      .click()
+      .get("button")
+      .contains("17")
+      .click();
+    cy.wait(600);
+  });
+  it("picks end date", () => {
+    cy
+      .get("[data-cypress-enddate]")
+      .wait(500)
+      .click()
+      .get("button")
+      .contains("21")
+      .click();
+    cy.wait(600);
+  });
+  it("inputs budget", () => {
+    cy
+      .get("[data-cypress-budget]")
+      .type(budget)
+      .should("have.value", budget);
+  });
+  it("inputs trip notes", () => {
+    cy
+      .get("[data-cypress-notes]")
+      .type(tripNotes)
+      .should("have.value", tripNotes);
+  });
+  it("clicks plan", () => {
+    cy.get("[data-cypress-submit]").click();
+  });
+  it("fill out agenda 1", () => {
+    cy
+      .get("[data-cypress-agendaname]")
+      .type(agendaName1)
+      .should("have.value", agendaName1);
+  });
+  it("inputs agenda destination", () => {
+    cy
+      .get("[data-cypress-agendadestination]")
+      .type(agendaDestination)
+      .should("have.value", agendaDestination);
+  });
+  it("inputs agenda activity", () => {
+    cy
+      .get("[data-cypress-agendaactivity]")
+      .type(agendaActivity)
+      .should("have.value", agendaActivity);
+  });
+  it("inputs budget field", () => {
+    cy
+      .get("[data-cypress-agendabudget]")
+      .type(budget)
+      .should("have.value", budget);
+  });
+  it(" inputs agenda notes", () => {
+    cy
+      .get("[data-cypress-agendanotes]")
+      .type(agendaNotes)
+      .should("have.value", agendaNotes);
+  });
+  it("sets agenda time", () => {
+    cy
+      .get("[data-cypress-timeinput]")
+      .wait(500)
+      .click()
+      .get("button")
+      .contains("submit")
+      .click();
+    cy.wait(600);
+  });
+  it("submits agenda", () => {
+    cy.get("[data-cypress-addagenda]").click();
+  });
+  it("fill out agenda 2", () => {
+    cy
+      .get("[data-cypress-agendaname]")
+      .type(agendaName1)
+      .should("have.value", agendaName1);
+  });
+  it("inputs agenda destination", () => {
+    cy
+      .get("[data-cypress-agendadestination]")
+      .type(agendaDestination)
+      .should("have.value", agendaDestination);
+  });
+  it("inputs agenda activity", () => {
+    cy
+      .get("[data-cypress-agendaactivity]")
+      .type(agendaActivity)
+      .should("have.value", agendaActivity);
+  });
+  it("inputs budget field", () => {
+    cy
+      .get("[data-cypress-agendabudget]")
+      .type("{backspace}", { force: true })
+      .should("have.value", "")
+      .type(budget2)
+      .should("have.value", budget2);
+  });
+  it(" inputs agenda notes", () => {
+    cy
+      .get("[data-cypress-agendanotes]")
+      .type(agendaNotes)
+      .should("have.value", agendaNotes);
+  });
+  it("sets agenda time", () => {
+    cy
+      .get("[data-cypress-timeinput]")
+      .wait(500)
+      .click()
+      .get("button")
+      .contains("submit")
+      .click();
+    cy.wait(600);
+  });
+  // it("submits agenda", () => {
+  //   cy.get("[data-cypress-addagenda]").click();
+  // });
 });

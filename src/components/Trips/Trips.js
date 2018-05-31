@@ -143,6 +143,7 @@ class Trips extends Component {
                 {({ getInputProps, suggestions, getSuggestionItemProps }) => (
                   <div>
                     <input
+                      data-cypress-departure-location
                       {...getInputProps({
                         required: true,
                         placeholder: "Departure Location",
@@ -188,6 +189,7 @@ class Trips extends Component {
                 {({ getInputProps, suggestions, getSuggestionItemProps }) => (
                   <div>
                     <input
+                      data-cypress-starting-location
                       {...getInputProps({
                         required: true,
                         placeholder: "Starting Location",
@@ -228,6 +230,7 @@ class Trips extends Component {
             </div>
             <div className="trips-date-inputs-container">
               <DatePicker
+                data-cypress-startdate
                 required={true}
                 placeholder="Start Date"
                 className="datepicker-size"
@@ -281,6 +284,7 @@ class Trips extends Component {
                 autoOk={true}
               />
               <DatePicker
+                data-cypress-enddate
                 required={true}
                 placeholder="End Date"
                 className="datepicker-size"
@@ -335,6 +339,7 @@ class Trips extends Component {
               />
             </div>
             <input
+              data-cypress-budget
               required
               className="trips-inputs"
               type="number"
@@ -345,6 +350,7 @@ class Trips extends Component {
               }
             />
             <textarea
+              data-cypress-notes
               className="trips-inputs trips-notes-input"
               type="text"
               placeholder="import notes, blah, blah, blah.."
@@ -353,6 +359,7 @@ class Trips extends Component {
             />
             <div className="trips-btn-position-container">
               <input
+                data-cypress-submit
                 type="submit"
                 value="Plan Trip"
                 className="trips-plan-trip-btn"
