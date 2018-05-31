@@ -133,6 +133,11 @@
     color: lightgrey;
 }
 
+.plan-wrapper {
+    width: 100%;
+    height: 90vh;
+}
+
 @media (max-width: 700px) {
     .home-day-time {
         font-size: 16px;
