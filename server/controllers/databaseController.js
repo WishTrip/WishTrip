@@ -35,13 +35,15 @@ const loginUser = (req, res) => {
 
 const sendUserInfo = (req, res) => {
   const { user } = req.body;
-console.log(user)
+
   database
     .ref(`users/${user.userinfo.uid}`)
     .child("userinfo")
     .set({ email: user.userinfo.email });
 
-  database
+  if(user.trips[0]) {
+    console.log(user.trips[0].days)
+    database
     .ref(`users/${user.userinfo.uid}/trips`)
     .child(`${user.trips[0].name}`)
     // .push()
@@ -54,6 +56,11 @@ console.log(user)
       budget: user.trips[0].budget,
       notes: user.trips[0].notes,
       days: user.trips[0].days
+    });
+  }
+
+    database.ref(`users/${user.userinfo.uid}`).once("value", snap => {
+      res.status(200).json(snap.val().trips);
     });
 
   //----------- CHECK TRIP CODE -------------//
