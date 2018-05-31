@@ -19,6 +19,99 @@ import DummyTripToMap from "./DummyTripMap";
 var thisuser = {
   trips: [
     {
+      name: "Aaron Family Trip",
+      startDate: new Date(),
+      endDate: new Date(),
+      startLocation: "Dallas, TX",
+      endLocation: "Nashville, TN",
+      cost: "$10,000",
+      days: [
+        [
+          {
+            name: "jarids birthday",
+            budget: "$200",
+            notes: 12
+          },
+          {
+            name: "jarids birthday",
+            budget: "$200",
+            notes: 13
+          },
+
+          {
+            name: "aarons birthday",
+            budget: "$200",
+            notes: "ice cream, lots of ice cream"
+          }
+        ],
+        [
+          {
+            name: 1,
+            budget: "$200",
+            notes: 11
+          },
+          {
+            name: 2,
+            budget: "$200",
+            notes: 21
+          },
+          {
+            name: "joes birthday",
+            budget: "$200",
+            notes: 22
+          },
+          {
+            name: "joes birthday",
+            budget: "$200",
+            notes: 23
+          }
+        ],
+        [
+          {
+            name: 3,
+            budget: "$200",
+            notes: 31
+          },
+          {
+            name: "jacobs birthday",
+            budget: "$200",
+            notes: 32
+          },
+          {
+            name: "jacobs birthday",
+            budget: "$200",
+            notes: 33
+          }
+        ],
+        [
+          {
+            name: 4,
+            budget: "$200",
+            notes: 41
+          },
+          {
+            name: "joes move in day",
+            budget: "$200",
+            notes: 42
+          },
+          {
+            name: "joes move in day",
+            budget: "$200",
+            notes: 43
+          }
+        ]
+      ],
+      hotels: [
+        "placeholderURL.com",
+        { name: "hotel1", price: "$2,500", image: "image" },
+        { name: "hotel2", price: "$2,500", image: "image" },
+        { name: "hotel3", price: "$2,500", image: "image" },
+        { name: "hotel4", price: "$2,500", image: "image" },
+        { name: "hotel5", price: "$2,500", image: "image" },
+        { name: "hotel6", price: "$2,500", image: "image" }
+      ]
+    },
+    {
       name: "Orlando Family Trip",
       startDate: new Date(),
       endDate: new Date(),
@@ -192,6 +285,7 @@ class DummyPlan extends Component {
     };
   }
   updateCurrentTrip = val => {
+    console.log(val);
     this.setState({ currentTrip: val });
   };
 

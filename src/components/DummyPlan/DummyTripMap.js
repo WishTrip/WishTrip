@@ -31,6 +31,7 @@ class DummyTripMap extends React.Component {
     nextStepsFlag: false,
     dotHandler: 0
   };
+
   toggleDot = val => {
     this.setState({ dotHandler: val });
   };
@@ -140,7 +141,7 @@ class DummyTripMap extends React.Component {
     }
   };
   render() {
-    console.log(this.props.mapthis);
+    console.log(this.props.currentTrip);
     let {
       day,
       currentDay,
@@ -168,30 +169,39 @@ class DummyTripMap extends React.Component {
               className="home-wrapper"
               onClick={() => this.handleHamburgerMenu()}
             >
-              <i
-                onClick={() => {
-                  // this.nextTrip();
-                  this.props.updateCurrentTrip(this.state.currentTrip - 1);
-                }}
-                className={
-                  this.props.trips[this.state.currentTrip - 1]
-                    ? "fa fa-chevron-left"
-                    : null
-                }
-              />
+              {this.props.trips[this.state.currentTrip - 1] && (
+                <i
+                  onClick={() => {
+                    // this.nextTrip();
+                    console.log(`THIS IS STATE = > ${this.state.currentTrip}`);
+                    this.props.updateCurrentTrip(this.state.currentTrip - 1);
+                    this.setState({ currentTrip: this.state.currentTrip - 1 });
+                  }}
+                  className={
+                    this.props.trips[this.state.currentTrip - 1]
+                      ? "fa fa-chevron-left"
+                      : null
+                  }
+                />
+              )}
+
               <Background />
               <h2 className="home-agenda-text">{this.props.mapthis.name}</h2>
-              <i
-                onClick={() => {
-                  // this.nextTrip();
-                  this.props.updateCurrentTrip(this.state.currentTrip + 1);
-                }}
-                className={
-                  this.props.trips[this.state.currentTrip + 1]
-                    ? "fa fa-chevron-right"
-                    : null
-                }
-              />
+              {this.props.trips[this.state.currentTrip + 1] && (
+                <i
+                  onClick={() => {
+                    this.props.updateCurrentTrip(this.state.currentTrip + 1);
+                    this.setState({ currentTrip: this.state.currentTrip + 1 });
+                    console.log(`THIS IS STATE = > ${this.state.currentTrip}`);
+                  }}
+                  className={
+                    this.props.trips[this.state.currentTrip + 1]
+                      ? "fa fa-chevron-right"
+                      : null
+                  }
+                />
+              )}
+
               <div className="home-day-container home-chevron">
                 <i
                   onClick={() => {
