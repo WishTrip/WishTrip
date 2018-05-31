@@ -55,7 +55,7 @@ export default function userReducer(state = initialState, action) {
       };
     case `${ADD_INITIAL_TRIP_VALUES}`:
       console.log("3: ", state);
-      const { tripBudget, tripLocation, tripName, tripNotes } = action.payload;
+      const { name, origin, destination, starting, ending, budget, notes } = action.payload;
       return {
         ...state,
         user: {
@@ -63,10 +63,13 @@ export default function userReducer(state = initialState, action) {
           trips: [
             {
               ...state.user.trips[0],
-              tripBudget,
-              tripLocation,
-              tripName,
-              tripNotes
+              name,
+              origin,
+              destination,
+              starting,
+              ending,
+              budget,
+              notes
             }
           ]
         }
@@ -92,7 +95,7 @@ export default function userReducer(state = initialState, action) {
       forEach(trips, (val, key) => tripsArr.push(val));
       return {
         ...state,
-        user: { userinfo: {email: action.payload.data.userinfo.userinfo.email, uid: action.payload.data.uid}, trips: tripsArr }
+        user: { userinfo: { email: action.payload.data.userinfo.userinfo.email, uid: action.payload.data.uid }, trips: tripsArr }
       };
     case `${SEND_USER_INFO}_FULFILLED`:
       return { ...state };
@@ -137,14 +140,11 @@ export function saveAgenda(
 }
 
 export function addInitialTripValues(
-  tripName,
-  tripLocation,
-  tripBudget,
-  tripNotes
+  name, origin, destination, starting, ending, budget, notes
 ) {
   return {
     type: ADD_INITIAL_TRIP_VALUES,
-    payload: { tripName, tripLocation, tripBudget, tripNotes }
+    payload: { name, origin, destination, starting, ending, budget, notes }
   };
 }
 
