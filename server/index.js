@@ -32,6 +32,12 @@ app.use(
   })
 );
 
+// HOSTING
+const path = require('path')
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+})
+
 //Database Endpoints
 // app.get('/api/getData', dbCtrl.getData);
 // app.post('/api/changeDummyData', dbCtrl.createUser);
