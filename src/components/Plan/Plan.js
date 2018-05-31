@@ -132,8 +132,9 @@ class Plan extends Component {
   }
 
   handleCompleteDay() {
-    if (auth.currentUser) {
-      console.log(auth.currentUser);
+    // if (auth.currentUser) {
+    if (this.props.user.userinfo.uid) {
+      console.log(this.props.userinfo);
       this.props.completeTrip(this.props.days);
       this.props.sendUserInfo(this.props.user);
     } else {
