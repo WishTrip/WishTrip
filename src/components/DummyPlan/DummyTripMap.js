@@ -18,7 +18,6 @@ class DummyTripMap extends React.Component {
   state = {
     day: 1,
     currentDay: 0,
-    currentTrip: 0,
     newDay: true,
     agenda: 1,
     currentAgenda: 1,
@@ -169,16 +168,18 @@ class DummyTripMap extends React.Component {
               className="home-wrapper"
               onClick={() => this.handleHamburgerMenu()}
             >
-              {this.props.trips[this.state.currentTrip - 1] && (
+              {this.props.trips[this.props.currentTripIndex - 1] && (
                 <i
                   onClick={() => {
                     // this.nextTrip();
-                    console.log(`THIS IS STATE = > ${this.state.currentTrip}`);
-                    this.props.updateCurrentTrip(this.state.currentTrip - 1);
-                    this.setState({ currentTrip: this.state.currentTrip - 1 });
+                    // console.log(`THIS IS STATE = > ${this.state.currentTrip}`);
+                    this.props.updateCurrentTrip(
+                      this.props.currentTripIndex - 1
+                    );
+                    // this.setState({ currentTrip: this.state.currentTrip - 1 });
                   }}
                   className={
-                    this.props.trips[this.state.currentTrip - 1]
+                    this.props.trips[this.props.currentTripIndex - 1]
                       ? "fa fa-chevron-left"
                       : null
                   }
@@ -187,15 +188,16 @@ class DummyTripMap extends React.Component {
 
               <Background />
               <h2 className="home-agenda-text">{this.props.mapthis.name}</h2>
-              {this.props.trips[this.state.currentTrip + 1] && (
+              {this.props.trips[this.props.currentTripIndex + 1] && (
                 <i
                   onClick={() => {
-                    this.props.updateCurrentTrip(this.state.currentTrip + 1);
-                    this.setState({ currentTrip: this.state.currentTrip + 1 });
-                    console.log(`THIS IS STATE = > ${this.state.currentTrip}`);
+                    this.props.updateCurrentTrip(
+                      this.props.currentTripIndex + 1
+                    );
+                    // this.setState({ currentTrip: this.state.currentTrip + 1 });
                   }}
                   className={
-                    this.props.trips[this.state.currentTrip + 1]
+                    this.props.trips[this.props.currentTripIndex + 1]
                       ? "fa fa-chevron-right"
                       : null
                   }
