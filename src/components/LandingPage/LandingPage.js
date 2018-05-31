@@ -25,6 +25,10 @@ class LandingPage extends Component {
         }
     }
 
+    handleEnterPress = e => {
+        e.charCode === 13 && (window.location = `http://localhost:3002/#/viewtrip/${this.state.codeInput}`)
+    }
+
     render() {
         const { codeInput } = this.state;
         return (
@@ -39,7 +43,7 @@ class LandingPage extends Component {
                             </Link>
                         </div>
                         <div className="landingpage-codeinput-container">
-                            <input className="landingpage-codeinput" type="text" value={codeInput} placeholder="Enter Code Here" onChange={e => this.handleCodeInput(e.target.value)} />
+                            <input className="landingpage-codeinput" type="text" value={codeInput} placeholder="Enter Code Here" onChange={e => this.handleCodeInput(e.target.value)} onKeyPress={e => this.handleEnterPress(e)} />
                         </div>
                     </div>
                     <div className="landingpage-login-container">
