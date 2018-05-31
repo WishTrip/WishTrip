@@ -132,8 +132,9 @@ class Plan extends Component {
   }
 
   handleCompleteDay() {
-    if (auth.currentUser) {
-      console.log(auth.currentUser);
+    // if (auth.currentUser) {
+    if (this.props.user.userinfo.uid) {
+      console.log(this.props.userinfo);
       this.props.completeTrip(this.props.days);
       this.props.sendUserInfo(this.props.user);
     } else {
@@ -143,13 +144,9 @@ class Plan extends Component {
   }
 
   render() {
-    // console.log(this.props.days.length)
-    console.log(this.state.currentDay - 1)
-    console.log(this.props.days)
-    // {(this.props.days.length > 1 && (this.props.days.length === this.state.day)) ? null : <button onClick={this.handleDay}>New Day</button> }
-    console.log(this.props.days[this.state.currentDay - 1].length)
-    // console.log(this.state.currentDay)
-    // console.log(this.state.currentAgenda)
+    // console.log(this.state.currentDay - 1)
+    // console.log(this.props.days)
+    // console.log(this.props.days[this.state.currentDay - 1].length)
 
     const {
       day,
@@ -284,24 +281,24 @@ class Plan extends Component {
                 </button>
                 {console.log(this.props.days.length)}
                 {console.log(this.state.day)}
-                {this.props.days.length - 1 !== this.state.day ? null : <button onClick={this.handleDay}>New Day</button> }
-                
-                </div>
-              ) : null}
+                {this.props.days.length - 1 !== this.state.day ? null : <button onClick={this.handleDay}>New Day</button>}
+
               </div>
-              </div>
-              {currentAgendas}
-              </div>
-            );
-          }
-        }
-        
-        const mapStateToProps = state => ({
-          ...state.viewReducer,
-          ...state.userReducer
-        });
-        // {(this.props.days.length > 1 && (this.props.days.length === this.state.day)) ? null : <button onClick={this.handleDay}>New Day</button> }
-        // {(this.props.days[this.state.currentDay - 1].length === 0 || this.props.days.length - 1 < this.props.days[currentDay - 1]) ? null : <button onClick={() => this.handleDay()}>Add New Day</button>}
+            ) : null}
+          </div>
+        </div>
+        {currentAgendas}
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  ...state.viewReducer,
+  ...state.userReducer
+});
+// {(this.props.days.length > 1 && (this.props.days.length === this.state.day)) ? null : <button onClick={this.handleDay}>New Day</button> }
+// {(this.props.days[this.state.currentDay - 1].length === 0 || this.props.days.length - 1 < this.props.days[currentDay - 1]) ? null : <button onClick={() => this.handleDay()}>Add New Day</button>}
 export default connect(mapStateToProps, {
   toggleHamburgerBtn,
   saveAgenda,

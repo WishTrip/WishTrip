@@ -18,9 +18,6 @@ class Trips extends Component {
     super();
     this.state = {
       tripName: "",
-      tripStartingLocation: "",
-      tripStartDate: "",
-      tripEndDate: "",
       tripTotalBudget: "",
       tripNotes: "",
       showPlan: false,
@@ -52,11 +49,11 @@ class Trips extends Component {
   };
 
   startTrip = () => {
-    let { tripName, tripStartingLocation, tripTotalBudget, tripNotes } = this.state;
-    console.log(tripName, tripStartingLocation, tripTotalBudget, tripNotes)
+    let { tripName, origin, destination, starting, ending, tripTotalBudget, tripNotes } = this.state;
+    console.log(tripName, origin, destination, starting, ending, tripTotalBudget, tripNotes)
     this.getTripInfo();
     this.handleInput('showPlan', true);
-    this.props.addInitialTripValues(tripName, tripStartingLocation, tripTotalBudget, tripNotes);
+    this.props.addInitialTripValues(tripName, origin, destination, starting, ending, tripTotalBudget, tripNotes);
   }
 
   handleChange = (key, val, prop) => {
@@ -73,7 +70,7 @@ class Trips extends Component {
     axios
       .get(
         `/api/gettravelinfo?origin=${this.state.origin}&destination=${
-          this.state.destination
+        this.state.destination
         }&starting=${this.state.starting}&ending=${this.state.ending}`
       )
       .then(res => console.log(res));
@@ -83,20 +80,22 @@ class Trips extends Component {
 
 
   render() {
-    const { tripName, tripStartingLocation, tripStartDate, tripEndDate, tripTotalBudget, tripNotes, showPlan } = this.state;
+    const { tripName, tripTotalBudget, tripNotes, showPlan } = this.state;
     const { user } = this.props;
 
-        let currentAgendas = user.trips.map((e, i) => {
-            return (
-                <Trip key={i} index={i} saved={e} name={e.tripName} location={e.tripLocation} budget={e.tripBudget} notes={e.tripNotes} />
-            )
-        })
+    console.log(this.state)
+
+    let currentAgendas = user.trips.map((e, i) => {
+      return (
+        <Trip key={i} index={i} saved={e} name={e.tripName} location={e.tripLocation} budget={e.tripBudget} notes={e.tripNotes} />
+      )
+    })
 
     // <input className="trips-inputs" type="text" placeholder="Trip Starting Location" value={tripStartingLocation} onChange={(e) => this.handleInput("tripStartingLocation", e.target.value)} />
     return (
       <div className="trips-wrapper" onClick={() => this.handleHamburgerMenu()}>
         <Background />
-        {showPlan ? (
+        {!showPlan ? (
           <form className="trips-input-container" onSubmit={this.startTrip} >
             <input required className="trips-inputs trips-name-input" type="text" placeholder="Trip Name" value={tripName} onChange={(e) => this.handleInput("tripName", e.target.value)} />
             <div className="trips-autocomplete-container">
@@ -104,189 +103,187 @@ class Trips extends Component {
                 value={this.state.origin}
                 onChange={e => this.handleChange("origin", e, "focus1")}
                 onSelect={e => this.handleSelect("origin", e, "focus1")}
-                >
+              >
                 {({ getInputProps, suggestions, getSuggestionItemProps }) => (
                   <div>
-                  <input
-                  
-                  {...getInputProps({
-                    required: true,
-                    placeholder: "Departure Location",
-                    className: "location-search-input"
-                  })}
-                />
-                <div style={{zIndex: (this.state.focus1 ? 5 : 0), height: (this.state.focus1 ? '200px' : 0), width: (this.state.focus1 ? '200px' : 0)}} className="autocomplete-dropdown-container">
-                  {suggestions.map(suggestion => {
-                    const className = suggestion.active
-                      ? "suggestion-item--active"
-                      : "suggestion-item";
-                    // inline style for demonstration purpose
-                    const style = suggestion.active
-                      ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                      : { backgroundColor: "#ffffff", cursor: "pointer" };
-                    return (
-                      <div
-                        {...getSuggestionItemProps(suggestion, {
-                          className,
-                          style
-                        })}
-                      >
-                        <span>{suggestion.description}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </PlacesAutocomplete>
-          <PlacesAutocomplete
-            value={this.state.destination}
-            onChange={e => this.handleChange("destination", e, "focus2")}
-            onSelect={e => this.handleSelect("destination", e, "focus2")}
-          >
-            {({ getInputProps, suggestions, getSuggestionItemProps }) => (
-              <div>
-                <input
-                  {...getInputProps({
-                    required: true,
-                    placeholder: "Starting Location",
-                    className: "location-search-input"
-                  })}
-                />
-                <div style={{zIndex: (this.state.focus2 ? 5 : 0), height: (this.state.focus2 ? '200px' : 0), width: (this.state.focus2 ? '200px' : 0)}} className="autocomplete-dropdown-container">
-                  {suggestions.map(suggestion => {
-                    const className = suggestion.active
-                      ? "suggestion-item--active"
-                      : "suggestion-item";
-                    // inline style for demonstration purpose
-                    const style = suggestion.active
-                      ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                      : { backgroundColor: "#ffffff", cursor: "pointer" };
-                    return (
-                      <div
-                        {...getSuggestionItemProps(suggestion, {
-                          className,
-                          style
-                        })}
-                      >
-                        <span>{suggestion.description}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+                    <input
+
+                      {...getInputProps({
+                        required: true,
+                        placeholder: "Departure Location",
+                        className: "location-search-input"
+                      })}
+                    />
+                    <div style={{ zIndex: (this.state.focus1 ? 5 : 0), height: (this.state.focus1 ? '200px' : 0), width: (this.state.focus1 ? '200px' : 0) }} className="autocomplete-dropdown-container">
+                      {suggestions.map(suggestion => {
+                        const className = suggestion.active
+                          ? "suggestion-item--active"
+                          : "suggestion-item";
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                          : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </PlacesAutocomplete>
+              <PlacesAutocomplete
+                value={this.state.destination}
+                onChange={e => this.handleChange("destination", e, "focus2")}
+                onSelect={e => this.handleSelect("destination", e, "focus2")}
+              >
+                {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+                  <div>
+                    <input
+                      {...getInputProps({
+                        required: true,
+                        placeholder: "Starting Location",
+                        className: "location-search-input"
+                      })}
+                    />
+                    <div style={{ zIndex: (this.state.focus2 ? 5 : 0), height: (this.state.focus2 ? '200px' : 0), width: (this.state.focus2 ? '200px' : 0) }} className="autocomplete-dropdown-container">
+                      {suggestions.map(suggestion => {
+                        const className = suggestion.active
+                          ? "suggestion-item--active"
+                          : "suggestion-item";
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                          : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </PlacesAutocomplete>
             </div>
             <div className="trips-date-inputs-container">
-            <DatePicker
-            required={true}
-            placeholder="Start Date"
-            className="datepicker-size"
-            style={{width: "45%"}}            
-            // dialogContainerStyle={{backgroundColor: "#fff", color: "white"}}
-            // underlineStyle={{ borderBottom: "white" }}
-            onChange={(none, date) => {
-              let month;
-              switch (new Date(date).getMonth()) {
-                case 0:
-                  month = "January";
-                  break;
-                case 1:
-                  month = "February";
-                  break;
-                case 2:
-                  month = "March";
-                  break;
-                case 3:
-                  month = "April";
-                  break;
-                case 4:
-                  month = "May";
-                  break;
-                case 5:
-                  month = "June";
-                  break;
-                case 6:
-                  month = "July";
-                  break;
-                case 7:
-                  month = "August";
-                  break;
-                case 8:
-                  month = "September";
-                  break;
-                case 9:
-                  month = "October";
-                  break;
-                case 10:
-                  month = "November";
-                  break;
-                case 11:
-                  month = "January";
-                  break;
-                default:
-                  month = "December";
-              }
-              this.setState({
-                starting: `${month} ${date.getDate()}, ${date.getFullYear()}`
-              });
-            }}
-            autoOk={true}
-          />
-          <DatePicker
-          required={true}
-          placeholder="End Date"
-          className="datepicker-size"
-          style={{width: "45%"}}    
-            onChange={(none, date) => {
-              let month;
-              switch (new Date(date).getMonth()) {
-                case 0:
-                  month = "January";
-                  break;
-                case 1:
-                  month = "February";
-                  break;
-                case 2:
-                  month = "March";
-                  break;
-                case 3:
-                  month = "April";
-                  break;
-                case 4:
-                  month = "May";
-                  break;
-                case 5:
-                  month = "June";
-                  break;
-                case 6:
-                  month = "July";
-                  break;
-                case 7:
-                  month = "August";
-                  break;
-                case 8:
-                  month = "September";
-                  break;
-                case 9:
-                  month = "October";
-                  break;
-                case 10:
-                  month = "November";
-                  break;
-                case 11:
-                  month = "January";
-                  break;
-                default:
-                  month = "December";
-              }
-              this.setState({
-                ending: `${month} ${date.getDate()}, ${date.getFullYear()}`
-              });
-            }}
-            autoOk={true}
-          />
+              <DatePicker
+                required={true}
+                placeholder="Start Date"
+                className="datepicker-size"
+                style={{ width: "45%" }}
+                onChange={(none, date) => {
+                  let month;
+                  switch (new Date(date).getMonth()) {
+                    case 0:
+                      month = "January";
+                      break;
+                    case 1:
+                      month = "February";
+                      break;
+                    case 2:
+                      month = "March";
+                      break;
+                    case 3:
+                      month = "April";
+                      break;
+                    case 4:
+                      month = "May";
+                      break;
+                    case 5:
+                      month = "June";
+                      break;
+                    case 6:
+                      month = "July";
+                      break;
+                    case 7:
+                      month = "August";
+                      break;
+                    case 8:
+                      month = "September";
+                      break;
+                    case 9:
+                      month = "October";
+                      break;
+                    case 10:
+                      month = "November";
+                      break;
+                    case 11:
+                      month = "January";
+                      break;
+                    default:
+                      month = "December";
+                  }
+                  this.setState({
+                    starting: `${month} ${date.getDate()}, ${date.getFullYear()}`
+                  });
+                }}
+                autoOk={true}
+              />
+              <DatePicker
+                required={true}
+                placeholder="End Date"
+                className="datepicker-size"
+                style={{ width: "45%" }}
+                onChange={(none, date) => {
+                  let month;
+                  switch (new Date(date).getMonth()) {
+                    case 0:
+                      month = "January";
+                      break;
+                    case 1:
+                      month = "February";
+                      break;
+                    case 2:
+                      month = "March";
+                      break;
+                    case 3:
+                      month = "April";
+                      break;
+                    case 4:
+                      month = "May";
+                      break;
+                    case 5:
+                      month = "June";
+                      break;
+                    case 6:
+                      month = "July";
+                      break;
+                    case 7:
+                      month = "August";
+                      break;
+                    case 8:
+                      month = "September";
+                      break;
+                    case 9:
+                      month = "October";
+                      break;
+                    case 10:
+                      month = "November";
+                      break;
+                    case 11:
+                      month = "January";
+                      break;
+                    default:
+                      month = "December";
+                  }
+                  this.setState({
+                    ending: `${month} ${date.getDate()}, ${date.getFullYear()}`
+                  });
+                }}
+                autoOk={true}
+              />
             </div>
             <input required className="trips-inputs" type="number" placeholder="Trip Budget" value={tripTotalBudget} onChange={(e) => this.handleInput("tripTotalBudget", e.target.value)} />
             <textarea className="trips-inputs trips-notes-input" type="text" placeholder="import notes, blah, blah, blah.." value={tripNotes} onChange={(e) => this.handleInput("tripNotes", e.target.value)} />
@@ -295,8 +292,8 @@ class Trips extends Component {
             </div>
           </form>
         ) : (
-          <Plan />
-        )}
+            <Plan />
+          )}
       </div>
     )
   }
