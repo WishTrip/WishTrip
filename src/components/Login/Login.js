@@ -57,9 +57,9 @@ class Login extends React.Component {
       }
     });
 
-    auth.onAuthStateChanged(user => {
-      // user && (window.location = "/#/trips");
-    });
+    // auth.onAuthStateChanged(user => {
+    //   user && (window.location = "/#/trips");
+    // });
   };
 
   // authWithEmailPassword(event) {
