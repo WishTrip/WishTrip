@@ -28,7 +28,7 @@ const GET_USER_TRIPS = "GET_USER_TRIPS";
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case `${USER_LOGIN}`:
-      console.log(action.payload);
+      console.log("1: ", state);
       return {
         ...state,
         user: {
@@ -37,6 +37,7 @@ export default function userReducer(state = initialState, action) {
         }
       };
     case `${SAVE_AGENDA}`:
+      console.log("2: ", state);
       let { days } = state;
       let { newDay } = action.payload;
       let currentDay = action.payload.currentDay - 1;
@@ -53,6 +54,7 @@ export default function userReducer(state = initialState, action) {
         user: { ...state.user, trips: [{ ...state.user.trips[0], days }] }
       };
     case `${ADD_INITIAL_TRIP_VALUES}`:
+      console.log("3: ", state);
       const { tripBudget, tripLocation, tripName, tripNotes } = action.payload;
       return {
         ...state,
@@ -70,6 +72,7 @@ export default function userReducer(state = initialState, action) {
         }
       };
     case `${COMPLETE_TRIP}`:
+      console.log("4: ", state);
       return {
         ...state,
         user: {
@@ -83,10 +86,14 @@ export default function userReducer(state = initialState, action) {
         }
       };
     case `${GET_USER_TRIPS}_FULFILLED`:
-    let trips = action.payload.data.trips;
-    let tripsArr = [];
-    forEach(trips, (val, key) => tripsArr.push(val))
-      return { ...state, user: { userinfo: action.payload.data.userinfo, trips: tripsArr } }
+      console.log("5: ", action.payload);
+      let trips = action.payload.data.trips;
+      let tripsArr = [];
+      forEach(trips, (val, key) => tripsArr.push(val));
+      return {
+        ...state,
+        user: { userinfo: {email: action.payload.data.userinfo.userinfo.email, uid: action.payload.data.uid}, trips: tripsArr }
+      };
     case `${SEND_USER_INFO}_FULFILLED`:
       return { ...state };
     default:
@@ -149,6 +156,7 @@ export function completeTrip(days) {
 }
 
 export function sendUserInfo(user) {
+  console.log(user);
   return {
     type: SEND_USER_INFO,
     payload: axios.post("/api/sendUserInfo", { user })
