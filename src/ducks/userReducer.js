@@ -8,6 +8,7 @@ const initialState = {
   //     trips: [0: {tripName, tripStarting, tripEnd, tripTotal, days: [days]},
   //             ] ...
   //     }
+  currentUserTrips: [],
   user: {
     userinfo: {},
     trips: []
@@ -89,13 +90,14 @@ export default function userReducer(state = initialState, action) {
         }
       };
     case `${GET_USER_TRIPS}_FULFILLED`:
-      console.log("5: ", action.payload);
-      let trips = action.payload.data.trips;
+      console.log("5: ", action.payload.data.userinfo.trips);
+      let trips = action.payload.data.userinfo.trips;
       let tripsArr = [];
       forEach(trips, (val, key) => tripsArr.push(val));
       return {
         ...state,
-        user: { userinfo: { email: action.payload.data.userinfo.userinfo.email, uid: action.payload.data.uid }, trips: tripsArr }
+        user: { ...state.user, userinfo: { email: action.payload.data.userinfo.userinfo.email, uid: action.payload.data.uid } },
+        currentUserTrips: tripsArr
       };
     case `${SEND_USER_INFO}_FULFILLED`:
       return { ...state };
