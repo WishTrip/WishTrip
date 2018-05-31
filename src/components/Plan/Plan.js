@@ -10,7 +10,6 @@ import {
   sendUserInfo
 } from "../../ducks/userReducer";
 import TimeInput from "material-ui-time-picker";
-import Agenda from "../Agenda/Agenda";
 
 import { auth } from "../../firebase";
 
@@ -43,7 +42,6 @@ class Plan extends Component {
 
   componentDidMount() {
     let newDot = [];
-    // console.log(this.props.days[this.state.currentDay - 1].length + 1)
     for (let i = 0; i < this.props.days[this.state.currentDay - 1].length + 1; i++) {
       newDot.push(i);
     }
@@ -51,21 +49,6 @@ class Plan extends Component {
       dots: newDot
     });
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log(prevProps.days)
-  //   console.log(this.props.days)
-  //   if ((prevPr.days !== this.props.days)) {
-  //     console.log("COMPONENTDIDUPDATE HITs")
-  //     let newDot = []
-  //     for (let i = 0; i < this.props.days[this.state.currentDay - 1].length + 1; i++) {
-  //       newDot.push(i);
-  //     }
-  //     this.setState({
-  //       dots: newDot
-  //     });
-  //   }
-  // }
 
   handleHamburgerMenu = () => {
     if (!this.props.burgerFlag) {
@@ -152,8 +135,6 @@ class Plan extends Component {
       );
 
     }
-    console.log(newDot)
-    console.log(this.state.dots)
     this.setState({
       dots: newDot,
       nextStepsFlag: true,
@@ -167,7 +148,6 @@ class Plan extends Component {
   }
 
   handleCompleteDay() {
-    // if (auth.currentUser) {
     if (this.props.user.userinfo.uid) {
       this.props.completeTrip(this.props.days);
       this.props.sendUserInfo(this.props.user);
@@ -195,16 +175,6 @@ class Plan extends Component {
       dots
     } = this.state;
     const { days } = this.props;
-
-    console.log(days[currentDay - 1])
-    console.log(currentDot)
-    console.log(days[currentDay - 1][currentDot])
-
-    // let currentAgendas = days[currentDay - 1].map((e, i) => {
-    //   return (
-    //     <Agenda key={i} index={i} saved={e} agenda={agenda + i} time={time} />
-    //   );
-    // });
 
     let newDots = dots.map((dot, j) => {
       return (
@@ -334,8 +304,6 @@ class Plan extends Component {
                     >
                       Complete Trip
                 </button>
-                    {console.log(this.props.days.length)}
-                    {console.log(this.state.day)}
                     {this.props.days.length - 1 !== this.state.day ? null : <button onClick={this.handleDay}>New Day</button>}
 
                   </div>
@@ -382,8 +350,7 @@ const mapStateToProps = state => ({
   ...state.viewReducer,
   ...state.userReducer
 });
-// {(this.props.days.length > 1 && (this.props.days.length === this.state.day)) ? null : <button onClick={this.handleDay}>New Day</button> }
-// {(this.props.days[this.state.currentDay - 1].length === 0 || this.props.days.length - 1 < this.props.days[currentDay - 1]) ? null : <button onClick={() => this.handleDay()}>Add New Day</button>}
+
 export default connect(mapStateToProps, {
   toggleHamburgerBtn,
   saveAgenda,
