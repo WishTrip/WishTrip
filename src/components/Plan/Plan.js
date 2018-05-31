@@ -126,7 +126,7 @@ class Plan extends Component {
       agendaNameInput: "",
       destinationInput: "",
       activityInput: "",
-      budgetInput: undefined,
+      budgetInput: 0,
       notesInput: ""
     });
   }
