@@ -287,6 +287,7 @@ class DummyPlan extends Component {
   updateCurrentTrip = val => {
     console.log(val);
     this.setState({ currentTrip: val });
+    console.log()
   };
 
   render() {
