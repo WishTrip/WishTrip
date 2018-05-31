@@ -83,13 +83,11 @@ class Trips extends Component {
     const { tripName, tripTotalBudget, tripNotes, showPlan } = this.state;
     const { user } = this.props;
 
-    console.log(this.state)
-
-    let currentAgendas = user.trips.map((e, i) => {
-      return (
-        <Trip key={i} index={i} saved={e} name={e.tripName} location={e.tripLocation} budget={e.tripBudget} notes={e.tripNotes} />
-      )
-    })
+    // let currentAgendas = user.trips.map((e, i) => {
+    //   return (
+    //     <Trip key={i} index={i} saved={e} name={e.tripName} location={e.tripLocation} budget={e.tripBudget} notes={e.tripNotes} />
+    //   )
+    // })
 
     // <input className="trips-inputs" type="text" placeholder="Trip Starting Location" value={tripStartingLocation} onChange={(e) => this.handleInput("tripStartingLocation", e.target.value)} />
     return (

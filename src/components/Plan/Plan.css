@@ -54,6 +54,13 @@
     display: flex;
 }
 
+.new-dots-container {
+    width: 50%;
+    height: 20%;
+    display: flex;
+    justify-content: space-around;
+}
+
 .home-name-input {
     position: absolute;
     top: 10px;
