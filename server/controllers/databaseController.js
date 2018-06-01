@@ -13,13 +13,14 @@ const {
 var config = {
   apiKey: REACT_APP_DATABASE_API_KEY,
   authDomain: REACT_APP_DATABASE_AUTH_DOMAIN,
+  // databaseURL: `https://${REACT_APP_DATABASE_URL}`,
   databaseURL: REACT_APP_DATABASE_URL,
   projectId: REACT_APP_DATABASE_PROJECT_ID,
   storageBucket: REACT_APP_DATABASE_STORAGE_BUCKET,
   messagingSenderId: REACT_APP_DATABASE_SENDER_ID
 };
 firebase.initializeApp(config);
-
+console.log(config)
 const database = firebase.database();
 
 const loginUser = (req, res) => {
@@ -42,7 +43,6 @@ const sendUserInfo = (req, res) => {
     .set({ email: user.userinfo.email });
 
   if(user.trips[0]) {
-    console.log(user.trips[0].days)
     database
     .ref(`users/${user.userinfo.uid}/trips`)
     .child(`${user.trips[0].name}`)

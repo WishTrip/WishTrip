@@ -32,6 +32,32 @@ class Plan extends Component {
     this.handleCompleteDay = this.handleCompleteDay.bind(this);
   }
 
+  // componentDidMount() {
+  //   let newDot = [];
+  //   console.log(this.props.days[this.props.day])
+    // for (let i = 0; i < this.props.days[this.props.day - 1].length + 1; i++) {
+    //   newDot.push(i);
+    // }
+    // this.setState({
+    //   dots: newDot
+    // });
+  // }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log(prevProps.days)
+  //   console.log(this.props.days)
+  //   if ((prevPr.days !== this.props.days)) {
+  //     console.log("COMPONENTDIDUPDATE HITs")
+  //     let newDot = []
+  //     for (let i = 0; i < this.props.days[this.state.currentDay - 1].length + 1; i++) {
+  //       newDot.push(i);
+  //     }
+  //     this.setState({
+  //       dots: newDot
+  //     });
+  //   }
+  // }
+
   handleHamburgerMenu = () => {
     if (!this.props.burgerFlag) {
       this.props.toggleHamburgerBtn();
@@ -84,6 +110,50 @@ class Plan extends Component {
       time
     );
   }
+    // let { currentAgenda, newDay, currentDay, currentDot } = this.state;
+    // let newDot = this.state.dots.slice();
+    // newDot.push(currentDot + 1);
+    // if (newDay) {
+    //   this.props.saveAgenda(
+    //     newDay,
+    //     currentDay,
+    //     currentAgenda,
+    //     agendaNameInput,
+    //     destinationInput,
+    //     activityInput,
+    //     budgetInput,
+    //     notesInput,
+    //     time
+    //   );
+    //   this.setState({
+    //     newDay: false
+    //   });
+    // } else {
+    //   this.props.saveAgenda(
+    //     newDay,
+    //     currentDay,
+    //     currentAgenda,
+    //     agendaNameInput,
+    //     destinationInput,
+    //     activityInput,
+    //     budgetInput,
+    //     notesInput,
+    //     time
+    //   );
+    // }
+  //   console.log(newDot);
+  //   console.log(this.state.dots);
+  //   this.setState({
+  //     dots: newDot,
+  //     nextStepsFlag: true,
+  //     currentAgenda: currentAgenda + 1,
+  //     agendaNameInput: "",
+  //     destinationInput: "",
+  //     activityInput: "",
+  //     budgetInput: 0,
+  //     notesInput: ""
+  //   });
+  // }
 
   handleCompleteDay() {
     if (this.props.user.userinfo.uid) {
@@ -108,10 +178,15 @@ class Plan extends Component {
       notesInput,
       dots
     } = this.state;
+
+    console.log(dots)
+    console.log(days.length - 1, day)
+  
     let newDots = dots.map((dot, j) => {
       return (
         <div key={j}>
           <i
+            data-cypress-newagenda
             style={{ color: currentDot === j ? "#999" : "#333" }}
             onClick={() => this.setState({ currentDot: j })}
             className="fa fa-circle"
@@ -125,10 +200,7 @@ class Plan extends Component {
         {days[day - 1] && (days[day - 1].length === currentDot) && currentDot < 6 ? (
           <div className="plan-wrapper">
             <div>
-              <div
-                className="home-wrapper"
-                onClick={this.handleHamburgerMenu}
-              >
+              <div className="home-wrapper" onClick={this.handleHamburgerMenu}>
                 <Background />
                 <div className="home-day-container home-chevron">
                   <i
@@ -139,6 +211,12 @@ class Plan extends Component {
                   <i
                     onClick={incrementDay}
                     className={(days.length === (day)) ? null : "fa fa-chevron-right"}
+                    onClick={incrementDay}
+                    className={
+                      this.props.days.length === day
+                        ? null
+                        : "fa fa-chevron-right"
+                    }
                   />
                 </div>
                 <h2 className="home-agenda-text">New Agenda</h2>
@@ -146,6 +224,7 @@ class Plan extends Component {
                   <div className="home-container">
                     <div className="new-dots-container">{newDots}</div>
                     <input
+                      data-cypress-agendaname
                       className="home-name-input home-inputs"
                       type="text"
                       placeholder="Agenda Name"
@@ -157,6 +236,7 @@ class Plan extends Component {
                     <div className="home-inputs-container">
                       <div className="home-destination-activity-container">
                         <input
+                          data-cypress-agendadestination
                           className="home-destination-input home-inputs"
                           type="text"
                           placeholder="Agenda Destination"
@@ -166,6 +246,7 @@ class Plan extends Component {
                           }
                         />
                         <input
+                          data-cypress-agendaactivity
                           className="home-activity-input home-inputs"
                           type="text"
                           placeholder="Agenda Activity"
@@ -178,6 +259,7 @@ class Plan extends Component {
                       <div className="budget-container">
                         <i className="home-dollar-sign">$</i>
                         <input
+                          data-cypress-agendabudget
                           className="home-budget-input-position  home-budget-input home-inputs"
                           type="number"
                           placeholder="Budget for Day"
@@ -188,6 +270,7 @@ class Plan extends Component {
                         />
                       </div>
                       <textarea
+                        data-cypress-agendanotes
                         className="home-notes-input  home-inputs"
                         type="text"
                         placeholder="import notes, blah, blah, blah.."
@@ -198,13 +281,16 @@ class Plan extends Component {
                       />
                       <div className="home-time-agenda-container">
                         <TimeInput
+                          data-cypress-timeinput
                           className="home-clock"
                           mode="12h"
                           okLabel="submit"
                           value={time}
                           onChange={e => this.handleInput("time", e)}
                         />
+                        {dots.length !== 6 && (
                           <button
+                            data-cypress-addagenda
                             className="home-save-agenda-btn"
                             onClick={() =>
                               this.handleAgenda(
@@ -219,21 +305,20 @@ class Plan extends Component {
                           >
                             Add Agenda
                       </button>
-                        
+                        )}
+
                       </div>
                     </div>
                   </div>
                 </div>
+                    {days.length !== day ? null : (
                       <div>
-                      <button
-                      onClick={
-                        this.handleCompleteDay}
-                    >
-                      Complete Trip
-                </button><button onClick={handleDay}>New Day</button>
+                        <button onClick={this.handleCompleteDay}>Complete Trip</button>
+                        <button onClick={this.props.handleDay}>New Day</button>
+                      </div>
+                    )}
+                  </div>
               </div>
-              </div>
-            </div>
           </div>
         ) : (
             <div className="home-wrapper">
@@ -263,29 +348,21 @@ class Plan extends Component {
                     <div className="home-time-agenda-container">
                       <TimeInput style={{ color: "#fff" }} className="home-clock" disabled mode='12h' okLabel="submit" value={time} onChange={e => this.handleInput('time', e)} />
                     </div>
-                  </div>
-                        <div>
-                        <button
-                        onClick={
-                          this.handleCompleteDay}
-                      >
-                        Complete Trip
-                  </button><button onClick={handleDay}>New Day</button>
-                </div>
-                </div>
-              </div>
-            </div>
-          )
-        }
-      </div>
-    )
 
-    return (this.props.day-1) === this.props.ind && (
-      <div style={{ width: "100%" }}>
-        {showingAgenda}
-      </div>
-    )
-  }
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+                  )}
+                </div>
+              );
+
+              return (this.props.day-1) === this.props.ind && (
+                <div style={{ width: "100%" }}>
+                  {showingAgenda}
+                </div>
+              )
+            }
 }
 
 const mapStateToProps = state => ({
@@ -299,3 +376,50 @@ export default connect(mapStateToProps, {
   completeTrip,
   sendUserInfo
 })(Plan);
+
+// <div className="home-wrapper">
+//             <h2 className="home-agenda-text">Agenda {agenda}</h2>
+//             <div className="home-container-wrapper agenda-container-wrapper">
+//               <div className="home-container">
+//                 <div className="new-dots-container">{newDots}</div>
+//                 <p className="home-name-input home-inputs">
+//                   {days[currentDay - 1][currentDot].name}
+//                 </p>
+//                 <div className="home-inputs-container">
+//                   <div className="home-destination-activity-container">
+//                     <p className="home-destination-input home-inputs">
+//                       {days[currentDay - 1][currentDot].destination}
+//                     </p>
+//                     <p className="home-activity-input home-inputs">
+//                       {days[currentDay - 1][currentDot].activity}
+//                     </p>
+//                   </div>
+//                   <p className="home-budget-input home-inputs">
+//                     {days[currentDay - 1][currentDot].budget}
+//                   </p>
+//                   <p className="home-notes-input  home-inputs">
+//                     {days[currentDay - 1][currentDot].notes}
+//                   </p>
+//                   <div className="home-time-agenda-container">
+//                     <TimeInput
+//                       style={{ color: "#fff" }}
+//                       className="home-clock"
+//                       disabled
+//                       mode="12h"
+//                       okLabel="submit"
+//                       value={time}
+//                       onChange={e => this.handleInput("time", e)}
+//                     />
+//                   </div>
+//                         <div>
+//                         <button
+//                         onClick={
+//                           this.handleCompleteDay}
+//                       >
+//                         Complete Trip
+//                   </button><button onClick={handleDay}>New Day</button>
+//                 </div>
+//                 </div>
+//                 </div>
+//               </div>
+
