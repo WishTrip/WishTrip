@@ -685,7 +685,7 @@ describe("Full end to end testing", () => {
         .get("button")
         .contains("submit")
         .click();
-      cy.wait(600);
+      cy.wait(800);
     });
   });
 });
