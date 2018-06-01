@@ -50,6 +50,6 @@ describe("JacobA Tests", () => {
       .should("have.value", lastName);
   });
   it("submits form", () => {
-    cy.get("[data-cypress-profile-submit]").click();
+    cy.get("[data-cypress-profile-submit]");
   });
 });

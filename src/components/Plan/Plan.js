@@ -44,7 +44,11 @@ class Plan extends Component {
   componentDidMount() {
     let newDot = [];
     // console.log(this.props.days[this.state.currentDay - 1].length + 1)
-    for (let i = 0; i < this.props.days[this.state.currentDay - 1].length + 1; i++) {
+    for (
+      let i = 0;
+      i < this.props.days[this.state.currentDay - 1].length + 1;
+      i++
+    ) {
       newDot.push(i);
     }
     this.setState({
@@ -121,8 +125,8 @@ class Plan extends Component {
     time
   ) {
     let { currentAgenda, newDay, currentDay, currentDot } = this.state;
-    let newDot = this.state.dots.slice()
-    newDot.push(currentDot + 1)
+    let newDot = this.state.dots.slice();
+    newDot.push(currentDot + 1);
     if (newDay) {
       this.props.saveAgenda(
         newDay,
@@ -150,10 +154,9 @@ class Plan extends Component {
         notesInput,
         time
       );
-
     }
-    console.log(newDot)
-    console.log(this.state.dots)
+    console.log(newDot);
+    console.log(this.state.dots);
     this.setState({
       dots: newDot,
       nextStepsFlag: true,
@@ -178,7 +181,6 @@ class Plan extends Component {
   }
 
   render() {
-
     const {
       day,
       agenda,
@@ -196,9 +198,9 @@ class Plan extends Component {
     } = this.state;
     const { days } = this.props;
 
-    console.log(days[currentDay - 1])
-    console.log(currentDot)
-    console.log(days[currentDay - 1][currentDot])
+    console.log(days[currentDay - 1]);
+    console.log(currentDot);
+    console.log(days[currentDay - 1][currentDot]);
 
     // let currentAgendas = days[currentDay - 1].map((e, i) => {
     //   return (
@@ -210,6 +212,7 @@ class Plan extends Component {
       return (
         <div>
           <i
+            data-cypress-newagenda
             key={j}
             style={{ color: currentDot === j ? "#999" : "#333" }}
             onClick={() => this.setState({ currentDot: j })}
@@ -237,7 +240,11 @@ class Plan extends Component {
                   <h1 className="home-day-text">Day {day}</h1>
                   <i
                     onClick={() => this.incrementDay()}
-                    className={this.props.days.length === this.state.day ? null : "fa fa-chevron-right"}
+                    className={
+                      this.props.days.length === this.state.day
+                        ? null
+                        : "fa fa-chevron-right"
+                    }
                   />
                 </div>
                 <h2 className="home-agenda-text">New Agenda</h2>
@@ -245,6 +252,7 @@ class Plan extends Component {
                   <div className="home-container">
                     <div className="new-dots-container">{newDots}</div>
                     <input
+                      data-cypress-agendaname
                       className="home-name-input home-inputs"
                       type="text"
                       placeholder="Agenda Name"
@@ -256,6 +264,7 @@ class Plan extends Component {
                     <div className="home-inputs-container">
                       <div className="home-destination-activity-container">
                         <input
+                          data-cypress-agendadestination
                           className="home-destination-input home-inputs"
                           type="text"
                           placeholder="Agenda Destination"
@@ -265,6 +274,7 @@ class Plan extends Component {
                           }
                         />
                         <input
+                          data-cypress-agendaactivity
                           className="home-activity-input home-inputs"
                           type="text"
                           placeholder="Agenda Activity"
@@ -277,6 +287,7 @@ class Plan extends Component {
                       <div className="budget-container">
                         <i className="home-dollar-sign">$</i>
                         <input
+                          data-cypress-agendabudget
                           className="home-budget-input-position  home-budget-input home-inputs"
                           type="number"
                           placeholder="Budget for Day"
@@ -287,6 +298,7 @@ class Plan extends Component {
                         />
                       </div>
                       <textarea
+                        data-cypress-agendanotes
                         className="home-notes-input  home-inputs"
                         type="text"
                         placeholder="import notes, blah, blah, blah.."
@@ -297,15 +309,16 @@ class Plan extends Component {
                       />
                       <div className="home-time-agenda-container">
                         <TimeInput
+                          data-cypress-timeinput
                           className="home-clock"
                           mode="12h"
                           okLabel="submit"
                           value={time}
                           onChange={e => this.handleInput("time", e)}
                         />
-                        {this.state.dots.length !== 6 &&
+                        {this.state.dots.length !== 6 && (
                           <button
-
+                            data-cypress-addagenda
                             className="home-save-agenda-btn"
                             onClick={() =>
                               this.handleAgenda(
@@ -319,8 +332,8 @@ class Plan extends Component {
                             }
                           >
                             Add Agenda
-                      </button>
-                        }
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -333,48 +346,61 @@ class Plan extends Component {
                       }}
                     >
                       Complete Trip
-                </button>
+                    </button>
                     {console.log(this.props.days.length)}
                     {console.log(this.state.day)}
-                    {this.props.days.length - 1 !== this.state.day ? null : <button onClick={this.handleDay}>New Day</button>}
-
+                    {this.props.days.length - 1 !== this.state.day ? null : (
+                      <button onClick={this.handleDay}>New Day</button>
+                    )}
                   </div>
                 ) : null}
               </div>
             </div>
           </div>
         ) : (
-            <div className="home-wrapper">
-              <h2 className="home-agenda-text">Agenda {agenda}</h2>
-              <div className="home-container-wrapper agenda-container-wrapper">
-                <div className="home-container">
-                  <div className="new-dots-container">{newDots}</div>
-                  <p className="home-name-input home-inputs">{days[currentDay - 1][currentDot].name}</p>
-                  <div className="home-inputs-container">
-                    <div className="home-destination-activity-container">
-                      <p className="home-destination-input home-inputs">{days[currentDay - 1][currentDot].destination}</p>
-                      <p className="home-activity-input home-inputs">{days[currentDay - 1][currentDot].activity}</p>
-                    </div>
-                    <p className="home-budget-input home-inputs" >{days[currentDay - 1][currentDot].budget}</p>
-                    <p className="home-notes-input  home-inputs" >{days[currentDay - 1][currentDot].notes}</p>
-                    <div className="home-time-agenda-container">
-                      <TimeInput style={{ color: "#fff" }} className="home-clock" disabled mode='12h' okLabel="submit" value={time} onChange={e => this.handleInput('time', e)} />
-                    </div>
+          <div className="home-wrapper">
+            <h2 className="home-agenda-text">Agenda {agenda}</h2>
+            <div className="home-container-wrapper agenda-container-wrapper">
+              <div className="home-container">
+                <div className="new-dots-container">{newDots}</div>
+                <p className="home-name-input home-inputs">
+                  {days[currentDay - 1][currentDot].name}
+                </p>
+                <div className="home-inputs-container">
+                  <div className="home-destination-activity-container">
+                    <p className="home-destination-input home-inputs">
+                      {days[currentDay - 1][currentDot].destination}
+                    </p>
+                    <p className="home-activity-input home-inputs">
+                      {days[currentDay - 1][currentDot].activity}
+                    </p>
+                  </div>
+                  <p className="home-budget-input home-inputs">
+                    {days[currentDay - 1][currentDot].budget}
+                  </p>
+                  <p className="home-notes-input  home-inputs">
+                    {days[currentDay - 1][currentDot].notes}
+                  </p>
+                  <div className="home-time-agenda-container">
+                    <TimeInput
+                      style={{ color: "#fff" }}
+                      className="home-clock"
+                      disabled
+                      mode="12h"
+                      okLabel="submit"
+                      value={time}
+                      onChange={e => this.handleInput("time", e)}
+                    />
                   </div>
                 </div>
               </div>
             </div>
-
-          )
-        }
+          </div>
+        )}
       </div>
-    )
+    );
 
-    return (
-      <div>
-        {showingAgenda}
-      </div>
-    )
+    return <div>{showingAgenda}</div>;
   }
 }
 
