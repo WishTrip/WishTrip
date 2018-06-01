@@ -34,6 +34,7 @@ app.use(
 
 // HOSTING
 app.use(express.static(`${__dirname}/../build)`));
+app.get('*', (req, res) => res.sendFile(__dirname, '..', 'index.html'));
 
 //Database Endpoints
 // app.get('/api/getData', dbCtrl.getData);
