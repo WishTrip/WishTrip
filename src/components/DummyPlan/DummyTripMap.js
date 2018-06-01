@@ -28,7 +28,8 @@ class DummyTripMap extends React.Component {
     budgetInput: 0,
     notesInput: "",
     nextStepsFlag: false,
-    dotHandler: 0
+    dotHandler: 0,
+    editToggle: false
   };
 
   toggleDot = val => {
@@ -230,6 +231,16 @@ class DummyTripMap extends React.Component {
               </div>
 
               <div className="home-container-wrapper">
+                <i
+                  className={
+                    this.state.editToggle
+                      ? "fa fa-check-square editToggle"
+                      : "fa fa-edit editToggle"
+                  }
+                  onClick={() =>
+                    this.setState({ editToggle: !this.state.editToggle })
+                  }
+                />
                 {typeof this.props.mapthis == "object" ? (
                   <DummyAgenda
                     length={
