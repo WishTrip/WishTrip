@@ -301,6 +301,7 @@ class DummyPlan extends Component {
           updateCurrentTrip={this.updateCurrentTrip}
           trips={thisuser.trips}
           mapthis={e}
+          currentTripIndex={this.state.currentTrip}
         />
       );
     });
