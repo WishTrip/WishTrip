@@ -32,6 +32,9 @@ app.use(
   })
 );
 
+// HOSTING
+app.use(express.static(`${__dirname}/../build)`));
+
 //Database Endpoints
 // app.get('/api/getData', dbCtrl.getData);
 // app.post('/api/changeDummyData', dbCtrl.createUser);
@@ -57,6 +60,11 @@ app.get("/api/test", (req, res) => {
     )
     .then(response => res.json(response.data))
     .catch(console.log);
+});
+
+const path = require("path");
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/../build/index.html"));
 });
 
 app.listen(port, () => {

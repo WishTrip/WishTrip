@@ -15,6 +15,7 @@ const {
 var config = {
   apiKey: REACT_APP_DATABASE_API_KEY,
   authDomain: REACT_APP_DATABASE_AUTH_DOMAIN,
+  // databaseURL: `https://${REACT_APP_DATABASE_URL}`,
   databaseURL: REACT_APP_DATABASE_URL,
   projectId: REACT_APP_DATABASE_PROJECT_ID,
   storageBucket: REACT_APP_DATABASE_STORAGE_BUCKET,

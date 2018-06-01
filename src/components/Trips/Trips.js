@@ -36,17 +36,15 @@ class Trips extends Component {
   }
 
 
-  // ---------------------FUNCTIONS ABOVE NEW TWEEKED-------------------
-
   handleInput(key, val) {
-    if (key === 'tripTotalBudget') {
+    if (key === "tripTotalBudget") {
       return this.setState({
         [key]: parseInt(val, 10)
-      })
+      });
     }
     this.setState({
       [key]: val
-    })
+    });
   }
 
   handleHamburgerMenu = () => {
@@ -65,6 +63,38 @@ class Trips extends Component {
     })
   }
 
+//     let {
+//       tripName,
+//       origin,
+//       destination,
+//       starting,
+//       ending,
+//       tripTotalBudget,
+//       tripNotes
+//     } = this.state;
+//     console.log(
+//       tripName,
+//       origin,
+//       destination,
+//       starting,
+//       ending,
+//       tripTotalBudget,
+//       tripNotes
+//     );
+//     this.getTripInfo();
+//     this.handleInput("showPlan", true);
+//     this.props.addInitialTripValues(
+//       tripName,
+//       origin,
+//       destination,
+//       starting,
+//       ending,
+//       tripTotalBudget,
+//       tripNotes
+//     );
+//   };
+// >>>>>>> master
+
   handleChange = (key, val, prop) => {
     this.setState({ [key]: val, [prop]: true });
   };
@@ -79,7 +109,7 @@ class Trips extends Component {
     axios
       .get(
         `/api/gettravelinfo?origin=${this.state.origin}&destination=${
-        this.state.destination
+          this.state.destination
         }&starting=${this.state.starting}&ending=${this.state.ending}`
       )
       .then(res => console.log(res));
@@ -122,8 +152,16 @@ class Trips extends Component {
       <div className="trips-wrapper" onClick={() => this.handleHamburgerMenu()}>
         <Background />
         {!showPlan ? (
-          <form className="trips-input-container" onSubmit={this.startTrip} >
-            <input required className="trips-inputs trips-name-input" type="text" placeholder="Trip Name" value={tripName} onChange={(e) => this.handleInput("tripName", e.target.value)} />
+          <form className="trips-input-container" onSubmit={this.startTrip}>
+            <input
+              data-cypress-input-tripname
+              required
+              className="trips-inputs trips-name-input"
+              type="text"
+              placeholder="Trip Name"
+              value={tripName}
+              onChange={e => this.handleInput("tripName", e.target.value)}
+            />
             <div className="trips-autocomplete-container">
               <PlacesAutocomplete
                 value={this.state.origin}
@@ -133,14 +171,21 @@ class Trips extends Component {
                 {({ getInputProps, suggestions, getSuggestionItemProps }) => (
                   <div>
                     <input
-
+                      data-cypress-departure-location
                       {...getInputProps({
                         required: true,
                         placeholder: "Departure Location",
                         className: "location-search-input"
                       })}
                     />
-                    <div style={{ zIndex: (this.state.focus1 ? 5 : 0), height: (this.state.focus1 ? '200px' : 0), width: (this.state.focus1 ? '200px' : 0) }} className="autocomplete-dropdown-container">
+                    <div
+                      style={{
+                        zIndex: this.state.focus1 ? 5 : 0,
+                        height: this.state.focus1 ? "200px" : 0,
+                        width: this.state.focus1 ? "200px" : 0
+                      }}
+                      className="autocomplete-dropdown-container"
+                    >
                       {suggestions.map(suggestion => {
                         const className = suggestion.active
                           ? "suggestion-item--active"
@@ -172,13 +217,21 @@ class Trips extends Component {
                 {({ getInputProps, suggestions, getSuggestionItemProps }) => (
                   <div>
                     <input
+                      data-cypress-starting-location
                       {...getInputProps({
                         required: true,
                         placeholder: "Starting Location",
                         className: "location-search-input"
                       })}
                     />
-                    <div style={{ zIndex: (this.state.focus2 ? 5 : 0), height: (this.state.focus2 ? '200px' : 0), width: (this.state.focus2 ? '200px' : 0) }} className="autocomplete-dropdown-container">
+                    <div
+                      style={{
+                        zIndex: this.state.focus2 ? 5 : 0,
+                        height: this.state.focus2 ? "200px" : 0,
+                        width: this.state.focus2 ? "200px" : 0
+                      }}
+                      className="autocomplete-dropdown-container"
+                    >
                       {suggestions.map(suggestion => {
                         const className = suggestion.active
                           ? "suggestion-item--active"
@@ -205,6 +258,7 @@ class Trips extends Component {
             </div>
             <div className="trips-date-inputs-container">
               <DatePicker
+                data-cypress-startdate
                 required={true}
                 placeholder="Start Date"
                 className="datepicker-size"
@@ -258,6 +312,7 @@ class Trips extends Component {
                 autoOk={true}
               />
               <DatePicker
+                data-cypress-enddate
                 required={true}
                 placeholder="End Date"
                 className="datepicker-size"
@@ -311,19 +366,42 @@ class Trips extends Component {
                 autoOk={true}
               />
             </div>
-            <input required className="trips-inputs" type="number" placeholder="Trip Budget" value={tripTotalBudget} onChange={(e) => this.handleInput("tripTotalBudget", e.target.value)} />
-            <textarea className="trips-inputs trips-notes-input" type="text" placeholder="import notes, blah, blah, blah.." value={tripNotes} onChange={(e) => this.handleInput("tripNotes", e.target.value)} />
+            <input
+              data-cypress-budget
+              required
+              className="trips-inputs"
+              type="number"
+              placeholder="Trip Budget"
+              value={tripTotalBudget}
+              onChange={e =>
+                this.handleInput("tripTotalBudget", e.target.value)
+              }
+            />
+            <textarea
+              data-cypress-notes
+              className="trips-inputs trips-notes-input"
+              type="text"
+              placeholder="import notes, blah, blah, blah.."
+              value={tripNotes}
+              onChange={e => this.handleInput("tripNotes", e.target.value)}
+            />
             <div className="trips-btn-position-container">
-              <input type="submit" value="Plan Trip" className="trips-plan-trip-btn" />
+              <input
+                data-cypress-submit
+                type="submit"
+                value="Plan Trip"
+                className="trips-plan-trip-btn"
+              />
             </div>
           </form>
         ) : (
-          <div>
-          {tripDays}
+          <div style={{ width: "100%" }}>
+            {tripDays}
           </div>
           )}
+          <Plan />
       </div>
-    )
+    );
   }
 }
 
