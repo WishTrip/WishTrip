@@ -33,10 +33,7 @@ app.use(
 );
 
 // HOSTING
-const path = require('path')
-app.get('*', (req, res)=>{
-  res.sendFile(path.join(__dirname, '../build/index.html'));
-})
+app.use(express.static(`${__dirname}/../build)`));
 
 //Database Endpoints
 // app.get('/api/getData', dbCtrl.getData);
