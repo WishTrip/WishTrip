@@ -140,6 +140,8 @@ class DummyTripMap extends React.Component {
       this.props.completeTrip(this.props.days);
     }
   };
+
+
   render() {
     console.log(this.props.currentTrip);
     let {
@@ -222,11 +224,11 @@ class DummyTripMap extends React.Component {
                       ? "fa fa-chevron-right"
                       : null
                   }
-                  // className={
-                  // thisuser.trips[0].days[this.state.currentDay + 1]
-                  //     ? "fa fa-chevron-right"
-                  //     : null
-                  // }
+                // className={
+                // thisuser.trips[0].days[this.state.currentDay + 1]
+                //     ? "fa fa-chevron-right"
+                //     : null
+                // }
                 />
               </div>
 
@@ -244,7 +246,7 @@ class DummyTripMap extends React.Component {
                 {typeof this.props.mapthis == "object" ? (
                   <DummyAgenda
                     length={
-                      this.props.mapthis.days[this.state.currentDay].length
+                      this.props.mapthis.days[this.state.currentDay].length + 1
                     }
                     toggleDot={this.toggleDot}
                     dot={this.state.dotHandler}
@@ -252,85 +254,85 @@ class DummyTripMap extends React.Component {
                     currentDay={this.state.currentDay}
                   />
                 ) : (
-                  <div className="home-container">
-                    <input
-                      className="home-name-input home-inputs"
-                      type="text"
-                      placeholder="Agenda Name"
-                      value={agendaNameInput}
-                      onChange={e =>
-                        this.handleInput("agendaNameInput", e.target.value)
-                      }
-                    />
-                    <div className="home-inputs-container">
-                      <div className="home-destination-activity-container">
-                        <input
-                          className="home-destination-input home-inputs"
-                          type="text"
-                          placeholder="Agenda Destination"
-                          value={destinationInput}
-                          onChange={e =>
-                            this.handleInput("destinationInput", e.target.value)
-                          }
-                        />
-                        <input
-                          className="home-activity-input home-inputs"
-                          type="text"
-                          placeholder="Agenda Activity"
-                          value={activityInput}
-                          onChange={e =>
-                            this.handleInput("activityInput", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div className="budget-container">
-                        <i className="home-dollar-sign">$</i>
-                        <input
-                          className="home-budget-input-position  home-budget-input home-inputs"
-                          type="number"
-                          placeholder="Budget for Day"
-                          value={budgetInput}
-                          onChange={e =>
-                            this.handleInput("budgetInput", e.target.value)
-                          }
-                        />
-                      </div>
-                      <textarea
-                        className="home-notes-input  home-inputs"
+                    <div className="home-container">
+                      <input
+                        className="home-name-input home-inputs"
                         type="text"
-                        placeholder="import notes, blah, blah, blah.."
-                        value={notesInput}
+                        placeholder="Agenda Name"
+                        value={agendaNameInput}
                         onChange={e =>
-                          this.handleInput("notesInput", e.target.value)
+                          this.handleInput("agendaNameInput", e.target.value)
                         }
                       />
-                      <div className="home-time-agenda-container">
-                        <TimeInput
-                          className="home-clock"
-                          mode="12h"
-                          okLabel="submit"
-                          value={time}
-                          onChange={e => this.handleInput("time", e)}
-                        />
-                        <button
-                          className="home-save-agenda-btn"
-                          onClick={() =>
-                            this.handleAgenda(
-                              agendaNameInput,
-                              destinationInput,
-                              activityInput,
-                              budgetInput,
-                              notesInput,
-                              time
-                            )
+                      <div className="home-inputs-container">
+                        <div className="home-destination-activity-container">
+                          <input
+                            className="home-destination-input home-inputs"
+                            type="text"
+                            placeholder="Agenda Destination"
+                            value={destinationInput}
+                            onChange={e =>
+                              this.handleInput("destinationInput", e.target.value)
+                            }
+                          />
+                          <input
+                            className="home-activity-input home-inputs"
+                            type="text"
+                            placeholder="Agenda Activity"
+                            value={activityInput}
+                            onChange={e =>
+                              this.handleInput("activityInput", e.target.value)
+                            }
+                          />
+                        </div>
+                        <div className="budget-container">
+                          <i className="home-dollar-sign">$</i>
+                          <input
+                            className="home-budget-input-position  home-budget-input home-inputs"
+                            type="number"
+                            placeholder="Budget for Day"
+                            value={budgetInput}
+                            onChange={e =>
+                              this.handleInput("budgetInput", e.target.value)
+                            }
+                          />
+                        </div>
+                        <textarea
+                          className="home-notes-input  home-inputs"
+                          type="text"
+                          placeholder="import notes, blah, blah, blah.."
+                          value={notesInput}
+                          onChange={e =>
+                            this.handleInput("notesInput", e.target.value)
                           }
-                        >
-                          Add Agenda
+                        />
+                        <div className="home-time-agenda-container">
+                          <TimeInput
+                            className="home-clock"
+                            mode="12h"
+                            okLabel="submit"
+                            value={time}
+                            onChange={e => this.handleInput("time", e)}
+                          />
+                          <button
+                            className="home-save-agenda-btn"
+                            onClick={() =>
+                              this.handleAgenda(
+                                agendaNameInput,
+                                destinationInput,
+                                activityInput,
+                                budgetInput,
+                                notesInput,
+                                time
+                              )
+                            }
+                          >
+                            Add Agenda
                         </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
               {nextStepsFlag ? (
                 <div>

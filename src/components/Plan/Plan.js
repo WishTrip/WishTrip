@@ -29,7 +29,9 @@ class Plan extends Component {
       activityInput: "",
       budgetInput: 0,
       notesInput: "",
-      nextStepsFlag: false
+      nextStepsFlag: false,
+      dots: [],
+      currentDot: 0
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleDay = this.handleDay.bind(this);
@@ -38,6 +40,32 @@ class Plan extends Component {
     this.incrementDay = this.incrementDay.bind(this);
     this.handleCompleteDay = this.handleCompleteDay.bind(this);
   }
+
+  componentDidMount() {
+    let newDot = [];
+    // console.log(this.props.days[this.state.currentDay - 1].length + 1)
+    for (let i = 0; i < this.props.days[this.state.currentDay - 1].length + 1; i++) {
+      newDot.push(i);
+    }
+    this.setState({
+      dots: newDot
+    });
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log(prevProps.days)
+  //   console.log(this.props.days)
+  //   if ((prevPr.days !== this.props.days)) {
+  //     console.log("COMPONENTDIDUPDATE HITs")
+  //     let newDot = []
+  //     for (let i = 0; i < this.props.days[this.state.currentDay - 1].length + 1; i++) {
+  //       newDot.push(i);
+  //     }
+  //     this.setState({
+  //       dots: newDot
+  //     });
+  //   }
+  // }
 
   handleHamburgerMenu = () => {
     if (!this.props.burgerFlag) {
@@ -70,7 +98,8 @@ class Plan extends Component {
     let { day, currentDay } = this.state;
     this.setState({
       day: day - 1,
-      currentDay: currentDay - 1
+      currentDay: currentDay - 1,
+      currentDot: 0
     });
   }
 
@@ -78,7 +107,8 @@ class Plan extends Component {
     let { day, currentDay } = this.state;
     this.setState({
       day: day + 1,
-      currentDay: currentDay + 1
+      currentDay: currentDay + 1,
+      currentDot: 0
     });
   }
 
@@ -90,7 +120,9 @@ class Plan extends Component {
     notesInput,
     time
   ) {
-    let { currentAgenda, newDay, currentDay } = this.state;
+    let { currentAgenda, newDay, currentDay, currentDot } = this.state;
+    let newDot = this.state.dots.slice()
+    newDot.push(currentDot + 1)
     if (newDay) {
       this.props.saveAgenda(
         newDay,
@@ -118,9 +150,12 @@ class Plan extends Component {
         notesInput,
         time
       );
-    }
 
+    }
+    console.log(newDot)
+    console.log(this.state.dots)
     this.setState({
+      dots: newDot,
       nextStepsFlag: true,
       currentAgenda: currentAgenda + 1,
       agendaNameInput: "",
@@ -134,7 +169,6 @@ class Plan extends Component {
   handleCompleteDay() {
     // if (auth.currentUser) {
     if (this.props.user.userinfo.uid) {
-      console.log(this.props.userinfo);
       this.props.completeTrip(this.props.days);
       this.props.sendUserInfo(this.props.user);
     } else {
@@ -144,152 +178,203 @@ class Plan extends Component {
   }
 
   render() {
-    // console.log(this.state.currentDay - 1)
-    // console.log(this.props.days)
-    // console.log(this.props.days[this.state.currentDay - 1].length)
 
     const {
       day,
       agenda,
       currentDay,
       currentAgenda,
+      currentDot,
       time,
       agendaNameInput,
       destinationInput,
       activityInput,
       budgetInput,
       notesInput,
-      nextStepsFlag
+      nextStepsFlag,
+      dots
     } = this.state;
     const { days } = this.props;
-    let amountOfDays = days.length;
 
-    let currentAgendas = days[currentDay - 1].map((e, i) => {
+    console.log(days[currentDay - 1])
+    console.log(currentDot)
+    console.log(days[currentDay - 1][currentDot])
+
+    // let currentAgendas = days[currentDay - 1].map((e, i) => {
+    //   return (
+    //     <Agenda key={i} index={i} saved={e} agenda={agenda + i} time={time} />
+    //   );
+    // });
+
+    let newDots = dots.map((dot, j) => {
       return (
-        <Agenda key={i} index={i} saved={e} agenda={agenda + i} time={time} />
+        <div>
+          <i
+            key={j}
+            style={{ color: currentDot === j ? "#999" : "#333" }}
+            onClick={() => this.setState({ currentDot: j })}
+            className="fa fa-circle"
+          />
+        </div>
       );
     });
 
-    return (
-      <div className="plan-wrapper">
-        <div>
-          <div
-            className="home-wrapper"
-            onClick={() => this.handleHamburgerMenu()}
-          >
-            <Background />
-            <div className="home-day-container home-chevron">
-              <i
-                onClick={() => this.decrementDay()}
-                className={day === 1 ? null : "fa fa-chevron-left"}
-              />
-              <h1 className="home-day-text">Day {day}</h1>
-              <i
-                onClick={() => this.incrementDay()}
-                className={this.props.days.length === this.state.day ? null : "fa fa-chevron-right"}
-              />
-            </div>
-            <h2 className="home-agenda-text">New Agenda</h2>
-            <div className="home-container-wrapper">
-              <div className="home-container">
-                <input
-                  className="home-name-input home-inputs"
-                  type="text"
-                  placeholder="Agenda Name"
-                  value={agendaNameInput}
-                  onChange={e =>
-                    this.handleInput("agendaNameInput", e.target.value)
-                  }
-                />
-                <div className="home-inputs-container">
-                  <div className="home-destination-activity-container">
-                    <input
-                      className="home-destination-input home-inputs"
-                      type="text"
-                      placeholder="Agenda Destination"
-                      value={destinationInput}
-                      onChange={e =>
-                        this.handleInput("destinationInput", e.target.value)
-                      }
-                    />
-                    <input
-                      className="home-activity-input home-inputs"
-                      type="text"
-                      placeholder="Agenda Activity"
-                      value={activityInput}
-                      onChange={e =>
-                        this.handleInput("activityInput", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div className="budget-container">
-                    <i className="home-dollar-sign">$</i>
-                    <input
-                      className="home-budget-input-position  home-budget-input home-inputs"
-                      type="number"
-                      placeholder="Budget for Day"
-                      value={budgetInput}
-                      onChange={e =>
-                        this.handleInput("budgetInput", e.target.value)
-                      }
-                    />
-                  </div>
-                  <textarea
-                    className="home-notes-input  home-inputs"
-                    type="text"
-                    placeholder="import notes, blah, blah, blah.."
-                    value={notesInput}
-                    onChange={e =>
-                      this.handleInput("notesInput", e.target.value)
-                    }
+    let showingAgenda = (
+      <div>
+        {days[currentDay - 1].length === currentDot ? (
+          <div className="plan-wrapper">
+            <div>
+              <div
+                className="home-wrapper"
+                onClick={() => this.handleHamburgerMenu()}
+              >
+                <Background />
+                <div className="home-day-container home-chevron">
+                  <i
+                    onClick={() => this.decrementDay()}
+                    className={day === 1 ? null : "fa fa-chevron-left"}
                   />
-                  <div className="home-time-agenda-container">
-                    <TimeInput
-                      className="home-clock"
-                      mode="12h"
-                      okLabel="submit"
-                      value={time}
-                      onChange={e => this.handleInput("time", e)}
-                    />
-                    <button
-                      className="home-save-agenda-btn"
-                      onClick={() =>
-                        this.handleAgenda(
-                          agendaNameInput,
-                          destinationInput,
-                          activityInput,
-                          budgetInput,
-                          notesInput,
-                          time
-                        )
+                  <h1 className="home-day-text">Day {day}</h1>
+                  <i
+                    onClick={() => this.incrementDay()}
+                    className={this.props.days.length === this.state.day ? null : "fa fa-chevron-right"}
+                  />
+                </div>
+                <h2 className="home-agenda-text">New Agenda</h2>
+                <div className="home-container-wrapper">
+                  <div className="home-container">
+                    <div className="new-dots-container">{newDots}</div>
+                    <input
+                      className="home-name-input home-inputs"
+                      type="text"
+                      placeholder="Agenda Name"
+                      value={agendaNameInput}
+                      onChange={e =>
+                        this.handleInput("agendaNameInput", e.target.value)
                       }
+                    />
+                    <div className="home-inputs-container">
+                      <div className="home-destination-activity-container">
+                        <input
+                          className="home-destination-input home-inputs"
+                          type="text"
+                          placeholder="Agenda Destination"
+                          value={destinationInput}
+                          onChange={e =>
+                            this.handleInput("destinationInput", e.target.value)
+                          }
+                        />
+                        <input
+                          className="home-activity-input home-inputs"
+                          type="text"
+                          placeholder="Agenda Activity"
+                          value={activityInput}
+                          onChange={e =>
+                            this.handleInput("activityInput", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div className="budget-container">
+                        <i className="home-dollar-sign">$</i>
+                        <input
+                          className="home-budget-input-position  home-budget-input home-inputs"
+                          type="number"
+                          placeholder="Budget for Day"
+                          value={budgetInput}
+                          onChange={e =>
+                            this.handleInput("budgetInput", e.target.value)
+                          }
+                        />
+                      </div>
+                      <textarea
+                        className="home-notes-input  home-inputs"
+                        type="text"
+                        placeholder="import notes, blah, blah, blah.."
+                        value={notesInput}
+                        onChange={e =>
+                          this.handleInput("notesInput", e.target.value)
+                        }
+                      />
+                      <div className="home-time-agenda-container">
+                        <TimeInput
+                          className="home-clock"
+                          mode="12h"
+                          okLabel="submit"
+                          value={time}
+                          onChange={e => this.handleInput("time", e)}
+                        />
+                        {this.state.dots.length !== 6 &&
+                          <button
+
+                            className="home-save-agenda-btn"
+                            onClick={() =>
+                              this.handleAgenda(
+                                agendaNameInput,
+                                destinationInput,
+                                activityInput,
+                                budgetInput,
+                                notesInput,
+                                time
+                              )
+                            }
+                          >
+                            Add Agenda
+                      </button>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {nextStepsFlag ? (
+                  <div>
+                    <button
+                      onClick={() => {
+                        this.handleCompleteDay();
+                      }}
                     >
-                      Add Agenda
-                    </button>
+                      Complete Trip
+                </button>
+                    {console.log(this.props.days.length)}
+                    {console.log(this.state.day)}
+                    {this.props.days.length - 1 !== this.state.day ? null : <button onClick={this.handleDay}>New Day</button>}
+
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        ) : (
+            <div className="home-wrapper">
+              <h2 className="home-agenda-text">Agenda {agenda}</h2>
+              <div className="home-container-wrapper agenda-container-wrapper">
+                <div className="home-container">
+                  <div className="new-dots-container">{newDots}</div>
+                  <p className="home-name-input home-inputs">{days[currentDay - 1][currentDot].name}</p>
+                  <div className="home-inputs-container">
+                    <div className="home-destination-activity-container">
+                      <p className="home-destination-input home-inputs">{days[currentDay - 1][currentDot].destination}</p>
+                      <p className="home-activity-input home-inputs">{days[currentDay - 1][currentDot].activity}</p>
+                    </div>
+                    <p className="home-budget-input home-inputs" >{days[currentDay - 1][currentDot].budget}</p>
+                    <p className="home-notes-input  home-inputs" >{days[currentDay - 1][currentDot].notes}</p>
+                    <div className="home-time-agenda-container">
+                      <TimeInput style={{ color: "#fff" }} className="home-clock" disabled mode='12h' okLabel="submit" value={time} onChange={e => this.handleInput('time', e)} />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            {nextStepsFlag ? (
-              <div>
-                <button
-                  onClick={() => {
-                    this.handleCompleteDay();
-                  }}
-                >
-                  Complete Trip
-                </button>
-                {console.log(this.props.days.length)}
-                {console.log(this.state.day)}
-                {this.props.days.length - 1 !== this.state.day ? null : <button onClick={this.handleDay}>New Day</button>}
 
-              </div>
-            ) : null}
-          </div>
-        </div>
-        {currentAgendas}
+          )
+        }
       </div>
-    );
+    )
+
+    return (
+      <div>
+        {showingAgenda}
+      </div>
+    )
   }
 }
 

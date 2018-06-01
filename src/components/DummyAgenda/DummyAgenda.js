@@ -37,9 +37,12 @@ export default class DummyAgenda extends Component {
   }
 
   render() {
-    console.log(this.props.mapThis.days[this.props.currentDay][this.props.dot]);
-    console.log(this.props.dotHandler);
+    // console.log(this.props.mapThis.days[this.props.currentDay][this.props.dot]);
+    // console.log(this.props.dotHandler);
+    console.log(this.props.dot)
+    console.log(this.props.length)
     let newDots = this.state.dots.map((dot, i) => {
+
       return (
         <i
           key={i}
@@ -58,9 +61,19 @@ export default class DummyAgenda extends Component {
       //   (e, i) => {
       //     return (
       <div className="home-container-wrapper agenda-container-wrapper">
-        {this.props.mapThis.days[this.props.currentDay][this.props.dot].name}
-        {this.props.mapThis.days[this.props.currentDay][this.props.dot].budget}
-        {this.props.mapThis.days[this.props.currentDay][this.props.dot].notes}
+        {this.props.length === this.props.dot + 1 ? (
+          <div>
+            <input placeholder="bet" type="text" />
+            <button>Add Agenda</button>
+          </div>
+        ) : (
+            <div>
+              <p>{this.props.mapThis.days[this.props.currentDay][this.props.dot].name}</p>
+              <p>{this.props.mapThis.days[this.props.currentDay][this.props.dot].budget}</p>
+              <p>{this.props.mapThis.days[this.props.currentDay][this.props.dot].notes}</p>
+            </div>
+          )}
+
         {/* <div className="home-container"> */}
         {/* <p className="home-name-input home-inputs">{e.name}</p> */}
         {/* <div className="home-inputs-container"> */}
