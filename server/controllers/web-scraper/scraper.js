@@ -46,7 +46,7 @@ let scraper = async (
   monthPicker,
   clickCount
 ) => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto("https://www.travelocity.com");
   // await page.waitFor(40000);
@@ -80,8 +80,8 @@ let scraper = async (
       "#package-departing-wrapper-hp-package > div > div > button.datepicker-paging.datepicker-next.btn-paging.btn-secondary.next"
     );
   }
-  // await sleep(page, 60000);
-  await page.waitFor(3000);
+  await sleep(page, 60000);
+  // await page.waitFor(3000);
   await page.click(
     //_____________________________________________________  Right Calendar   ___________________WEEK OF MONTH  ____DAY OF WEEK   ___________
     monthPicker && clickCount === 0
