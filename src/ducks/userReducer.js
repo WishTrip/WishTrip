@@ -24,6 +24,7 @@ const COMPLETE_TRIP = "COMPLETE_TRIP";
 const SEND_USER_INFO = "SEND_USER_INFO";
 const SEND_TRIP_INFO = "SEND_TRIP_INFO";
 const GET_USER_TRIPS = "GET_USER_TRIPS";
+const HANDLE_NEW_DAY = "HANDLE_NEW_DAY";
 
 //REDUCERS
 export default function userReducer(state = initialState, action) {
@@ -36,15 +37,21 @@ export default function userReducer(state = initialState, action) {
           userinfo: { email: action.payload.email, uid: action.payload.uid }
         }
       };
+    case HANDLE_NEW_DAY:
+      state.days.push([])
+      return {
+        
+          ...state,
+          user: { ...state.user, trips: [{...state.user.trips[0], days: state.days}]}
+        
+      }  
     case `${SAVE_AGENDA}`:
       let { days } = state;
-      let { newDay } = action.payload;
+ 
       let currentDay = action.payload.currentDay - 1;
       let currentAgenda = action.payload.currentAgenda - 1;
 
-      if (newDay) {
-        days.push([]);
-      }
+    
 
       days[currentDay][currentAgenda] = action.payload;
 
@@ -75,7 +82,8 @@ export default function userReducer(state = initialState, action) {
               starting,
               ending,
               budget,
-              notes
+              notes,
+              days: state.days
             }
           ]
         }
@@ -126,7 +134,7 @@ export function userLogin(email, uid) {
 }
 
 export function saveAgenda(
-  newDay,
+
   currentDay,
   currentAgenda,
   name,
@@ -139,7 +147,7 @@ export function saveAgenda(
   return {
     type: SAVE_AGENDA,
     payload: {
-      newDay,
+      
       currentDay,
       currentAgenda,
       name,
@@ -188,3 +196,9 @@ export function getUserTrips(uid) {
     payload: axios.get(`/api/getUserTrips/${uid}`)
   };
 }
+  export function handleNewDay() {
+    return {
+      type: HANDLE_NEW_DAY
+    }
+  }
+

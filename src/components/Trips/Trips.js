@@ -10,7 +10,7 @@ import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import PlacesAutocomplete from "react-places-autocomplete/dist/PlacesAutocomplete";
 
 import { connect } from "react-redux";
-import { addInitialTripValues } from "../../ducks/userReducer";
+import { addInitialTripValues, handleNewDay } from "../../ducks/userReducer";
 import { toggleHamburgerBtn } from "../../ducks/viewReducer";
 
 class Trips extends Component {
@@ -26,10 +26,17 @@ class Trips extends Component {
       starting: "",
       ending: "",
       focus1: false,
-      focus2: false
+      focus2: false,
+      day: 0
     }
+
+    this.handleDay = this.handleDay.bind(this);
+    this.decrementDay = this.decrementDay.bind(this);
+    this.incrementDay = this.incrementDay.bind(this);
   }
 
+
+  // ---------------------FUNCTIONS ABOVE NEW TWEEKED-------------------
 
   handleInput(key, val) {
     if (key === 'tripTotalBudget') {
@@ -49,11 +56,13 @@ class Trips extends Component {
   };
 
   startTrip = () => {
-    let { tripName, origin, destination, starting, ending, tripTotalBudget, tripNotes } = this.state;
-    console.log(tripName, origin, destination, starting, ending, tripTotalBudget, tripNotes)
+    let { day,tripName, origin, destination, starting, ending, tripTotalBudget, tripNotes } = this.state;
     this.getTripInfo();
     this.handleInput('showPlan', true);
     this.props.addInitialTripValues(tripName, origin, destination, starting, ending, tripTotalBudget, tripNotes);
+    this.setState({
+      day: this.state.day + 1
+    })
   }
 
   handleChange = (key, val, prop) => {
@@ -76,20 +85,39 @@ class Trips extends Component {
       .then(res => console.log(res));
   };
 
+  handleDay() {
+    let { day } = this.state;
+    this.setState({
+      day: day + 1
+    }, () => this.props.handleNewDay());
+  }
 
+
+
+  decrementDay() {
+    let { day } = this.state;
+    this.setState({
+      day: day - 1
+    });
+  }
+
+  incrementDay() {
+    let { day } = this.state;
+    this.setState({
+      day: day + 1
+    });
+  }
 
 
   render() {
-    const { tripName, tripTotalBudget, tripNotes, showPlan } = this.state;
+    const { tripName, tripTotalBudget, tripNotes, showPlan, dots, day, currentAgenda, newDay, currentDot } = this.state;
     const { user } = this.props;
 
-    // let currentAgendas = user.trips.map((e, i) => {
-    //   return (
-    //     <Trip key={i} index={i} saved={e} name={e.tripName} location={e.tripLocation} budget={e.tripBudget} notes={e.tripNotes} />
-    //   )
-    // })
-
-    // <input className="trips-inputs" type="text" placeholder="Trip Starting Location" value={tripStartingLocation} onChange={(e) => this.handleInput("tripStartingLocation", e.target.value)} />
+    let tripDays = user.trips && user.trips[0] && user.trips[0].days && user.trips[0].days.map((el,i) => {
+      return (
+        <Plan key={i} el={el} ind={i} day={this.state.day} incrementDay={this.incrementDay} decrementDay={this.decrementDay} handleDay={this.handleDay}/>
+      )
+    })
     return (
       <div className="trips-wrapper" onClick={() => this.handleHamburgerMenu()}>
         <Background />
@@ -290,7 +318,9 @@ class Trips extends Component {
             </div>
           </form>
         ) : (
-            <Plan />
+          <div>
+          {tripDays}
+          </div>
           )}
       </div>
     )
@@ -302,4 +332,4 @@ const mapStateToProps = state => ({
   ...state.userReducer
 });
 
-export default connect(mapStateToProps, { addInitialTripValues, toggleHamburgerBtn })(Trips);
+export default connect(mapStateToProps, { addInitialTripValues, toggleHamburgerBtn, handleNewDay })(Trips);
