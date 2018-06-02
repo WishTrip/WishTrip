@@ -159,6 +159,7 @@ class Plan extends Component {
     if (this.props.user.userinfo.uid) {
       this.props.completeTrip(this.props.days);
       this.props.sendUserInfo(this.props.user);
+      window.location = "/#/profile"
     } else {
       window.location = "/#/login";
       this.props.completeTrip(this.props.days);
