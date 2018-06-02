@@ -178,9 +178,6 @@ class Plan extends Component {
       notesInput,
       dots
     } = this.state;
-
-    console.log(dots)
-    console.log(days.length - 1, day)
   
     let newDots = dots.map((dot, j) => {
       return (
