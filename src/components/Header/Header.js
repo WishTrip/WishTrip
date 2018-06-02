@@ -5,15 +5,15 @@ import { auth } from '../../firebase';
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux"; 
-import { toggleHamburgerBtn } from "../../ducks/viewReducer";
+import { toggleHamburgerBtn, toggleLogin } from "../../ducks/viewReducer";
 
 class Header extends Component {
     render() {
-        const { burgerFlag } = this.props;
-
+        const { burgerFlag, loginFlag, toggleLogin } = this.props;
+        
         var loginLink = (
-            !auth.currentUser ? (<Link to="/login" className="header-links">Login</Link>) : (
-                <Link to="/" className="header-links" onClick={() => auth.signOut()}>Logout</Link>
+            !this.props.loginFlag ? (<Link to="/login" className="header-links">Login</Link>) : (
+                <Link to="/" className="header-links" onClick={() => {auth.signOut(), toggleLogin()}}>Logout</Link>
             )
         )
         return (
@@ -64,4 +64,4 @@ const mapStateToProps = state => ({
     ...state.viewReducer
 })
 
-export default connect(mapStateToProps, { toggleHamburgerBtn })(Header);
+export default connect(mapStateToProps, { toggleHamburgerBtn, toggleLogin })(Header);

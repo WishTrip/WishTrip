@@ -91,6 +91,7 @@ export default function userReducer(state = initialState, action) {
     case `${COMPLETE_TRIP}`:
       return {
         ...state,
+        days: [[]],
         user: {
           ...state.user,
           trips: [

@@ -10,6 +10,7 @@ import userReducer, {
   sendUserInfo,
   getUserTrips
 } from "../../ducks/userReducer";
+import { toggleLogin } from "../../ducks/viewReducer";
 
 class Login extends React.Component {
   state = {
@@ -29,13 +30,11 @@ class Login extends React.Component {
           .then(response => {
             this.props.userLogin(response.user.email, response.user.uid);
             this.props.getUserTrips(response.user.uid);
-            console.log(`I'M IN: ${response.user.uid}`);
           })
           .then(() => (window.location = "/#/trips"))
           .then(
-            () =>
-              this.props.user.userinfo &&
-              this.props.sendUserInfo(this.props.user)
+            () => this.props.toggleLogin(),
+            this.props.user.userinfo.uid && this.props.sendUserInfo(this.props.user)
           );
       } else {
         auth
@@ -46,9 +45,8 @@ class Login extends React.Component {
           })
           .then(() => (window.location = "/#/trips"))
           .then(
-            () =>
-              this.props.user.userinfo &&
-              this.props.sendUserInfo(this.props.user)
+            () => this.props.toggleLogin(),
+            this.props.user.userinfo && this.props.sendUserInfo(this.props.user)
           );
       }
     });
@@ -63,52 +61,10 @@ class Login extends React.Component {
     return (
       <div>
         <Background />
-        {/* <form onSubmit={event => this.handleUserLogin(event)}  ref={form => this.loginForm = form}>
-          <div className="">
-            <h5>Note</h5>
-            If you don't have an account already, this form will create your
-            account.
-          </div>
-          <label className="">
-            Email
-            <input
-              data-cypress-email-input
-              className=""
-              name="email"
-              type="email"
-              ref={input => {
-                this.emailInput = input;
-              }}
-              placeholder="Email"
-              onChange={e => this.setState({ email: e.target.value })}
-            />
-          </label>
-          <label className="">
-            Password
-            <input
-              data-cypress-password-input
-              className=""
-              name="password"
-              type="password"
-              ref={input => {
-                this.passwordInput = input;
-              }}
-              placeholder="password"
-              onChange={e => this.setState({ password: e.target.value })}
-            />
-          </label>
-          <input
-            data-cypress-submit-login
-            type="submit"
-            className=""
-            value="log In"
-          />
-        </form> */}
-
         <div className="login-container">
           <form>
-            <div className='input-container'>
-              <h3 className='input-title'>Email:</h3>
+            <div className="input-container">
+              <h3 className="input-title">Email:</h3>
               <input
                 data-cypress-email-input
                 required
@@ -119,8 +75,8 @@ class Login extends React.Component {
                 onChange={e => this.handleUserInput("email", e.target.value)}
               />
             </div>
-            <div className='input-container'>
-              <h3 className='input-title'>Password:</h3>
+            <div className="input-container">
+              <h3 className="input-title">Password:</h3>
               <input
                 data-cypress-password-input
                 required
@@ -139,30 +95,23 @@ class Login extends React.Component {
               Login
             </button>
           </form>
-          <p className='login-note'>
-            Note: If you do not already have an account, then this will create one for you!
+          <p className="login-note">
+            Note: If you do not already have an account, then this will create
+            one for you!
           </p>
         </div>
-
-        {/* <button
-          data-cypress-button-logout
-          onClick={() =>
-            auth.signOut().then(() => (window.location = "/#/home"))
-          }
-        >
-          logout
-        </button> */}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return { ...state.userReducer };
+  return { ...state.userReducer, ...state.viewReducer };
 };
 
 export default connect(mapStateToProps, {
   userLogin,
   sendUserInfo,
-  getUserTrips
+  getUserTrips,
+  toggleLogin
 })(Login);
