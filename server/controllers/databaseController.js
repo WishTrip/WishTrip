@@ -20,7 +20,6 @@ var config = {
   messagingSenderId: REACT_APP_DATABASE_SENDER_ID
 };
 firebase.initializeApp(config);
-console.log(config)
 const database = firebase.database();
 
 const loginUser = (req, res) => {

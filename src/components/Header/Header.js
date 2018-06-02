@@ -1,15 +1,21 @@
 import React, { Component } from "react";
 import "./Header.css"
 import "font-awesome/css/font-awesome.min.css";
+import { auth } from '../../firebase';
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux"; 
 import { toggleHamburgerBtn } from "../../ducks/viewReducer";
 
 class Header extends Component {
-   
     render() {
         const { burgerFlag } = this.props;
+
+        var loginLink = (
+            !auth.currentUser ? (<Link to="/login" className="header-links">Login</Link>) : (
+                <Link to="/" className="header-links" onClick={() => auth.signOut()}>Logout</Link>
+            )
+        )
         return (
             <div>
                 <div className="header-wrapper">
@@ -27,7 +33,8 @@ class Header extends Component {
                         </div>
                         <div className="links-container">
                             <Link to="/home" className="header-links">Home</Link>
-                            <Link to="/login" className="header-links">Login</Link>
+                            {/* <Link to="/login" className="header-links">Login</Link> */}
+                            {loginLink}
                             <Link to="/profile" className="header-links">Profile</Link>
                             <Link to="/trips" className="header-links">Trips</Link>
                         </div>
@@ -36,13 +43,15 @@ class Header extends Component {
                 {!burgerFlag ? (
                     <div style={{display: "none"}} className="hamburger-links-container" >
                         <Link to="/home" className="hamburger-links">Home</Link>
-                        <Link to="/login" className="hamburger-links">Login</Link>
+                        {/* <Link to="/login" className="hamburger-links">Login</Link> */}
+                        {loginLink}
                         <Link to="/profile" className="hamburger-links">Profile</Link>
                         <Link to="/trips" className="hamburger-links">Trips</Link>
                     </div>
                 ) : <div  className="hamburger-links-container">
                 <Link to="/home" className="hamburger-links">Home</Link>
-                <Link to="/login" className="hamburger-links">Login</Link>
+                {/* <Link to="/login" className="hamburger-links">Login</Link> */}
+                {loginLink}
                 <Link to="/profile" className="hamburger-links">Profile</Link>
                 <Link to="/trips" className="hamburger-links">Trips</Link>
             </div>}
