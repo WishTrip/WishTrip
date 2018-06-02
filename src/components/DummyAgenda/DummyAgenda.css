@@ -5,9 +5,10 @@
   height: 40vh;
 }
 
-.agenda-container-wrapper {
+/* .agenda-container-wrapper {
   height: 80%;
-}
+} */
+
 .dot-agendas {
   display: flex;
   justify-content: space-between;

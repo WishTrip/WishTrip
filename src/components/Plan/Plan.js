@@ -178,9 +178,6 @@ class Plan extends Component {
       notesInput,
       dots
     } = this.state;
-
-    console.log(dots)
-    console.log(days.length - 1, day)
   
     let newDots = dots.map((dot, j) => {
       return (
@@ -288,7 +285,7 @@ class Plan extends Component {
                           value={time}
                           onChange={e => this.handleInput("time", e)}
                         />
-                        {dots.length !== 6 && (
+                        {dots.length !== 7 && (
                           <button
                             data-cypress-addagenda
                             className="home-save-agenda-btn"
@@ -311,12 +308,10 @@ class Plan extends Component {
                     </div>
                   </div>
                 </div>
-                    {days.length !== day ? null : (
-                      <div>
-                        <button onClick={this.handleCompleteDay}>Complete Trip</button>
-                        <button onClick={this.props.handleDay}>New Day</button>
-                      </div>
-                    )}
+                    <div>
+                      <button onClick={this.handleCompleteDay}>Complete Trip</button>
+                      <button onClick={this.props.handleDay}>New Day</button>
+                    </div>
                   </div>
               </div>
           </div>
@@ -348,11 +343,14 @@ class Plan extends Component {
                     <div className="home-time-agenda-container">
                       <TimeInput style={{ color: "#fff" }} className="home-clock" disabled mode='12h' okLabel="submit" value={time} onChange={e => this.handleInput('time', e)} />
                     </div>
-
                   </div>
-                  </div>
-                  </div>
-                  </div>
+                </div>
+              </div>
+              <div>
+                  <button onClick={this.handleCompleteDay}>Complete Trip</button>
+                  <button onClick={this.props.handleDay}>New Day</button>
+              </div>
+            </div>
                   )}
                 </div>
               );

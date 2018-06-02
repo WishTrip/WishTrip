@@ -399,7 +399,6 @@ class Trips extends Component {
             {tripDays}
           </div>
           )}
-          <Plan />
       </div>
     );
   }
