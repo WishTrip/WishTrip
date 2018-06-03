@@ -63,38 +63,6 @@ class Trips extends Component {
     })
   }
 
-//     let {
-//       tripName,
-//       origin,
-//       destination,
-//       starting,
-//       ending,
-//       tripTotalBudget,
-//       tripNotes
-//     } = this.state;
-//     console.log(
-//       tripName,
-//       origin,
-//       destination,
-//       starting,
-//       ending,
-//       tripTotalBudget,
-//       tripNotes
-//     );
-//     this.getTripInfo();
-//     this.handleInput("showPlan", true);
-//     this.props.addInitialTripValues(
-//       tripName,
-//       origin,
-//       destination,
-//       starting,
-//       ending,
-//       tripTotalBudget,
-//       tripNotes
-//     );
-//   };
-// >>>>>>> master
-
   handleChange = (key, val, prop) => {
     this.setState({ [key]: val, [prop]: true });
   };
@@ -106,13 +74,13 @@ class Trips extends Component {
   };
 
   getTripInfo = () => {
-    axios
-      .get(
-        `/api/gettravelinfo?origin=${this.state.origin}&destination=${
-          this.state.destination
-        }&starting=${this.state.starting}&ending=${this.state.ending}`
-      )
-      .then(res => console.log(res));
+    // axios
+    //   .get(
+    //     `/api/gettravelinfo?origin=${this.state.origin}&destination=${
+    //       this.state.destination
+    //     }&starting=${this.state.starting}&ending=${this.state.ending}`
+    //   )
+    //   .then(res => console.log(res));
   };
 
   handleDay() {

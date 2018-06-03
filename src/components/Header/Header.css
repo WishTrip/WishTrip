@@ -97,7 +97,7 @@
 @media (min-width: 700px) {
     .links-container {
         display: block;
-        width: 60%;
+        width: 40%;
         display: flex;
         justify-content: space-around;
         font-size: 18px;

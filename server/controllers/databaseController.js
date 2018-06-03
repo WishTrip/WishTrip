@@ -34,18 +34,17 @@ const loginUser = (req, res) => {
 };
 
 const sendUserInfo = (req, res) => {
-  const { user } = req.body;
+  const { user, uid, email } = req.body;
 
   database
-    .ref(`users/${user.userinfo.uid}`)
+    .ref(`users/${uid || user.userinfo.uid}`)
     .child("userinfo")
-    .set({ email: user.userinfo.email });
+    .set({ email: email || user.userinfo.email });
 
   if(user.trips[0]) {
     database
-    .ref(`users/${user.userinfo.uid}/trips`)
+    .ref(`users/${uid || user.userinfo.uid}/trips`)
     .child(`${user.trips[0].name}`)
-    // .push()
     .set({
       name: user.trips[0].name,
       origin: user.trips[0].origin,
@@ -58,7 +57,8 @@ const sendUserInfo = (req, res) => {
     });
   }
 
-    database.ref(`users/${user.userinfo.uid}`).once("value", snap => {
+    database.ref(`users/${uid || user.userinfo.uid}`).once("value", snap => {
+      // console.log(snap.val())
       res.status(200).json(snap.val().trips);
     });
 

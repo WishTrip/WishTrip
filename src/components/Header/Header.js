@@ -5,15 +5,15 @@ import { auth } from '../../firebase';
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux"; 
-import { toggleHamburgerBtn } from "../../ducks/viewReducer";
+import { toggleHamburgerBtn, toggleLogin } from "../../ducks/viewReducer";
 
 class Header extends Component {
     render() {
-        const { burgerFlag } = this.props;
-
+        const { burgerFlag, loginFlag, toggleLogin } = this.props;
+        
         var loginLink = (
-            !auth.currentUser ? (<Link to="/login" className="header-links">Login</Link>) : (
-                <Link to="/" className="header-links" onClick={() => auth.signOut()}>Logout</Link>
+            !this.props.loginFlag ? (<Link to="/login" className="header-links">Login</Link>) : (
+                <Link to="/" className="header-links" onClick={() => {auth.signOut(), toggleLogin()}}>Logout</Link>
             )
         )
         return (
@@ -32,7 +32,7 @@ class Header extends Component {
                             </Link>
                         </div>
                         <div className="links-container">
-                            <Link to="/home" className="header-links">Home</Link>
+                            {/* <Link to="/home" className="header-links">Home</Link> */}
                             {/* <Link to="/login" className="header-links">Login</Link> */}
                             {loginLink}
                             <Link to="/profile" className="header-links">Profile</Link>
@@ -42,14 +42,14 @@ class Header extends Component {
                 </div>
                 {!burgerFlag ? (
                     <div style={{display: "none"}} className="hamburger-links-container" >
-                        <Link to="/home" className="hamburger-links">Home</Link>
+                        {/* <Link to="/home" className="hamburger-links">Home</Link> */}
                         {/* <Link to="/login" className="hamburger-links">Login</Link> */}
                         {loginLink}
                         <Link to="/profile" className="hamburger-links">Profile</Link>
                         <Link to="/trips" className="hamburger-links">Trips</Link>
                     </div>
                 ) : <div  className="hamburger-links-container">
-                <Link to="/home" className="hamburger-links">Home</Link>
+                {/* <Link to="/home" className="hamburger-links">Home</Link> */}
                 {/* <Link to="/login" className="hamburger-links">Login</Link> */}
                 {loginLink}
                 <Link to="/profile" className="hamburger-links">Profile</Link>
@@ -64,4 +64,4 @@ const mapStateToProps = state => ({
     ...state.viewReducer
 })
 
-export default connect(mapStateToProps, { toggleHamburgerBtn })(Header);
+export default connect(mapStateToProps, { toggleHamburgerBtn, toggleLogin })(Header);
