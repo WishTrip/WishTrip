@@ -4,6 +4,7 @@
     align-items: center;
     height: 90vh;
     width: 100%; 
+    flex-direction: column;
 }
 
 .trips-input-container {

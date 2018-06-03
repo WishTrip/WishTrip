@@ -40,18 +40,18 @@ export default function userReducer(state = initialState, action) {
     case HANDLE_NEW_DAY:
       state.days.push([])
       return {
-        
-          ...state,
-          user: { ...state.user, trips: [{...state.user.trips[0], days: state.days}]}
-        
-      }  
+
+        ...state,
+        user: { ...state.user, trips: [{ ...state.user.trips[0], days: state.days }] }
+
+      }
     case `${SAVE_AGENDA}`:
       let { days } = state;
- 
+
       let currentDay = action.payload.currentDay - 1;
       let currentAgenda = action.payload.currentAgenda - 1;
 
-    
+
 
       days[currentDay][currentAgenda] = action.payload;
 
@@ -120,6 +120,7 @@ export default function userReducer(state = initialState, action) {
     case `${SEND_USER_INFO}_FULFILLED`:
       let updatedTripsArr = [];
       forEach(action.payload.data, (val, key) => updatedTripsArr.push(val));
+      console.log(updatedTripsArr)
       return { ...state, currentUserTrips: updatedTripsArr };
     default:
       return state;
@@ -148,7 +149,7 @@ export function saveAgenda(
   return {
     type: SAVE_AGENDA,
     payload: {
-      
+
       currentDay,
       currentAgenda,
       name,
@@ -196,9 +197,9 @@ export function getUserTrips(uid) {
     payload: axios.get(`/api/getUserTrips/${uid}`)
   };
 }
-  export function handleNewDay() {
-    return {
-      type: HANDLE_NEW_DAY
-    }
+export function handleNewDay() {
+  return {
+    type: HANDLE_NEW_DAY
   }
+}
 
