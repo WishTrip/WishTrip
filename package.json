@@ -18,6 +18,7 @@
     "lodash.map": "^4.6.0",
     "material-ui": "^0.20.1",
     "material-ui-time-picker": "^1.0.0",
+    "nodemailer": "^4.6.5",
     "promise-retry": "^1.1.1",
     "puppeteer": "^1.4.0",
     "react": "^16.3.2",
