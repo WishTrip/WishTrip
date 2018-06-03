@@ -159,6 +159,7 @@ class Plan extends Component {
     if (this.props.user.userinfo.uid) {
       this.props.completeTrip(this.props.days);
       this.props.sendUserInfo(this.props.user);
+      window.location = "/#/profile"
     } else {
       window.location = "/#/login";
       this.props.completeTrip(this.props.days);
@@ -374,50 +375,3 @@ export default connect(mapStateToProps, {
   completeTrip,
   sendUserInfo
 })(Plan);
-
-// <div className="home-wrapper">
-//             <h2 className="home-agenda-text">Agenda {agenda}</h2>
-//             <div className="home-container-wrapper agenda-container-wrapper">
-//               <div className="home-container">
-//                 <div className="new-dots-container">{newDots}</div>
-//                 <p className="home-name-input home-inputs">
-//                   {days[currentDay - 1][currentDot].name}
-//                 </p>
-//                 <div className="home-inputs-container">
-//                   <div className="home-destination-activity-container">
-//                     <p className="home-destination-input home-inputs">
-//                       {days[currentDay - 1][currentDot].destination}
-//                     </p>
-//                     <p className="home-activity-input home-inputs">
-//                       {days[currentDay - 1][currentDot].activity}
-//                     </p>
-//                   </div>
-//                   <p className="home-budget-input home-inputs">
-//                     {days[currentDay - 1][currentDot].budget}
-//                   </p>
-//                   <p className="home-notes-input  home-inputs">
-//                     {days[currentDay - 1][currentDot].notes}
-//                   </p>
-//                   <div className="home-time-agenda-container">
-//                     <TimeInput
-//                       style={{ color: "#fff" }}
-//                       className="home-clock"
-//                       disabled
-//                       mode="12h"
-//                       okLabel="submit"
-//                       value={time}
-//                       onChange={e => this.handleInput("time", e)}
-//                     />
-//                   </div>
-//                         <div>
-//                         <button
-//                         onClick={
-//                           this.handleCompleteDay}
-//                       >
-//                         Complete Trip
-//                   </button><button onClick={handleDay}>New Day</button>
-//                 </div>
-//                 </div>
-//                 </div>
-//               </div>
-
