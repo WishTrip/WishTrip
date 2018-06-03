@@ -32,7 +32,7 @@ class Header extends Component {
                             </Link>
                         </div>
                         <div className="links-container">
-                            <Link to="/home" className="header-links">Home</Link>
+                            {/* <Link to="/home" className="header-links">Home</Link> */}
                             {/* <Link to="/login" className="header-links">Login</Link> */}
                             {loginLink}
                             <Link to="/profile" className="header-links">Profile</Link>
@@ -42,14 +42,14 @@ class Header extends Component {
                 </div>
                 {!burgerFlag ? (
                     <div style={{display: "none"}} className="hamburger-links-container" >
-                        <Link to="/home" className="hamburger-links">Home</Link>
+                        {/* <Link to="/home" className="hamburger-links">Home</Link> */}
                         {/* <Link to="/login" className="hamburger-links">Login</Link> */}
                         {loginLink}
                         <Link to="/profile" className="hamburger-links">Profile</Link>
                         <Link to="/trips" className="hamburger-links">Trips</Link>
                     </div>
                 ) : <div  className="hamburger-links-container">
-                <Link to="/home" className="hamburger-links">Home</Link>
+                {/* <Link to="/home" className="hamburger-links">Home</Link> */}
                 {/* <Link to="/login" className="hamburger-links">Login</Link> */}
                 {loginLink}
                 <Link to="/profile" className="hamburger-links">Profile</Link>

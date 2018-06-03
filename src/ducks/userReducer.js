@@ -183,11 +183,10 @@ export function completeTrip(days) {
   };
 }
 
-export function sendUserInfo(user) {
-  console.log(user);
+export function sendUserInfo(user, uid, email) {
   return {
     type: SEND_USER_INFO,
-    payload: axios.post("/api/sendUserInfo", { user })
+    payload: axios.post("/api/sendUserInfo", { user, uid, email })
   };
 }
 

@@ -30,12 +30,10 @@ class Login extends React.Component {
           .then(response => {
             this.props.userLogin(response.user.email, response.user.uid);
             this.props.getUserTrips(response.user.uid);
+            this.props.sendUserInfo(this.props.user, response.user.uid, response.user.email)
+            this.props.toggleLogin();
           })
-          .then(() => (window.location = "/#/trips"))
-          .then(
-            () => this.props.toggleLogin(),
-            this.props.user.userinfo.uid && this.props.sendUserInfo(this.props.user)
-          );
+          .then(() => this.props.user.trips[0] ? (window.location = "/#/profile") : (window.location = "/#/trips"));
       } else {
         auth
           .createUserWithEmailAndPassword(email, password)
@@ -43,7 +41,7 @@ class Login extends React.Component {
             this.props.userLogin(response.user.email, response.user.uid);
             this.props.getUserTrips(response.user.uid);
           })
-          .then(() => (window.location = "/#/trips"))
+          .then(() => this.props.user.trips[0] ? (window.location = "/#/profile") : (window.location = "/#/trips"))
           .then(
             () => this.props.toggleLogin(),
             this.props.user.userinfo && this.props.sendUserInfo(this.props.user)
@@ -57,7 +55,6 @@ class Login extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <Background />
@@ -68,6 +65,7 @@ class Login extends React.Component {
               <input
                 data-cypress-email-input
                 required
+                autoFocus
                 type="email"
                 value={this.state.email}
                 placeholder="Enter Email"
