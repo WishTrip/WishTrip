@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Profile.css";
 import forEach from "lodash.foreach";
-// import "w3-css/w3.css";
 
 import { connect } from "react-redux";
 import { userLogin } from "../../ducks/userReducer";
@@ -15,40 +14,102 @@ class Profile extends Component {
       username: "",
       email: "",
       userID: auth.currentUser ? auth.currentUser.uid : "",
+      trip: 0,
       day: 0,
-      trip: 0
+      currentDot: 0,
+      dots: [0],
+      viewTrip: false
     };
     this.handleUserInput = this.handleUserInput.bind(this);
     this.decrementTrip = this.decrementTrip.bind(this);
     this.incrementTrip = this.incrementTrip.bind(this);
+    this.decrementDay = this.decrementDay.bind(this);
+    this.incrementDay = this.incrementDay.bind(this);
+    this.showTrip = this.showTrip.bind(this);
+    this.getDots = this.getDots.bind(this);
   }
+
+  componentDidMount() {
+    this.getDots();
+  }
+
+  getDots() {
+    let { trip, day, currentDot } = this.state;
+    let newDot = [];
+    if (this.props.currentUserTrips[trip]) {
+      for (let i = 0; i < this.props.currentUserTrips[trip].days[day].length; i++) {
+        newDot.push(i);
+      }
+      this.setState({
+        dots: newDot
+      });
+    }
+  }
+
 
   handleUserInput = (state, e) => {
     this.setState({ [state]: e.target.value });
   };
 
+  showTrip() {
+    this.getDots();
+    this.setState({
+      viewTrip: true
+    })
+  }
+
   decrementTrip() {
     let { trip } = this.state;
     this.setState({
-      trip: trip - 1
+      trip: trip - 1,
+      viewTrip: false
     });
   }
 
   incrementTrip() {
     let { trip } = this.state;
     this.setState({
-      trip: trip + 1
+      trip: trip + 1,
+      viewTrip: false
     });
   }
 
-  render() {
-    const { username, email, userID, day, trip } = this.state;
-    const { currentUserTrips } = this.props;
+  decrementDay() {
+    let { day } = this.state;
+    this.setState({
+      day: day - 1,
+      currentDot: 0
+    }, () => this.getDots());
+  }
 
-    let userTripsDetails;
+  incrementDay() {
+    let { day } = this.state;
+    this.setState({
+      day: day + 1,
+      currentDot: 0
+    }, () => this.getDots());
+  }
+
+  render() {
+    const { username, email, userID, trip, day, currentDot, dots, viewTrip } = this.state;
+    const { currentUserTrips } = this.props;
+    let newDots = dots.map((dot, j) => {
+      return (
+        <div key={j}>
+          <i
+            data-cypress-newagenda
+            style={{ color: currentDot === j ? "#999" : "#333" }}
+            onClick={() => this.setState({ currentDot: j })}
+            className="fa fa-circle"
+          />
+        </div>
+      );
+    });
+
+    let userTrips;
     currentUserTrips.map((e, i, a) => {
-      if (userTripsDetails === undefined) {
-        userTripsDetails = (
+      if (userTrips === undefined) {
+        userTrips = (
           <div className="trips-wrapper">
             <div className="home-day-container home-chevron">
               <i
@@ -72,54 +133,64 @@ class Profile extends Component {
               </div>
               <h4>{a[trip].budget}</h4>
               <p>{a[trip].notes}</p>
-              <button>View Trip</button>
+              <button onClick={this.showTrip}>View Trip</button>
             </div>
           </div>
         )
       }
     })
 
-    // let userTrips = currentUserTrips.map((e, i, a) => {
-    //   // forEach(e, (val, key) => {
-    //   //   console.log(key, ": ", val)
-    //   // })
-    //   console.log(a[0])
-    //   return (
-    //     <div className="trips-wrapper">
-    //       <h1>{e.name}</h1>
-    //       <h1 className="home-day-text">Day {day + 1}</h1>
-    //       <div className="trips-input-container">
-    //         <div>
-    //           <h4>{e.origin}</h4>
-    //           <h4>{e.destination}</h4>
-    //         </div>
-    //         <div>
-    //           <h4>{e.starting}</h4>
-    //           <h4>{e.ending}</h4>
-    //         </div>
-    //         <h4>{e.budget}</h4>
-    //         <p>{e.notes}</p>
-    //         <button>View Trip</button>
-    //       </div>
-    //     </div>
-    //   )
-    // })
+    let userTripsDays;
+    if (currentUserTrips && currentUserTrips[trip] && currentUserTrips[trip].days[day]) {
+      currentUserTrips.map((e, i, a) => {
+        if (userTripsDays === undefined)
+          userTripsDays = (
+            <div className="trips-wrapper">
+              <div className="home-day-container home-chevron">
+                <i
+                  onClick={this.decrementDay}
+                  className={day === 0 ? null : "fa fa-chevron-left"}
+                />
+                <h1 className="home-day-text">Day {day + 1}</h1>
+                <i
+                  onClick={this.incrementDay}
+                  className={a[trip].days.length === day + 1 ? null : "fa fa-chevron-right"}
+                />
+              </div>
+              <h2 className="home-agenda-text">Agenda {currentDot === 6 ? "6" : currentDot + 1}</h2>
+              <div className="home-container-wrapper">
+                <div className="home-container">
+                  <div className="new-dots-container">{newDots}</div>
+                  <p className="home-name-input home-inputs">{a[trip].days[day] && a[trip].days[day][currentDot] && a[trip].days[day][currentDot].name}</p>
+                  <div className="home-inputs-container">
+                    <div className="home-destination-activity-container">
+                      <p className="home-destination-input home-inputs">{a[trip].days[day] && a[trip].days[day][currentDot] && a[trip].days[day][currentDot].destination}</p>
+                      <p className="home-activity-input home-inputs">{a[trip].days[day] && a[trip].days[day][currentDot] && a[trip].days[day][currentDot].activity}</p>
+                    </div>
+                    <p className="home-budget-input home-inputs" >{a[trip].days[day] && a[trip].days[day][currentDot] && a[trip].days[day][currentDot].budget}</p>
+                    <p className="home-notes-input  home-inputs" >{a[trip].days[day] && a[trip].days[day][currentDot] && a[trip].days[day][currentDot].notes}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+      })
+    }
 
-    // let userTrips = currentUserTrips.map((e, i) => {
-    //   return (
-    //     <div>
-    //       <h2>Trip Name</h2>
-    //     </div>
-    //   )
-    // })
+    // <div className="home-time-agenda-container">
+    //               <TimeInput style={{ color: "#fff" }} className="home-clock" disabled mode='12h' okLabel="submit" />
+    //             </div>
 
-    console.log(this.props.currentUserTrips)
-    console.log(currentUserTrips.length, trip)
+    // console.log(this.props.currentUserTrips)
+    // console.log(day)
+    // console.log(currentUserTrips[trip].days[day])
+    // console.log(currentUserTrips[trip].days[day].length)
 
     return (
       <div className="trips-wrapper">
         <Background />
-        {userTripsDetails}
+        {!viewTrip && userTrips}
+        {viewTrip && userTripsDays}
       </div>
     )
   }
