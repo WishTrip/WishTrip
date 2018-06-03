@@ -26,6 +26,7 @@ class Profile extends Component {
     this.decrementDay = this.decrementDay.bind(this);
     this.incrementDay = this.incrementDay.bind(this);
     this.showTrip = this.showTrip.bind(this);
+    this.hideTrip = this.hideTrip.bind(this);
     this.getDots = this.getDots.bind(this);
   }
 
@@ -52,25 +53,36 @@ class Profile extends Component {
   };
 
   showTrip() {
+    let { viewTrip } = this.state;
     this.getDots();
     this.setState({
-      viewTrip: true
+      viewTrip: !viewTrip
+    })
+  }
+
+  hideTrip() {
+    let { viewTrip } = this.state;
+    this.setState({
+      day: 0,
+      currentDot: 0,
+      dots: [0],
+      viewTrip: false
     })
   }
 
   decrementTrip() {
     let { trip } = this.state;
     this.setState({
-      trip: trip - 1,
-      viewTrip: false
+      trip: trip - 1
+      // viewTrip: false
     });
   }
 
   incrementTrip() {
     let { trip } = this.state;
     this.setState({
-      trip: trip + 1,
-      viewTrip: false
+      trip: trip + 1
+      // viewTrip: false
     });
   }
 
@@ -172,6 +184,7 @@ class Profile extends Component {
                   </div>
                 </div>
               </div>
+              <button onClick={this.hideTrip}>Leave Trip</button>
             </div>
           )
       })
