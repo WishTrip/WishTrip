@@ -1,5 +1,31 @@
 const sleep = require("./utils.js");
 const puppeteer = require("puppeteer");
+const nodemailer = require("nodemailer");
+
+let transporter = nodemailer.createTransport({
+  service: "Gmail",
+  port: 587,
+  secure: false,
+  auth: {
+    user: "",
+    pass: ""
+  }
+});
+const testEmail = () => {
+  let mailOptions = {
+    from: '"test" <theshiftybapple@gmail.com>',
+    to: "odistiinct@gmail.com",
+    subject: "hello world",
+    text: "hello world",
+    html: "<p>hello world</p>"
+  };
+  transporter.sendMail(mailOptions, (err, info) => {
+    err && console.log(err);
+    console.log("Message sent: %s", info);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  });
+};
+testEmail();
 
 Date.prototype.getMonthWeek = function() {
   var firstDay = new Date(this.getFullYear(), this.getMonth(), 1).getDay();
@@ -46,7 +72,7 @@ let scraper = async (
   monthPicker,
   clickCount
 ) => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto("https://www.travelocity.com");
   // await page.waitFor(40000);
@@ -80,8 +106,8 @@ let scraper = async (
       "#package-departing-wrapper-hp-package > div > div > button.datepicker-paging.datepicker-next.btn-paging.btn-secondary.next"
     );
   }
-  // await sleep(page, 60000);
-  await page.waitFor(3000);
+  await sleep(page, 60000);
+  // await page.waitFor(3000);
   await page.click(
     //_____________________________________________________  Right Calendar   ___________________WEEK OF MONTH  ____DAY OF WEEK   ___________
     monthPicker && clickCount === 0
@@ -110,7 +136,7 @@ let scraper = async (
   await page.select("#package-1-adults-hp-package", "1");
   await sleep(page, 60000);
   await page.click("#search-button-hp-package");
-  await page.waitFor(40000);
+  await page.waitFor(20000);
   const url = await page.url();
 
   const hotels = await page.evaluate(() =>
@@ -133,6 +159,7 @@ let scraper = async (
   }
   setUp.unshift(url);
   console.log(setUp);
+
   return { setUp };
 };
 // scraper();
