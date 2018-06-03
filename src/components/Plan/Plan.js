@@ -32,32 +32,6 @@ class Plan extends Component {
     this.handleCompleteDay = this.handleCompleteDay.bind(this);
   }
 
-  // componentDidMount() {
-  //   let newDot = [];
-  //   console.log(this.props.days[this.props.day])
-    // for (let i = 0; i < this.props.days[this.props.day - 1].length + 1; i++) {
-    //   newDot.push(i);
-    // }
-    // this.setState({
-    //   dots: newDot
-    // });
-  // }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log(prevProps.days)
-  //   console.log(this.props.days)
-  //   if ((prevPr.days !== this.props.days)) {
-  //     console.log("COMPONENTDIDUPDATE HITs")
-  //     let newDot = []
-  //     for (let i = 0; i < this.props.days[this.state.currentDay - 1].length + 1; i++) {
-  //       newDot.push(i);
-  //     }
-  //     this.setState({
-  //       dots: newDot
-  //     });
-  //   }
-  // }
-
   handleHamburgerMenu = () => {
     if (!this.props.burgerFlag) {
       this.props.toggleHamburgerBtn();
@@ -84,21 +58,21 @@ class Plan extends Component {
     time
   ) {
     let { currentAgenda, currentDot } = this.state;
-    let {  day } = this.props
+    let { day } = this.props
     let newDot = this.state.dots.slice()
-    if(currentDot < 5) {
-    newDot.push(currentDot + 1)
+    if (currentDot < 5) {
+      newDot.push(currentDot + 1)
     }
-  this.setState({
-    currentAgenda: currentAgenda + 1,
-    currentDot: currentDot === 5 ? 5 : currentDot + 1,
-    agendaNameInput: "",
-    destinationInput: "",
-    activityInput: "",
-    budgetInput: 0,
-    notesInput: "",
-    dots: newDot
-  })
+    this.setState({
+      currentAgenda: currentAgenda + 1,
+      currentDot: currentDot === 5 ? 5 : currentDot + 1,
+      agendaNameInput: "",
+      destinationInput: "",
+      activityInput: "",
+      budgetInput: 0,
+      notesInput: "",
+      dots: newDot
+    })
     this.props.saveAgenda(
       day,
       currentAgenda,
@@ -110,50 +84,6 @@ class Plan extends Component {
       time
     );
   }
-    // let { currentAgenda, newDay, currentDay, currentDot } = this.state;
-    // let newDot = this.state.dots.slice();
-    // newDot.push(currentDot + 1);
-    // if (newDay) {
-    //   this.props.saveAgenda(
-    //     newDay,
-    //     currentDay,
-    //     currentAgenda,
-    //     agendaNameInput,
-    //     destinationInput,
-    //     activityInput,
-    //     budgetInput,
-    //     notesInput,
-    //     time
-    //   );
-    //   this.setState({
-    //     newDay: false
-    //   });
-    // } else {
-    //   this.props.saveAgenda(
-    //     newDay,
-    //     currentDay,
-    //     currentAgenda,
-    //     agendaNameInput,
-    //     destinationInput,
-    //     activityInput,
-    //     budgetInput,
-    //     notesInput,
-    //     time
-    //   );
-    // }
-  //   console.log(newDot);
-  //   console.log(this.state.dots);
-  //   this.setState({
-  //     dots: newDot,
-  //     nextStepsFlag: true,
-  //     currentAgenda: currentAgenda + 1,
-  //     agendaNameInput: "",
-  //     destinationInput: "",
-  //     activityInput: "",
-  //     budgetInput: 0,
-  //     notesInput: ""
-  //   });
-  // }
 
   handleCompleteDay() {
     if (this.props.user.userinfo.uid) {
@@ -179,7 +109,7 @@ class Plan extends Component {
       notesInput,
       dots
     } = this.state;
-  
+
     let newDots = dots.map((dot, j) => {
       return (
         <div key={j}>
@@ -309,12 +239,12 @@ class Plan extends Component {
                     </div>
                   </div>
                 </div>
-                    <div>
-                      <button onClick={this.handleCompleteDay}>Complete Trip</button>
-                      <button onClick={this.props.handleDay}>New Day</button>
-                    </div>
-                  </div>
+                <div>
+                  <button onClick={this.handleCompleteDay}>Complete Trip</button>
+                  <button onClick={this.props.handleDay}>New Day</button>
+                </div>
               </div>
+            </div>
           </div>
         ) : (
             <div className="home-wrapper">
@@ -333,13 +263,13 @@ class Plan extends Component {
               <div className="home-container-wrapper">
                 <div className="home-container">
                   <div className="new-dots-container">{newDots}</div>
-                  <p className="home-name-input home-inputs">{days[day - 1] &&  days[day - 1][currentDot] && days[day - 1][currentDot].name}</p>
+                  <p className="home-name-input home-inputs">{days[day - 1] && days[day - 1][currentDot] && days[day - 1][currentDot].name}</p>
                   <div className="home-inputs-container">
                     <div className="home-destination-activity-container">
-                      <p className="home-destination-input home-inputs">{days[day - 1] &&  days[day - 1][currentDot] && days[day - 1][currentDot].destination}</p>
-                      <p className="home-activity-input home-inputs">{days[day - 1] &&  days[day - 1][currentDot] && days[day - 1][currentDot].activity}</p>
+                      <p className="home-destination-input home-inputs">{days[day - 1] && days[day - 1][currentDot] && days[day - 1][currentDot].destination}</p>
+                      <p className="home-activity-input home-inputs">{days[day - 1] && days[day - 1][currentDot] && days[day - 1][currentDot].activity}</p>
                     </div>
-                    <p className="home-budget-input home-inputs" >{days[day - 1] &&  days[day - 1][currentDot] && days[day - 1][currentDot].budget}</p>
+                    <p className="home-budget-input home-inputs" >{days[day - 1] && days[day - 1][currentDot] && days[day - 1][currentDot].budget}</p>
                     <p className="home-notes-input  home-inputs" >{days[day - 1] && days[day - 1][currentDot] && days[day - 1][currentDot].notes}</p>
                     <div className="home-time-agenda-container">
                       <TimeInput style={{ color: "#fff" }} className="home-clock" disabled mode='12h' okLabel="submit" value={time} onChange={e => this.handleInput('time', e)} />
@@ -348,20 +278,20 @@ class Plan extends Component {
                 </div>
               </div>
               <div>
-                  <button onClick={this.handleCompleteDay}>Complete Trip</button>
-                  <button onClick={this.props.handleDay}>New Day</button>
+                <button onClick={this.handleCompleteDay}>Complete Trip</button>
+                <button onClick={this.props.handleDay}>New Day</button>
               </div>
             </div>
-                  )}
-                </div>
-              );
+          )}
+      </div>
+    );
 
-              return (this.props.day-1) === this.props.ind && (
-                <div style={{ width: "100%" }}>
-                  {showingAgenda}
-                </div>
-              )
-            }
+    return (this.props.day - 1) === this.props.ind && (
+      <div style={{ width: "100%" }}>
+        {showingAgenda}
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => ({
@@ -375,3 +305,4 @@ export default connect(mapStateToProps, {
   completeTrip,
   sendUserInfo
 })(Plan);
+
