@@ -16,7 +16,7 @@ const testEmail = () => {
     from: '"test" <theshiftybapple@gmail.com>',
     to: "odistiinct@gmail.com",
     subject: "hello world",
-    text: "hello world",
+    text: "this is a test",
     html: "<p>hello world</p>"
   };
   transporter.sendMail(mailOptions, (err, info) => {
