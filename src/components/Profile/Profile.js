@@ -9,7 +9,7 @@ import { auth } from "../../firebase";
 
 class Profile extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       username: "",
       email: "",
@@ -38,7 +38,11 @@ class Profile extends Component {
     let { trip, day, currentDot } = this.state;
     let newDot = [];
     if (this.props.currentUserTrips[trip]) {
-      for (let i = 0; i < this.props.currentUserTrips[trip].days[day].length; i++) {
+      for (
+        let i = 0;
+        i < this.props.currentUserTrips[trip].days[day].length;
+        i++
+      ) {
         newDot.push(i);
       }
       this.setState({
@@ -46,7 +50,6 @@ class Profile extends Component {
       });
     }
   }
-
 
   handleUserInput = (state, e) => {
     this.setState({ [state]: e.target.value });
@@ -57,7 +60,7 @@ class Profile extends Component {
     this.getDots();
     this.setState({
       viewTrip: !viewTrip
-    })
+    });
   }
 
   hideTrip() {
@@ -67,7 +70,7 @@ class Profile extends Component {
       currentDot: 0,
       dots: [0],
       viewTrip: false
-    })
+    });
   }
 
   decrementTrip() {
@@ -88,22 +91,37 @@ class Profile extends Component {
 
   decrementDay() {
     let { day } = this.state;
-    this.setState({
-      day: day - 1,
-      currentDot: 0
-    }, () => this.getDots());
+    this.setState(
+      {
+        day: day - 1,
+        currentDot: 0
+      },
+      () => this.getDots()
+    );
   }
 
   incrementDay() {
     let { day } = this.state;
-    this.setState({
-      day: day + 1,
-      currentDot: 0
-    }, () => this.getDots());
+    this.setState(
+      {
+        day: day + 1,
+        currentDot: 0
+      },
+      () => this.getDots()
+    );
   }
 
   render() {
-    const { username, email, userID, trip, day, currentDot, dots, viewTrip } = this.state;
+    const {
+      username,
+      email,
+      userID,
+      trip,
+      day,
+      currentDot,
+      dots,
+      viewTrip
+    } = this.state;
     const { currentUserTrips } = this.props;
     let newDots = dots.map((dot, j) => {
       return (
@@ -131,7 +149,11 @@ class Profile extends Component {
               <h1 className="home-day-text">{a[trip].name}</h1>
               <i
                 onClick={this.incrementTrip}
-                className={currentUserTrips.length === trip + 1 ? null : "fa fa-chevron-right"}
+                className={
+                  currentUserTrips.length === trip + 1
+                    ? null
+                    : "fa fa-chevron-right"
+                }
               />
             </div>
             <div className="trips-input-container">
@@ -145,15 +167,21 @@ class Profile extends Component {
               </div>
               <h4>{a[trip].budget}</h4>
               <p>{a[trip].notes}</p>
-              <button onClick={this.showTrip}>View Trip</button>
+              <button className="home-save-agenda-btn" onClick={this.showTrip}>
+                View Trip
+              </button>
             </div>
           </div>
-        )
+        );
       }
-    })
+    });
 
     let userTripsDays;
-    if (currentUserTrips && currentUserTrips[trip] && currentUserTrips[trip].days[day]) {
+    if (
+      currentUserTrips &&
+      currentUserTrips[trip] &&
+      currentUserTrips[trip].days[day]
+    ) {
       currentUserTrips.map((e, i, a) => {
         if (userTripsDays === undefined)
           userTripsDays = (
@@ -166,28 +194,60 @@ class Profile extends Component {
                 <h1 className="home-day-text">Day {day + 1}</h1>
                 <i
                   onClick={this.incrementDay}
-                  className={a[trip].days.length === day + 1 ? null : "fa fa-chevron-right"}
+                  className={
+                    a[trip].days.length === day + 1
+                      ? null
+                      : "fa fa-chevron-right"
+                  }
                 />
               </div>
-              <h2 className="home-agenda-text">Agenda {currentDot === 6 ? "6" : currentDot + 1}</h2>
+              <h2 className="home-agenda-text">
+                Agenda {currentDot === 6 ? "6" : currentDot + 1}
+              </h2>
               <div className="home-container-wrapper">
                 <div className="home-container">
                   <div className="new-dots-container">{newDots}</div>
-                  <p className="home-name-input home-inputs">{a[trip].days[day] && a[trip].days[day][currentDot] && a[trip].days[day][currentDot].name}</p>
+                  <p className="home-name-input home-inputs">
+                    {a[trip].days[day] &&
+                      a[trip].days[day][currentDot] &&
+                      a[trip].days[day][currentDot].name}
+                  </p>
                   <div className="home-inputs-container">
                     <div className="home-destination-activity-container">
-                      <p className="home-destination-input home-inputs">{a[trip].days[day] && a[trip].days[day][currentDot] && a[trip].days[day][currentDot].destination}</p>
-                      <p className="home-activity-input home-inputs">{a[trip].days[day] && a[trip].days[day][currentDot] && a[trip].days[day][currentDot].activity}</p>
+                      <p className="home-destination-input home-inputs">
+                        {a[trip].days[day] &&
+                          a[trip].days[day][currentDot] &&
+                          a[trip].days[day][currentDot].destination}
+                      </p>
+                      <p className="home-activity-input home-inputs">
+                        {a[trip].days[day] &&
+                          a[trip].days[day][currentDot] &&
+                          a[trip].days[day][currentDot].activity}
+                      </p>
                     </div>
-                    <p className="home-budget-input home-inputs" >{a[trip].days[day] && a[trip].days[day][currentDot] && a[trip].days[day][currentDot].budget}</p>
-                    <p className="home-notes-input  home-inputs" >{a[trip].days[day] && a[trip].days[day][currentDot] && a[trip].days[day][currentDot].notes}</p>
+                    <p className="home-budget-input home-inputs">
+                      {a[trip].days[day] &&
+                        a[trip].days[day][currentDot] &&
+                        a[trip].days[day][currentDot].budget}
+                    </p>
+                    <p className="home-notes-input  home-inputs">
+                      {a[trip].days[day] &&
+                        a[trip].days[day][currentDot] &&
+                        a[trip].days[day][currentDot].notes}
+                    </p>
                   </div>
                 </div>
               </div>
-              <button onClick={this.hideTrip}>Leave Trip</button>
+              <button
+                style={{ marginTop: "20px" }}
+                className="home-save-agenda-btn"
+                onClick={this.hideTrip}
+              >
+                Leave Trip
+              </button>
             </div>
-          )
-      })
+          );
+      });
     }
 
     // <div className="home-time-agenda-container">
@@ -205,7 +265,7 @@ class Profile extends Component {
         {!viewTrip && userTrips}
         {viewTrip && userTripsDays}
       </div>
-    )
+    );
   }
 }
 
@@ -213,8 +273,10 @@ const mapStateToProps = state => {
   return { ...state.userReducer };
 };
 
-export default connect(mapStateToProps, { userLogin })(Profile);
-
+export default connect(
+  mapStateToProps,
+  { userLogin }
+)(Profile);
 
 // <div className="profile-container">
 //         <div className="profile-wrapper">

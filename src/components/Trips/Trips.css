@@ -1,90 +1,92 @@
 .trips-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90vh;
-    width: 100%; 
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  width: 100%;
+  flex-direction: column;
 }
 
 .trips-input-container {
-    background: #073675;
-    height: 65%;
-    width: 80%;
-    max-width: 600px;
-    max-height: 500px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px 30px 0;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  background: #073675;
+  height: 65%;
+  width: 80%;
+  max-width: 600px;
+  max-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 30px 0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .trips-btn-position-container {
-    width: 100%;
-    height: 15%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .trips-autocomplete-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .location-search-input {
-    background: transparent;
-    border: none;
-    color: #fff;
-    cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
 }
 
 .autocomplete-dropdown-container {
-    height: 200px;
-    width: 200px;
-    position: fixed;
+  height: 200px;
+  width: 200px;
+  position: fixed;
 }
 
-
 .trips-date-inputs-container {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .datepicker-size div {
-    width: 200px !important;
-    cursor: pointer !important;
+  width: 200px !important;
+  cursor: pointer !important;
 }
 
 .trips-name-input {
-    text-align: center;
+  text-align: center;
 }
 
 .trips-notes-input {
-    resize: none;
+  resize: none;
 }
 
 .trips-inputs {
-    background: transparent;
-    border: none;
-    color: #fff;
-    width: 100%;
-    cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #fff;
+  width: 100%;
+  cursor: pointer;
+  font-family: sans-serif;
+  padding: 0;
 }
 
 .trips-plan-trip-btn {
-    background: transparent;
-    border: 1px solid #fff;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    height: 40px;
-    width: 100px;
+  background: transparent;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  height: 40px;
+  width: 100px;
 }

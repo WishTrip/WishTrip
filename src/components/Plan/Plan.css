@@ -1,175 +1,188 @@
 .home-wrapper {
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .home-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 .home-inputs {
-    background: transparent;
-    border: none;
-    color: #fff;
-    width: 100%;
+  background: transparent;
+  border: none;
+  color: #fff;
+  width: 100%;
 }
 
 .home-day-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 25%;
 }
 
 .home-container-wrapper {
-    background: #073675;
-    height: 60%;
-    /* width: 80%; */
-    width: 100%;
-    max-width: 600px;
-    max-height: 500px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px 30px 0;
-    border-radius: 8px;
+  background: #073675;
+  height: 60%;
+  /* width: 80%; */
+  width: 100%;
+  max-width: 600px;
+  max-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 30px 0;
+  border-radius: 8px;
 }
 
 .home-inputs-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 100%;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+  width: 100%;
 }
 
 .home-destination-activity-container {
-    display: flex;
+  display: flex;
 }
 
 .new-dots-container {
-    width: 50%;
-    height: 20%;
-    display: flex;
-    justify-content: space-around;
+  width: 50%;
+  height: 20%;
+  display: flex;
+  justify-content: space-around;
 }
 
 .home-name-input {
-    position: absolute;
-    top: 10px;
-    text-align: center;
+  position: absolute;
+  top: 10px;
+  text-align: center;
 }
 
 .home-destination-input {
-    width: 45%;
-    margin-right: 10%;
+  width: 45%;
+  margin-right: 10%;
 }
 
 .home-activity-input {
-    width: 45%;
+  width: 45%;
 }
 
-.home-day-text, .home-container-wrapper, .budget-container  {
-    position: relative;
+.home-day-text,
+.home-container-wrapper,
+.budget-container {
+  position: relative;
 }
 
 .home-dollar-sign {
-    color: #fff;
-    position: absolute;
-    border-bottom: 1px solid rgb(255,255,255,0.5);
+  color: #fff;
+  position: absolute;
+  border-bottom: 1px solid rgb(255, 255, 255, 0.5);
 }
 
 .home-budget-input-position {
-    position: absolute;
-    top: 0;
-    left: 10px;
+  position: absolute;
+  top: 0;
+  left: 10px;
 }
 
 .home-day-text {
-    font-weight: 500;
-    color: #073675;
+  font-weight: 500;
+  color: #073675;
 }
 
-.home-agenda-text, .home-day-time  {
-    color: #fff;
+.home-agenda-text,
+.home-day-time {
+  color: #fff;
 }
 
 .home-day-time {
-    cursor: pointer;
-    width: 200px;
+  cursor: pointer;
+  width: 200px;
 }
 
-.home-destination-input, .home-budget-input, .home-activity-input {
-    border-bottom: 1px solid rgb(255,255,255,0.5);
+.home-destination-input,
+.home-budget-input,
+.home-activity-input {
+  border-bottom: 1px solid rgb(255, 255, 255, 0.5);
 }
 
 .home-notes-input {
-    height: 35%;
-    border: 1px solid rgb(255,255,255,0.5);
-    border-radius: 5px;
-    position: relative;
-    top: 10px;
-    padding: 10px;
-    resize: none;
+  height: 35%;
+  border: 1px solid rgb(255, 255, 255, 0.5);
+  border-radius: 5px;
+  position: relative;
+  top: 10px;
+  padding: 10px;
+  resize: none;
 }
 
 .home-time-agenda-container {
-    height: 33.33%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  height: 33.33%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .home-save-agenda-btn {
-    background: transparent;
-    border: 1px solid #fff;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
+  background: transparent;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
 }
 
 .home-chevron {
-    font-size: 1.4em;
-    color: lightgrey;
+  font-size: 1.4em;
+  color: lightgrey;
 }
 
 .plan-wrapper {
-    width: 100%;
-    height: 90vh;
+  width: 100%;
+  height: 90vh;
+}
+
+.btn-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
 }
 
 @media (max-width: 700px) {
-    .home-day-time {
-        font-size: 16px;
-        margin: 10px 0;
-        position: relative;
-        top: 5px;
-    }
+  .home-day-time {
+    font-size: 16px;
+    margin: 10px 0;
+    position: relative;
+    top: 5px;
+  }
 
-    .home-save-agenda-btn {
-        width: 125px;
-        padding: 5px;
-        font-size: 12px;
-    }
+  .home-save-agenda-btn {
+    width: 125px;
+    padding: 5px;
+    font-size: 12px;
+  }
 }
 
 @media (min-width: 700px) {
-    .home-container-wrapper {
-        padding: 50px 50px 0;
-    }
-    .home-save-agenda-btn {
-        width: 150px;
-        padding: 10px;
-        font-size: 18px;  
-    }
-    /* .home-day-text, .home-container-wrapper  {
+  .home-container-wrapper {
+    padding: 50px 50px 0;
+  }
+  .home-save-agenda-btn {
+    width: 150px;
+    padding: 10px;
+    font-size: 18px;
+  }
+  /* .home-day-text, .home-container-wrapper  {
         position: relative;
         bottom: 100px;
     } */
