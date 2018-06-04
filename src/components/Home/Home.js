@@ -5,7 +5,7 @@ import axios from "axios"
 import Background from "../Background/Background";
 import { connect } from "react-redux";
 import { toggleHamburgerBtn } from "../../ducks/viewReducer";
-import { saveAgenda} from "../../ducks/userReducer";
+import { saveAgenda } from "../../ducks/userReducer";
 import TimeInput from "material-ui-time-picker";
 import Agenda from "../Agenda/Agenda";
 
@@ -52,26 +52,26 @@ class Home extends Component {
       [key]: val
     });
   }
-  handleGeocode(geocodeVal,placesVal) {
-    const {longitude, latitude} = this.state;
+  handleGeocode(geocodeVal, placesVal) {
+    const { longitude, latitude } = this.state;
 
-      axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-            params:{
-                address:geocodeVal,
-                key: process.env.REACT_APP_GEOCODE_KEY
-            }
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        address: geocodeVal,
+        key: process.env.REACT_APP_GEOCODE_KEY
+      }
+    })
+      .then(response => {
+        this.setState({
+          latitude: `${response.data.results[0].geometry.location.lat}`,
+          longitude: `${response.data.results[0].geometry.location.lng}`
         })
-        .then(response => {
-            this.setState({
-                latitude: `${response.data.results[0].geometry.location.lat}`,
-                longitude: `${response.data.results[0].geometry.location.lng}`
-            })
-        })
-        .catch(function(error){
-            console.log(error)
-        })
-        
-        axios.get(`/api/userLocation?lat=${latitude}&long=${longitude}&attraction=${placesVal}`).then(res =>console.log(res)).catch(console.error)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+
+    axios.get(`/api/userLocation?lat=${latitude}&long=${longitude}&attraction=${placesVal}`).then(res => console.log(res)).catch(console.error)
   }
 
   handleDay() {
@@ -229,7 +229,7 @@ class Home extends Component {
                     />
 
 
-                    <button onClick={e => this.handleGeocode(this.state.destinationInput,this.state.activityInput)}>Test</button>
+                    <button onClick={e => this.handleGeocode(this.state.destinationInput, this.state.activityInput)}>Test</button>
 
 
                   </div>
