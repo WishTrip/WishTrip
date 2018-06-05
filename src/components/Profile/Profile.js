@@ -31,6 +31,9 @@ class Profile extends Component {
   }
 
   componentDidMount() {
+    if (auth.currentUser === null) {
+      window.location = "/#/login";
+    }
     this.getDots();
   }
 
@@ -112,6 +115,10 @@ class Profile extends Component {
   }
 
   render() {
+    if (auth.currentUser === null) {
+      window.location = "/#/login";
+    }
+
     const {
       username,
       email,
@@ -143,11 +150,13 @@ class Profile extends Component {
           <div className="trips-wrapper">
             <div className="home-day-container home-chevron">
               <i
+                style={{ marginBottom: "15px" }}
                 onClick={this.decrementTrip}
                 className={trip === 0 ? null : "fa fa-chevron-left"}
               />
               <h1 className="home-day-text">{a[trip].name}</h1>
               <i
+                style={{ marginBottom: "15px" }}
                 onClick={this.incrementTrip}
                 className={
                   currentUserTrips.length === trip + 1
@@ -156,21 +165,40 @@ class Profile extends Component {
                 }
               />
             </div>
-            <div className="trips-input-container">
+            <div className="profile-input-container">
               <div>
-                <h4>{a[trip].origin}</h4>
-                <h4>{a[trip].destination}</h4>
+                <h3 className="trip-info-title">Current Location:</h3>
+                <h3 className="trip-info">{a[trip].origin}</h3>
               </div>
               <div>
-                <h4>{a[trip].starting}</h4>
-                <h4>{a[trip].ending}</h4>
+                <h3 className="trip-info-title">Destination:</h3>
+                <h3 className="trip-info">{a[trip].destination}</h3>
               </div>
-              <h4>{a[trip].budget}</h4>
-              <p>{a[trip].notes}</p>
-              <button className="home-save-agenda-btn" onClick={this.showTrip}>
-                View Trip
-              </button>
+              <div>
+                <h3 className="trip-info-title">Start Date:</h3>
+                <h3 className="trip-info">{a[trip].starting}</h3>
+              </div>
+              <div>
+                <h3 className="trip-info-title">End Date:</h3>
+                <h3 className="trip-info">{a[trip].ending}</h3>
+              </div>
+              <div>
+                <h3 className="trip-info-title">Trip Budget:</h3>
+                <h3 className="trip-info">{a[trip].budget}</h3>
+              </div>
+              <div>
+                <p className="trip-info-title">Trip Notes:</p>
+                <p
+                  style={{ fontSize: "18px", fontWeight: "400" }}
+                  className="trip-info"
+                >
+                  {a[trip].notes}
+                </p>
+              </div>
             </div>
+            <button className="home-save-agenda-btn" onClick={this.showTrip}>
+              View Trip
+            </button>
           </div>
         );
       }
@@ -188,11 +216,13 @@ class Profile extends Component {
             <div className="trips-wrapper">
               <div className="home-day-container home-chevron">
                 <i
+                  style={{ marginBottom: "15px" }}
                   onClick={this.decrementDay}
                   className={day === 0 ? null : "fa fa-chevron-left"}
                 />
                 <h1 className="home-day-text">Day {day + 1}</h1>
                 <i
+                  style={{ marginBottom: "15px" }}
                   onClick={this.incrementDay}
                   className={
                     a[trip].days.length === day + 1
