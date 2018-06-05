@@ -28,13 +28,12 @@ class Trips extends Component {
       focus1: false,
       focus2: false,
       day: 0
-    }
+    };
 
     this.handleDay = this.handleDay.bind(this);
     this.decrementDay = this.decrementDay.bind(this);
     this.incrementDay = this.incrementDay.bind(this);
   }
-
 
   handleInput(key, val) {
     if (key === "tripTotalBudget") {
@@ -54,14 +53,31 @@ class Trips extends Component {
   };
 
   startTrip = () => {
-    let { day,tripName, origin, destination, starting, ending, tripTotalBudget, tripNotes } = this.state;
+    let {
+      day,
+      tripName,
+      origin,
+      destination,
+      starting,
+      ending,
+      tripTotalBudget,
+      tripNotes
+    } = this.state;
     this.getTripInfo();
-    this.handleInput('showPlan', true);
-    this.props.addInitialTripValues(tripName, origin, destination, starting, ending, tripTotalBudget, tripNotes);
+    this.handleInput("showPlan", true);
+    this.props.addInitialTripValues(
+      tripName,
+      origin,
+      destination,
+      starting,
+      ending,
+      tripTotalBudget,
+      tripNotes
+    );
     this.setState({
       day: this.state.day + 1
-    })
-  }
+    });
+  };
 
   handleChange = (key, val, prop) => {
     this.setState({ [key]: val, [prop]: true });
@@ -74,23 +90,24 @@ class Trips extends Component {
   };
 
   getTripInfo = () => {
-    // axios
-    //   .get(
-    //     `/api/gettravelinfo?origin=${this.state.origin}&destination=${
-    //       this.state.destination
-    //     }&starting=${this.state.starting}&ending=${this.state.ending}`
-    //   )
-    //   .then(res => console.log(res));
+    axios
+      .get(
+        `/api/gettravelinfo?origin=${this.state.origin}&destination=${
+          this.state.destination
+        }&starting=${this.state.starting}&ending=${this.state.ending}`
+      )
+      .then(res => console.log(res));
   };
 
   handleDay() {
     let { day } = this.state;
-    this.setState({
-      day: day + 1
-    }, () => this.props.handleNewDay());
+    this.setState(
+      {
+        day: day + 1
+      },
+      () => this.props.handleNewDay()
+    );
   }
-
-
 
   decrementDay() {
     let { day } = this.state;
@@ -106,16 +123,37 @@ class Trips extends Component {
     });
   }
 
-
   render() {
-    const { tripName, tripTotalBudget, tripNotes, showPlan, dots, day, currentAgenda, newDay, currentDot } = this.state;
+    const {
+      tripName,
+      tripTotalBudget,
+      tripNotes,
+      showPlan,
+      dots,
+      day,
+      currentAgenda,
+      newDay,
+      currentDot
+    } = this.state;
     const { user } = this.props;
 
-    let tripDays = user.trips && user.trips[0] && user.trips[0].days && user.trips[0].days.map((el,i) => {
-      return (
-        <Plan key={i} el={el} ind={i} day={this.state.day} incrementDay={this.incrementDay} decrementDay={this.decrementDay} handleDay={this.handleDay}/>
-      )
-    })
+    let tripDays =
+      user.trips &&
+      user.trips[0] &&
+      user.trips[0].days &&
+      user.trips[0].days.map((el, i) => {
+        return (
+          <Plan
+            key={i}
+            el={el}
+            ind={i}
+            day={this.state.day}
+            incrementDay={this.incrementDay}
+            decrementDay={this.decrementDay}
+            handleDay={this.handleDay}
+          />
+        );
+      });
     return (
       <div className="trips-wrapper" onClick={() => this.handleHamburgerMenu()}>
         <Background />
@@ -363,10 +401,8 @@ class Trips extends Component {
             </div>
           </form>
         ) : (
-          <div style={{ width: "100%" }}>
-            {tripDays}
-          </div>
-          )}
+          <div style={{ width: "100%" }}>{tripDays}</div>
+        )}
       </div>
     );
   }
@@ -377,4 +413,7 @@ const mapStateToProps = state => ({
   ...state.userReducer
 });
 
-export default connect(mapStateToProps, { addInitialTripValues, toggleHamburgerBtn, handleNewDay })(Trips);
+export default connect(
+  mapStateToProps,
+  { addInitialTripValues, toggleHamburgerBtn, handleNewDay }
+)(Trips);

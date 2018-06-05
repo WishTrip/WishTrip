@@ -7,25 +7,10 @@ let transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "",
-    pass: ""
+    user: process.env.EMAIL,
+    pass: process.env.PASS
   }
 });
-const testEmail = () => {
-  let mailOptions = {
-    from: '"test" <theshiftybapple@gmail.com>',
-    to: "odistiinct@gmail.com",
-    subject: "hello world",
-    text: "this is a test",
-    html: "<p>hello world</p>"
-  };
-  transporter.sendMail(mailOptions, (err, info) => {
-    err && console.log(err);
-    console.log("Message sent: %s", info);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  });
-};
-testEmail();
 
 Date.prototype.getMonthWeek = function() {
   var firstDay = new Date(this.getFullYear(), this.getMonth(), 1).getDay();
@@ -158,8 +143,24 @@ let scraper = async (
     setUp.push({ hotel: hotels[i], price: prices[i], image: pictures[i] });
   }
   setUp.unshift(url);
-  console.log(setUp);
+  console.log(setUp[0].hotel);
 
+  const testEmail = () => {
+    let mailOptions = {
+      from: process.env.EMAIL,
+      to: "ablackshear7820@gmail.com",
+      subject: "hello world",
+      text: `${setUp}`,
+      html: `<p>${setUp[0]}</p>`
+    };
+    transporter.sendMail(mailOptions, (err, info) => {
+      err && console.log(err);
+      console.log("Message sent: %s", info);
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    });
+  };
+
+  testEmail();
   return { setUp };
 };
 // scraper();

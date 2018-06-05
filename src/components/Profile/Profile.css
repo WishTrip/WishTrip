@@ -70,3 +70,32 @@ form {
   align-content: center;
   color: #ffffff;
 }
+
+.trip-info {
+  color: lightgray;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.trip-info-title {
+  color: rgba(211, 211, 211, 0.801);
+  font-weight: 200;
+  font-size: 16px;
+}
+
+.profile-input-container {
+  background: #073675;
+  height: 65%;
+  width: 80%;
+  max-width: 500px;
+  max-height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+}
