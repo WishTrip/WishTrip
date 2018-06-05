@@ -57,7 +57,7 @@ let scraper = async (
   monthPicker,
   clickCount
 ) => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto("https://www.travelocity.com");
   // await page.waitFor(40000);
